@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Berndt – Der Weihnachts-Wichtel</title>
+<style>
+  html,body{margin:0;padding:0;background:#0b1220;color:#e8f0ff;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+  #wrap{position:relative;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+  canvas#game{background:#0b1220;image-rendering:auto;box-shadow:0 0 60px #000a;border-radius:6px}
+  #toolbar{position:fixed;top:8px;right:10px;display:flex;gap:6px;z-index:20}
+  #toolbar button{background:#1d2b4a;color:#ffe9b0;border:1px solid #345;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px}
+  #toolbar button:hover{background:#2a3d68}
+  #toolbar button.on{background:#8a5a1a;border-color:#ffc861;color:#fff}
+  #questPanel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:640px;max-height:80vh;overflow:auto;
+    background:#142038f2;border:2px solid #c9a15a;border-radius:14px;padding:16px 20px;z-index:40;display:none}
+  #questPanel h2{margin:4px 0 10px;color:#ffd98a;text-align:center}
+  .qcard{border:1px solid #35507e;border-radius:10px;padding:9px 12px;margin:8px 0;background:#0f1a30}
+  .qcard.main{border-color:#d4574f}
+  .qcard h3{margin:0 0 4px;font-size:15px;color:#ffe3a6}
+  .qcard .tag{font-size:11px;padding:1px 7px;border-radius:8px;background:#7a3230;margin-left:6px;vertical-align:1px}
+  .qcard .tag.nb{background:#2c5a7a}
+  .qcard ul{margin:4px 0 6px 16px;padding:0;font-size:13px;color:#cfe0ff}
+  .qcard li.done{color:#7fd08a;text-decoration:line-through}
+  .qcard button{background:#3d7a3f;color:#fff;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:13px}
+  .qcard button:disabled{background:#2a3652;color:#8ea0c0;cursor:default}
+  .qst{font-size:13px;color:#ffd98a;margin-top:4px}
+  #minigame{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#101c33f5;border:2px solid #5b83c9;
+    border-radius:14px;padding:18px;z-index:50;display:none;text-align:center}
+  #minigame h3{margin:0 0 10px;color:#ffe3a6}
+  #minigame .mgbtns{margin-top:12px;display:flex;gap:8px;justify-content:center}
+  #minigame button.act{background:#3d7a5f;border:none;color:#fff;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:14px}
+  #minigame button.close{background:#41341f;border:1px solid #a8874f;color:#ffd98a;border-radius:8px;padding:6px 14px;cursor:pointer}
+  #minigame canvas{border-radius:8px;cursor:pointer}
+  .orgpipe{width:46px;height:120px;margin:4px;border:none;border-radius:10px 10px 4px 4px;cursor:pointer;font-size:22px;color:#0009}
+  .orgpipe.flash{outline:4px solid #fff}
+  .wishopt{display:block;width:320px;margin:6px auto;background:#1c3050;border:1px solid #4a6da0;color:#eaf2ff;border-radius:8px;padding:8px;cursor:pointer;font-size:14px}
+  .wishopt:hover{background:#2a4770}
+  .wishopt.sel{background:#3d6a3f;border-color:#8fd08f}
+  #toasts{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);z-index:30;pointer-events:none;text-align:center}
+  .toast{display:inline-block;background:#132241e8;border:1px solid #c9a15a;color:#ffe9b0;padding:8px 16px;border-radius:10px;
+    margin-top:6px;font-size:14px;animation:tfade 3.2s forwards}
+  @keyframes tfade{0%{opacity:0;transform:translateY(8px)}10%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+  #loadfile{display:none}
+</style>
+</head>
+<body>
+<div id="wrap"><canvas id="game" width="960" height="600"></canvas></div>
+<div id="toolbar">
+  <button id="btnSpeed">⏩ Zeit ×1</button>
+  <button id="btnQuests">📜 Quests (Q)</button>
+  <button id="btnSave">💾 Speichern als Datei</button>
+  <button id="btnLoad">📂 Spielstand laden</button>
+</div>
+<div id="questPanel"></div>
+<div id="minigame"></div>
+<div id="toasts"></div>
+<input type="file" id="loadfile" accept=".json">
+<script>
+'use strict';
+const W=960,H=600,cv=document.getElementById('game'),ctx=cv.getContext('2d');
+const PHASE_LEN=120,DAY_LEN=240,SPEEDS=[1,5,15];
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+function mulberry(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let toastBox=document.getElementById('toasts');
+function toast(msg){const d=document.createElement('div');d.className='toast';d.innerHTML=msg;toastBox.appendChild(d);setTimeout(()=>d.remove(),3300)}
+let audioCtx=null;
+function beep(freq,dur,type){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'sine';o.frequency.value=freq;g.gain.value=0.06;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+(dur||0.15));o.stop(audioCtx.currentTime+(dur||0.15))}catch(e){}}
+
+const ITEMS={
+  lichtkette:{name:'Lichterkette',col:'#ffd34d',stack:true},
+  schaufel:{name:'Schneeschaufel',col:'#9fb6cc',stack:false},
+  werkzeug:{name:'Werkzeugkiste',col:'#cc7a3d',stack:false},
+  lupe:{name:'Lupe',col:'#7fd8e8',stack:false},
+  kugel:{name:'Christbaumkugel',col:'#e05a6b',stack:true},
+  glocke:{name:'Weihnachtsglocke',col:'#e8c04a',stack:false},
+  kerze:{name:'Kerze',col:'#ffb56b',stack:true},
+  ast:{name:'Tannenast',col:'#3f7d4a',stack:false},
+  kohle:{name:'Kohle',col:'#555a63',stack:true},
+  brief:{name:'Weihnachtsbrief',col:'#f5efdd',stack:false},
+  stempel:{name:'Siegelstempel',col:'#a34a5a',stack:false},
+  zimt:{name:'Zimtstange',col:'#9a6b3f',stack:true},
+  maus:{name:'Spielzeugmaus',col:'#c8c0d8',stack:false},
+  mandarine:{name:'Mandarine',col:'#ff9a3d',stack:true},
+  wunschzettel:{name:'Wunschzettel',col:'#fdf6e0',stack:true},
+  kristall:{name:'Eiskristall',col:'#bfe8ff',stack:true},
+  mütze:{name:'Wollmütze',col:'#5aa0d8',stack:false}
+};
+const inv={};for(const k in ITEMS)inv[k]=0;
+
+const QUESTS=[
+ {id:'beleuchtung',main:true,title:'Weihnachtsbeleuchtung im ganzen Dorf',
+  steps:['Angeblich liegen wohl Lichterketten im ganzen Dorf verstreut – Stall SSE, Haus, Keller, Kirche & Bahnhof locken.','Auf dem Bahnhofsgelände muss es einen alten Stromkasten geben – der Kasten außen rechts wirkt verdächtig.','Schalte im Stromkasten die Beleuchtung fürs ganze Dorf ein.']},
+ {id:'schaufeln',main:true,title:'Schneeschaufeln auf dem Kirchweg',
+  steps:['Eine Schneeschaufel soll es im Depot am Bahnhof geben – oder unten im Keller.','Nimm die Schaufel und schaufle den verschneiten Kirchweg frei.']},
+ {id:'orgel',main:true,title:'Orgel in der Kirche reparieren',
+  steps:['Ohne Werkzeug geht da nichts – sowas liegt sicher irgendwo rum, vielleicht im Keller.','Spiel die Melodie der Orgel nach, damit sie wieder klingt.']},
+ {id:'zettel',main:true,title:'5 Wunschzettel aus 5 Gärten',counter:{item:'wunschzettel',need:5,hint:'Suche in 5 Gärten des Dorfes (je Haus einer!)'},
+  steps:['In den Gärten von 5 verschiedenen Häusern wehen Wunschzettel durch den Schnee.','Bring alle Wunschzettel zum Postkasten am Bahnhof – da, wo der gelbe Briefkasten steht.']},
+ {id:'baum',main:false,title:'Den Weihnachtsbaum schmücken',
+  steps:['Eine Christbaumkugel soll in der Spielzeugkiste im Kinderzimmer liegen und eine Glocke im Laden.','Schmücke im Wohnzimmer den Weihnachtsbaum, wenn keiner hinsieht.']},
+ {id:'kranz',main:false,title:'Adventskranz anzünden',
+  steps:['Sammle 4 Kerzen (Laden, Wohnzimmer, Kinderzimmer, Bad).','Zünde den Adventskranz in der Küche Kerze für Kerze in richtiger Reihenfolge an.']},
+ {id:'schneemann',main:false,title:'Schneemann im Garten bauen',
+  steps:['Ein Tannenast verstuht den Gärten, Kohle liegt im Keller.','Baue im Garten von Haus Lehmann (rechts unten) den Schneemann auf.']},
+ {id:'brief',main:false,title:'Weihnachtsbrief schreiben',
+  steps:['Ein Briefpapier und ein Siegelstempel – beides soll im Laden zu finden sein.','Wähle am Schreibtisch im Wohnzimmer einen Wunsch und versiegele den Brief.','Wirf den fertigen Brief in den Postkasten am Bahnhof.']},
+ {id:'glitzer',main:false,title:'Glitzer im Schnee',counter:{item:'kristall',need:3,hint:'Kristalle sind nur mit der Lupe sichtbar'},
+  steps:['Besorge eine Lupe – vielleicht liegt die auf einem Nachttisch.','Mit der Lupe erscheinen im Garten von Haus Berndt Eiskristalle. Sammle 3.']},
+ {id:'nikolaus',main:false,title:'Nacht des Nikolaus (Tag 6)',
+  steps:['Warte bis zur Nacht des 6. Tages (⏩-Knopf hilft) und bleib im Versteck.','Sobald der Nikolaus da war: Sammle die Mandarinen im Kinderzimmer.']},
+ {id:'zimt',main:false,title:'Zimt für Omas Plätzchen',
+  steps:['Eine Zimtstange muss im Küchenregal liegen – ausgerechnet, wenn Mama weg ist.','Gib Oma die Zimtstange – sprich sie an, wenn du nahe genug bist.']},
+ {id:'katze',main:false,title:'Spielzeugmaus für den Kater',
+  steps:['Unter dem Sofa im Wohnzimmer versteckt sich eine Spielzeugmaus.','Gib dem Kater vor OGFLUR die Maus – er wird 60 Sekunden tief und fest schlafen.']}
+];
+const Q={};for(const q of QUESTS)Q[q.id]={st:'offer',step:0};
+let G={screen:'title',time:0,speed:1,susp:0,map:'dorf',px:1050,py:640,flags:{},katzeSleep:0,portalCd:0,msg:''};
+const day=()=>1+Math.floor(G.time/DAY_LEN);
+const isNight=()=>(G.time%DAY_LEN)>=PHASE_LEN;
+const phaseName=()=>['Morgen','Tag','Abend','Nacht'][Math.floor((G.time%DAY_LEN)/60)];
+const keys={};let mouse={x:0,y:0};
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;
+  if(G.screen!=='play')return;
+  if(e.key.toLowerCase()==='q')toggleQuests();
+  if(e.key.toLowerCase()==='e')tryInteract();
+  if(e.key>='1'&&e.key<='8')toggleItem(+e.key-1)});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+cv.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();mouse.x=(e.clientX-r.left)*W/r.width;mouse.y=(e.clientY-r.top)*H/r.height});
+function addInv(id,n){inv[id]=(inv[id]||0)+n;beep(660,0.12,'triangle');const it=ITEMS[id];toast('\u2728 '+it.name+(n>1?' ×'+n:'')+' aufgehoben!')}
+function drawRR(g,x,y,w,h,r,fill,stroke){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();if(fill){g.fillStyle=fill;g.fill()}if(stroke){g.strokeStyle=stroke;g.stroke()}}
+function drawTanne(g,x,y,s,gcol){s=s||1;g.fillStyle='#4a3524';g.fillRect(x-3*s,y-2,6*s,10*s);g.fillStyle=gcol||'#2e6b45';for(let i=0;i<3;i++){const w=(30-i*8)*s,hh=16*s,yy=y-8*s-i*13*s;g.beginPath();g.moveTo(x-w/2,yy);g.lineTo(x,yy-hh);g.lineTo(x+w/2,yy);g.closePath();g.fill()}
+ g.fillStyle='#ffffffcc';g.beginPath();g.moveTo(x-8*s,y-26*s);g.lineTo(x,y-34*s);g.lineTo(x+8*s,y-26*s);g.closePath();g.fill()}
+function drawLampP(g,x,y,lit){g.fillStyle='#3a3f4a';g.fillRect(x-3,y-56,6,52);g.fillRect(x-8,y-4,16,5);drawRR(g,x-8,y-72,16,18,4,lit?'#ffe9a0':'#4b5566');
+ if(lit){const gr=g.createRadialGradient(x,y-64,4,x,y-64,52);gr.addColorStop(0,'rgba(255,220,120,.55)');gr.addColorStop(1,'rgba(255,220,120,0)');g.fillStyle=gr;g.beginPath();g.arc(x,y-64,52,0,7);g.fill()}}
+function drawWindow(g,x,y,w,h,gold){g.fillStyle=gold?'#ffd98a':'#22314d';g.fillRect(x,y,w,h);g.strokeStyle='#d8cfc0';g.lineWidth=2;g.strokeRect(x,y,w,h);g.beginPath();g.moveTo(x+w/2,y);g.lineTo(x+w/2,y+h);g.moveTo(x,y+h/2);g.lineTo(x+w,y+h/2);g.stroke()}
+function drawHuman(g,x,y,c1,c2,skin,walk,zzz){const b=Math.sin(walk*0.25)*2;g.fillStyle='#222b3a';g.beginPath();g.ellipse(x,y+2,9,4,0,0,7);g.fill();
+ g.fillStyle=c2;g.fillRect(x-5,y-6+b*0.5,4,10+b);g.fillRect(x+1,y-6-b*0.5,4,10-b);
+ g.fillStyle=c1;drawRR(g,x-7,y-18,14,15,5,c1);g.fillStyle=skin||'#e8b99a';g.beginPath();g.arc(x,y-23+b,6,0,7);g.fill();
+ g.fillStyle='#3a2c22';g.beginPath();g.arc(x,y-26+b,5.5,Math.PI,0);g.fill();
+ g.fillStyle='#000';g.beginPath();g.arc(x-2,y-23+b,1,0,7);g.arc(x+2,y-23+b,1,0,7);g.fill();
+ if(zzz){g.fillStyle='#cfe0ff';g.font='11px sans-serif';g.fillText('zZ',x+8,y-28+b)}}
+function drawElf(g,x,y,walk){const b=Math.sin(walk*0.3)*2.2;g.fillStyle='#1c4a2e';
+ g.beginPath();g.ellipse(x,y+2,7,3,0,0,7);g.fill();
+ g.fillStyle='#2e6b3f';g.fillRect(x-4,y-5+b*0.4,3.5,8);g.fillRect(x+0.5,y-5-b*0.4,3.5,8);
+ g.fillStyle='#3f8a52';drawRR(g,x-6,y-15,12,12,4,'#3f8a52');g.fillStyle='#e8c04a';g.fillRect(x-6,y-8,12,2);
+ g.fillStyle='#e8b99a';g.beginPath();g.arc(x,y-19+b,5,0,7);g.fill();
+ g.beginPath();g.moveTo(x-4,y-21+b);g.lineTo(x,y-32+b);g.lineTo(x+4,y-21+b);g.closePath();g.fillStyle='#c92f2f';g.fill();g.fillStyle='#f4f0e0';g.beginPath();g.arc(x,y-31+b,2,0,7);g.fill();
+ g.fillStyle='#000';g.beginPath();g.arc(x-1.8,y-19+b,0.9,0,7);g.arc(x+1.8,y-19+b,0.9,0,7);g.fill()}
+function drawCat(g,x,y,walk,zzz){g.fillStyle='#7a6a58';g.beginPath();g.ellipse(x,y,12,6,0,0,7);g.fill();g.beginPath();g.arc(x+11,y-4,5,0,7);g.fill();
+ g.beginPath();g.moveTo(x+8,y-8);g.lineTo(x+9,y-13);g.lineTo(x+12,y-8);g.moveTo(x+13,y-8);g.lineTo(x+14,y-13);g.lineTo(x+16,y-8);g.fill();g.fillStyle='#7a6a58';g.fill();
+ g.fillStyle='#c8f';const tl=Math.sin(walk*0.15)*6;g.beginPath();g.moveTo(x-11,y);g.quadraticCurveTo(x-18,y-6+tl,x-16,y+2);g.lineTo(x-11,y+2);g.fill();
+ if(zzz){g.fillStyle='#cfe0ff';g.beginPath();g.arc(x+11,y-4,1,0,7);g.arc(x+13,y-4,1,0,7);g.fill()}}
+function drawDog(g,x,y,walk){g.fillStyle='#8a6a4a';g.beginPath();g.ellipse(x,y,14,7,0,0,7);g.fill();g.beginPath();g.arc(x+13,y-6,6,0,7);g.fill();
+ g.fillStyle='#6a4c30';g.beginPath();g.ellipse(x-4,y-2,7,4,0,0,7);g.fill();
+ g.beginPath();g.moveTo(x+9,y-12);g.lineTo(x+9,y-6);g.lineTo(x+14,y-6);g.lineTo(x+12,y-12);g.fill();g.fillStyle='#c93';const tl=Math.sin(walk*0.3)*5;g.fillRect(x-18,y-6+tl*0.4,4,10)}
+function drawBird(g,x,y,walk){g.fillStyle='#8899aa';g.beginPath();g.ellipse(x,y,6,4,0,0,7);g.fill();g.beginPath();g.arc(x+5,y-3,3,0,7);g.fill();g.fillStyle='#e8a03d';g.beginPath();g.moveTo(x+8,y-3);g.lineTo(x+11,y-2);g.lineTo(x+8,y-1);g.fill();if(Math.sin(walk*0.3)>0.7){g.fillStyle='#8899aa';g.fillRect(x-2,y+2,2,4)}}
+const MAPS={};
+function mapDef(id,w,h,indoor,drawWalls,coll){MAPS[id]={id,w,h,indoor,drawWalls,coll:coll||[],portals:[],inter:[],npcs:[],items:[],cache:null}}
+function snowGround(g,w,h,seed){const r=mulberry(seed);const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#dbe6f0');gr.addColorStop(1,'#c3d3e4');g.fillStyle=gr;g.fillRect(0,0,w,h);
+ g.fillStyle='#eef5fb';for(let i=0;i<w*h/4500;i++){g.beginPath();g.arc(r()*w,r()*h,1+r()*2.5,0,7);g.fill()}}
+mapDef('dorf',2600,1600,false,null,[
+ {x:0,y:0,w:2600,h:210},{x:0,y:1400,w:2600,h:200},
+ {x:250,y:180,w:560,h:260},{x:860,y:180,w:440,h:260},{x:1420,y:180,w:460,h:260},{x:2000,y:180,w:460,h:260},
+ {x:250,y:1020,w:560,h:300},{x:860,y:1020,w:560,h:300},{x:1600,y:1020,w:560,h:300},{x:2260,y:1020,w:340,h:300}]);
+mapDef('haus_eg',820,560,true,null,[
+ {x:0,y:0,w:820,h:60},{x:0,y:500,w:820,h:60},{x:0,y:0,w:60,h:560},{x:760,y:0,w:60,h:560},
+ {x:430,y:60,w:20,h:150},{x:430,y:300,w:20,h:80},{x:60,y:250,w:120,h:20},{x:60,y:60,w:180,h:20},{x:560,y:440,w:180,h:20}]);
+mapDef('haus_og',820,560,true,null,[
+ {x:0,y:0,w:820,h:60},{x:0,y:500,w:820,h:60},{x:0,y:0,w:60,h:560},{x:760,y:0,w:60,h:560},
+ {x:400,y:60,w:20,h:80},{x:400,y:240,w:20,h:80},{x:400,y:400,w:20,h:100},{x:60,y:250,w:100,h:20},{x:560,y:250,w:100,h:20}]);
+mapDef('keller',620,440,true,null,[
+ {x:0,y:0,w:620,h:50},{x:0,y:390,w:620,h:50},{x:0,y:0,w:50,h:440},{x:570,y:0,w:50,h:440},{x:200,y:50,w:16,h:90},{x:400,y:240,w:160,h:16}]);
+mapDef('kirche',920,600,true,null,[
+ {x:0,y:0,w:920,h:70},{x:0,y:530,w:920,h:70},{x:0,y:0,w:60,h:600},{x:700,y:0,w:220,h:30},{x:80,y:230,w:170,h:40},{x:640,y:230,w:170,h:40},{x:80,y:330,w:170,h:40},{x:640,y:330,w:170,h:40}]);
+mapDef('bahnhof',940,560,true,null,[
+ {x:0,y:0,w:940,h:60},{x:0,y:500,w:940,h:60},{x:0,y:0,w:60,h:560},{x:880,y:0,w:60,h:560},{x:340,y:60,w:20,h:120},{x:560,y:380,w:240,h:16}]);
+mapDef('laden',700,480,true,null,[
+ {x:0,y:0,w:700,h:50},{x:0,y:430,w:700,h:50},{x:0,y:0,w:50,h:480},{x:650,y:0,w:50,h:480},{x:170,y:60,w:20,h:150},{x:430,y:60,w:20,h:150},{x:200,y:330,w:200,h:16}]);
+const itemDefs=[
+ {map:'keller',x:120,y:340,id:'werkzeug',n:1},{map:'keller',x:170,y:340,id:'kohle',n:1},{map:'keller',x:90,y:340,id:'mütze',n:1},{map:'keller',x:145,y:340,id:'lichtkette',n:1},{map:'keller',x:200,y:340,id:'schaufel',n:1},
+ {map:'bahnhof',x:640,y:340,id:'schaufel',n:1},{map:'bahnhof',x:690,y:340,id:'lichtkette',n:1},
+ {map:'kirche',x:120,y:180,id:'lichtkette',n:1},{map:'kirche',x:810,y:520,id:'kerze',n:1},
+ {map:'laden',x:250,y:120,id:'glocke',n:1},{map:'laden',x:250,y:200,id:'brief',n:1},{map:'laden',x:250,y:280,id:'stempel',n:1},{map:'laden',x:500,y:120,id:'kerze',n:2},{map:'laden',x:500,y:200,id:'lichtkette',n:1},{map:'laden',x:500,y:280,id:'lupe',n:1},
+ {map:'haus_eg',x:90,y:120,id:'kerze',n:1},{map:'haus_eg',x:250,y:120,id:'lichtkette',n:1},{map:'haus_eg',x:345,y:330,id:'zimt',n:1},{map:'haus_eg',x:312,y:418,id:'maus',n:1},{map:'haus_eg',x:312,y:405,id:'zimt',n:0},
+ {map:'haus_og',x:500,y:120,id:'kerze',n:1},{map:'haus_og',x:500,y:420,id:'kugel',n:1},{map:'haus_og',x:120,y:180,id:'mandarine',n:0},{map:'haus_og',x:690,y:120,id:'lupe',n:1},{map:'haus_og',x:690,y:180,id:'brief',n:0}
+];
+const gardenSpots=[
+ {n:'Berndt',x:880,y:760,gx:890,gy:760},{n:'Müller',x:1440,y:760,gx:1450,gy:760},{n:'Krüger',x:880,y:1380,gx:890,gy:1330},{n:'Schulz',x:1620,y:1380,gx:1630,gy:1330},{n:'Lehmann',x:2280,y:1380,gx:2290,gy:1330}];
+function buildWorld(){for(const m in MAPS){MAPS[m].npcs=[];MAPS[m].items=[]}
+ for(const d of itemDefs){if(d.n>0)MAPS[d.map].items.push({map:d.map,x:d.x,y:d.y,id:d.id,rid:'it:'+d.map+':'+d.x+':'+d.y})}
+ gardenSpots.forEach((gs,i)=>{MAPS.dorf.items.push({map:'dorf',x:gs.gx,y:gs.gy,id:'wunschzettel',rid:'wz'+i})})}
+let NPCs=[];
+function initNPCs2(){NPCs=[];
+ const mk=(map,name,kind,x,y,pts,c1,c2,rad,spd)=>{const n={map,name,kind,x,y,pts:pts||null,pi:0,c1,c2,rad:rad||95,spd:spd||55,walk:0,sleeping:false,alert:0,sx:x,sy:y};NPCs.push(n);return n};
+ mk('dorf','Frau Berg','human',300,560,[[300,560],[2350,560]],'#b84a6a','#3a3450',95,50);
+ mk('dorf','Herr Klein','human',2350,560,[[2350,560],[700,560]],'#3d6aa8','#2a3550',95,45);
+ mk('dorf','Postboten-August','human',1200,880,[[700,880],[1900,880]],'#2e7d5b','#274356',95,62);
+ mk('dorf','Bello','dog',960,820,[[960,820],[1300,800],[980,760]],'#8a6a4a',null,70,70);
+ mk('dorf','Minka','cat',450,800,[[450,800],[640,790]],'#caa27a',null,55,40);
+ mk('dorf','Taubenpaar','bird',1500,700,[[1420,700],[1700,720],[1500,740]],null,null,45,30);
+ mk('haus_eg','Mama','human',600,120,[[600,120],[700,300],[620,430],[520,120]],'#a04a5a','#4a3550',90,50);
+ mk('haus_eg','Papa','human',250,440,[[250,440],[120,300],[360,120],[300,440]],'#40598a','#33405a',90,48);
+ mk('haus_eg','Oma','human',700,460,[[700,460],[640,430]],'#6a5a8a','#3a3450',85,32);
+ mk('haus_og','Luise','human',150,150,[[150,150],[360,120],[360,460],[150,480]],'#c8756a','#5a4a6a',85,45);
+ mk('haus_og','Finn','human',650,300,[[650,300],[650,470],[520,130]],'#4a7a9a','#3d5a6a',85,55);
+ mk('haus_og','Kater Murr','cat',730,250,[[730,250],[700,470]],'#6a6a72',null,55,35);
+ mk('kirche','Pfarrer Winter','human',380,480,[[380,480],[600,180],[220,180]],'#2b2b3a','#33334a',95,35);
+ mk('bahnhof','Bahnhofswärter Krause','human',700,150,[[700,150],[200,180],[700,450]],'#3a5a7a','#2a4055',95,42);
+ mk('laden','Verkäuferin Stern','human',350,120,[[350,120],[600,380]],'#8a3a5a','#4a3350',85,45);
+ mk('kirche','Kirchenkater','cat',850,400,[[850,400],[750,480]],'#aa8a5a',null,55,30);}
+const collAt=(m,x,y)=>MAPS[m].coll.some(c=>x>c.x-12&&x<c.x+c.w+12&&y>c.y-12&&y<c.y+c.h+12);
+function moveCircle(o,dx,dy,map){const m=MAPS[map];let nx=clamp(o.px+dx,20,m.w-20),ny=clamp(o.py+dy,20,m.h-20);
+ if(!collAt(map,nx,o.py))o.px=nx; if(!collAt(map,o.px,ny))o.py=ny}
+function drawVilla(g,x,y,w,h,body,roof,doorX,name,lit){g.fillStyle='#cdd9e6';g.fillRect(x-6,y+h,w+12,10);
+ g.fillStyle=body;drawRR(g,x,y,w,h,4,body);g.fillStyle='rgba(0,0,0,.18)';g.fillRect(x,y+h-10,w,10);
+ g.fillStyle=roof;g.beginPath();g.moveTo(x-14,y);g.lineTo(x+w/2,y-h*0.42);g.lineTo(x+w+14,y);g.closePath();g.fill();
+ g.fillStyle='#ffffff99';g.beginPath();g.moveTo(x+8,y-h*0.16);g.lineTo(x+w/2,y-h*0.42);g.lineTo(x+w/2,y-h*0.3);g.lineTo(x+w/2-8,y-h*0.3);g.lineTo(x+w/2-8,y-h*0.16);g.closePath();g.fill();
+ g.fillStyle='#8899aa';g.fillRect(x+w*0.72,y-h*0.3,12,h*0.3);g.fillStyle='#fff';g.beginPath();g.ellipse(x+w*0.72+6,y-h*0.3,10,5,0,0,7);g.fill();
+ const wy=y+h*0.3;[x+w*0.16,x+w*0.4,x+w*0.62+(doorX?'':'')].forEach((wx,i)=>{});
+ let wx=x+w*0.16;for(let i=0;i<3;i++){if(Math.abs(wx+22-doorX)<28){wx+=w*0.26;continue}drawWindow(g,wx,wy,44,36,lit);wx+=w*0.26}
+ g.fillStyle='#5a3d28';drawRR(g,doorX-20,y+h-64,40,64,3,'#5a3d28');g.fillStyle='#e8c04a';g.beginPath();g.arc(doorX+12,y+h-32,3,0,7);g.fill();
+ g.fillStyle='#2b3a55';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText(name,x+w/2,y-h*0.46);g.textAlign='left'}
+function drawFence(g,x1,x2,y,gapX){g.strokeStyle='#6a4c30';g.lineWidth=5;for(let x=x1;x<x2;x+=40){if(gapX>=0&&Math.abs(x-gapX)<46){continue}g.beginPath();g.moveTo(x,y);g.lineTo(x,y+34);g.stroke()}
+ g.beginPath();g.moveTo(x1,y+9);g.lineTo(x2,y+9);g.moveTo(x1,y+26);g.lineTo(x2,y+26);g.stroke();
+ g.fillStyle='#ffffffaa';g.fillRect(x1,y-3,x2-x1,4)}
+MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
+ g.fillStyle='#8d9aa8';g.fillRect(0,520,2600,390);g.fillStyle='#94a1af';g.fillRect(0,520,2600,390);g.strokeStyle='#e8eef5';g.setLineDash([34,28]);g.lineWidth=6;g.beginPath();for(let y=700;y<740;y+=14){g.moveTo(0,y);g.lineTo(2600,y)}g.stroke();g.setLineDash([]);
+ g.fillStyle='#aebbc9';g.fillRect(0,475,2600,45);g.fillRect(0,915,2600,45);
+ drawVilla(g,250,180,560,260,'#d8cfc2','#8a4438',500,'St. Martins-Kirche',G.flags.lights);
+ drawVilla(g,860,180,440,260,'#c9b89a','#5a6a8a',1080,'Haus Berndt',G.flags.lights);
+ drawVilla(g,1420,180,460,260,'#b8c4b0','#7a5545',1650,'Weihnachts-Laden',G.flags.lights);
+ drawVilla(g,2000,180,460,260,'#d0b8c4','#6a4a6a',2230,'Haus Müller',G.flags.lights);
+ drawVilla(g,860,1020,560,300,'#c2b0a0','#5a7a6a',1140,'Haus Krüger',G.flags.lights);
+ drawVilla(g,1600,1020,560,300,'#c8c0a8','#8a5a3a',1880,'Haus Schulz',G.flags.lights);
+ drawVilla(g,2260,1020,340,300,'#b8a8c8','#5a5578',2430,'Haus Lehmann',G.flags.lights);
+ drawFence(g,860,1420,960,1130);drawFence(g,1600,2160,960,1890);drawFence(g,2260,2600,960,2460);
+ drawFence(g,860,1420,1360,1130);drawFence(g,1600,2160,1360,1890);drawFence(g,2260,2600,1360,2460);
+ for(let i=0;i<4;i++)g.fillStyle='#3f7d4a',g.fillRect(900+i*120,1330,60,20);
+ g.fillStyle='#6a4c30';g.fillRect(455,470,90,18);g.fillStyle='#94a1af';g.fillRect(455,470,90,6);
+ if(!G.flags.schaufel){for(let i=0;i<6;i++){const sy=470+i*24;g.fillStyle='#eef5fb';g.beginPath();g.ellipse(500+(i%2?14:-14),sy,22,9,0,0,7);g.fill()}}
+ for(let x=260;x<2500;x+=320)drawLampP(g,x,508,G.flags.lights||!isNight());
+ drawTanne(g,150,1100,1.2);drawTanne(g,2550,1450,1.5);drawTanne(g,1380,760,1.1);drawTanne(g,760,1450,1.3);drawTanne(g,2120,760,1);
+ g.fillStyle='#8d9aa8';g.font='bold 15px sans-serif';g.fillText('\u26c4 Spielplatz (Ost)',60,300);
+ if(G.flags.lights){for(let i=0;i<6;i++){const hx=[250,860,1420,2000,860,1600][i];g.fillStyle=['#ff6a6a','#ffd34d','#7fd8ff','#a0ffb0','#ff9adf','#fff'][i];for(let j=0;j<8;j++){g.beginPath();g.arc(hx+40+j*60,(i<4?170:1010),4,0,7);g.fill()}}}
+ if(G.flags.snowman){drawSnowman(g,2480,1290,true)}
+ g.fillStyle='#5a4632';drawRR(g,660,690,120,70,8,'#4a5a72');g.fillStyle='#e8eef5';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('FROHNAU',720,720);g.fillText('Haltepunkt \u26f3',720,740);g.textAlign='left'};
+function drawSnowman(g,x,y,dress){g.fillStyle='#f2f7fc';g.beginPath();g.arc(x,y,14,0,7);g.arc(x,y-20,10,0,7);g.fill();
+ if(dress){g.fillStyle='#333';g.beginPath();g.arc(x-3,y-22,1.3,0,7);g.arc(x+3,y-22,1.3,0,7);g.fill();g.fillStyle='#e8763d';g.beginPath();g.moveTo(x,y-20);g.lineTo(x+9,y-18);g.lineTo(x,y-17);g.fill();g.fillStyle='#6a4c30';g.beginPath();g.moveTo(x,y-34);g.lineTo(x-14,y-30);g.lineTo(x+14,y-30);g.closePath();g.fill();g.fillStyle='#c92f2f';g.fillRect(x-8,y-14,16,3)}}
+MAPS.haus_eg.paint=function(g){g.fillStyle='#c9a06a';g.fillRect(60,60,700,440);g.fillStyle='#b8895a';for(let y=70;y<500;y+=24){g.fillRect(60,y,700,3)}
+ g.fillStyle='#7a5537';g.fillRect(60,60,700,8);
+ g.fillStyle='#6b8ab8';g.fillRect(60,60,370,190);g.fillStyle='rgba(0,0,0,.06)';g.fillRect(60,60,370,190);g.fillStyle='#d05a5a';g.fillRect(60,250,370,250);
+ g.fillStyle='#8ab86b';g.fillRect(450,60,310,240);g.fillStyle='#d8c8a8';g.fillRect(450,300,310,200);
+ g.fillStyle='#8b5a2b';drawRR(g,100,120,160,50,8,'#8b5a2b');g.fillStyle='#c92f2f';g.fillRect(110,128,140,12);g.fillStyle='#94b8e0';g.fillRect(100,170,160,34);
+ g.fillStyle='#6a4c30';drawRR(g,340,70,80,44,4,'#6a4c30');g.fillStyle='#ffb56b';g.beginPath();g.moveTo(345,80);g.lineTo(353,66);g.lineTo(361,80);g.moveTo(365,80);g.lineTo(373,66);g.lineTo(381,80);g.fill();
+ g.fillStyle='#3a3f4a';drawRR(g,120,300,180,26,6,'#5a6070');g.fillStyle='#b84a6a';drawRR(g,125,276,170,34,8,'#8a3a5a');g.fillStyle='#6a4c30';g.fillRect(125,316,14,14);g.fillRect(275,316,14,14);
+ g.fillStyle='#e8eef5';drawRR(g,100,400,90,70,4,'#e8eef5');g.fillStyle='#8b5a2b';g.fillRect(100,436,90,6);g.fillStyle='#94a1af';g.fillRect(104,430,20,8);g.fillStyle='#3a3f4a';g.fillRect(150,412,28,4);g.fillStyle='#94a1af';g.fillRect(156,416,18,3);
+ g.fillStyle='#6a4c30';g.fillRect(460,70,240,14);g.fillStyle='#94a1af';g.fillRect(465,50,30,20);g.fillStyle='#e8eef5';g.fillRect(600,84,40,52);g.strokeStyle='#c9a15a';g.strokeRect(600,84,40,52);g.fillStyle='#c92f2f';g.font='bold 26px sans-serif';g.textAlign='center';g.fillText(String(day()),620,124);g.textAlign='left';
+ g.fillStyle='#3a3f4a';g.fillRect(460,180,140,16);g.fillStyle='#8ab86b';g.fillRect(452,150,90,32);g.fillStyle='#d05a5a';g.fillRect(452,150,90,6);g.fillStyle='#94a1af';g.fillRect(500,182,80,10);
+ g.fillStyle='#8b5a2b';g.fillRect(500,380,220,14);g.fillRect(510,394,10,50);g.fillRect(700,394,10,50);g.fillStyle='#94a1af';g.fillRect(500,374,10,10);g.fillRect(710,374,10,10);
+ g.fillStyle='#6a4c30';g.fillRect(60,60,8,440);g.fillRect(752,60,8,440);g.fillRect(60,500,700,8);
+ g.strokeStyle='#6a4c30';g.lineWidth=5;g.beginPath();g.moveTo(430,60);g.lineTo(430,210);g.moveTo(430,300);g.lineTo(430,380);g.stroke();
+ if(G.flags.tree){drawXmasTree(g,390,190,true)}else{drawTanne(g,390,200,1.1)}
+ if(G.flags.candlesLit){g.fillStyle='#ffb56b';[0,1,2,3].forEach(i=>g.fillRect(600+i*10-3,60-8,6,8))}
+ g.fillStyle='#3a3f4a';g.font='bold 12px sans-serif';g.fillText('EG',66,54)};
+MAPS.haus_og.paint=function(g){g.fillStyle='#c9a06a';g.fillRect(60,60,700,440);g.fillStyle='#b8895a';for(let y=70;y<500;y+=24)g.fillRect(60,y,700,3);
+ g.fillStyle='#8ab0d8';g.fillRect(60,60,340,190);g.fillStyle='#d8b0c0';g.fillRect(60,250,340,250);g.fillStyle='#94b8a8';g.fillRect(420,60,340,190);g.fillStyle='#94a8d8';g.fillRect(420,250,340,250);
+ g.fillStyle='#e8eef5';drawRR(g,100,100,140,56,6,'#e8eef5');g.fillStyle='#8a3a5a';g.fillRect(100,100,140,16);g.fillStyle='#94a1af';g.fillRect(100,156,140,8);g.fillStyle='#ffd98a';drawRR(g,120,120,40,16,3,'#ffd98a');drawRR(g,170,120,40,16,3,'#ffd98a');g.fillStyle='#e8a03d';g.fillRect(100,170,140,8);
+ g.fillStyle='#6a4c30';g.fillRect(600,100,120,60);g.fillStyle='#e8eef5';g.fillRect(600,160,120,10);g.fillStyle='#94a1af';g.fillRect(608,150,50,10);g.fillStyle='#7fd8e8';drawRR(g,640,80,30,22,4,'#7fd8e8');
+ g.fillStyle='#7fd0e0';drawRR(g,480,320,110,80,6,'#bfe8f2');g.strokeStyle='#8ab0c8';g.strokeRect(480,320,110,80);g.fillStyle='#cfd8e0';g.fillRect(470,310,20,80);
+ g.fillStyle='#8b5a2b';drawRR(g,140,340,120,46,6,'#8b5a2b');g.fillStyle='#6a4c30';g.fillRect(150,386,10,16);g.fillRect(240,386,10,16);g.fillStyle='#94a1af';g.fillRect(150,344,40,8);
+ g.fillStyle='#94a1af';drawRR(g,560,420,120,30,4,'#c9d0da');
+ g.fillStyle='#6a4c30';g.beginPath();g.ellipse(200,440,26,16,0,0,7);g.fill();
+ g.fillStyle='#3a3f4a';g.font='bold 12px sans-serif';g.fillText('OG',66,54)};
+MAPS.keller.paint=function(g){g.fillStyle='#5a5f6a';g.fillRect(50,50,520,340);g.fillStyle='#4a4f5a';for(let y=60;y<390;y+=26)g.fillRect(50,y,520,3);
+ g.fillStyle='#6a6f7a';g.fillRect(60,60,120,80);g.fillStyle='#8b5a2b';g.fillRect(60,140,120,10);g.fillStyle='#94a1af';g.fillRect(70,130,24,10);
+ g.fillStyle='#3a3f4a';g.fillRect(420,260,120,90);g.fillStyle='#6a7f8a';g.fillRect(430,272,100,50);g.fillStyle='#94a1af';g.fillRect(430,330,100,12);
+ g.fillStyle='#94a1af';g.fillRect(240,120,60,120);g.fillStyle='#8a6a4a';g.fillRect(240,240,60,14);g.fillStyle='#e8eef5';g.font='11px sans-serif';g.fillText('Heizung',244,116);
+ g.fillStyle='#3a3f4a';g.fillRect(60,60,8,340);g.fillRect(552,60,8,340);g.fillStyle='#94a1af';g.fillRect(60,50,520,8);
+ g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83d\udd0e KELLER \u2013 Werkstatt & Lager',60,44)};
+MAPS.kirche.paint=function(g){g.fillStyle='#cfc4b0';g.fillRect(60,70,800,460);g.fillStyle='#94a1af';g.fillRect(60,70,800,10);
+ g.fillStyle='#94a1af';for(let y=150;y<500;y+=90)for(let x=100;x<340;x+=90){g.fillStyle='#8b5a2b';g.fillRect(x,y,70,40);g.fillStyle='#6a4c30';g.fillRect(x,y+40,70,8)}
+ for(let y=150;y<500;y+=90)for(let x=560;x<800;x+=90){g.fillStyle='#8b5a2b';g.fillRect(x,y,70,40);g.fillStyle='#6a4c30';g.fillRect(x,y+40,70,8)}
+ g.fillStyle='#e8eef5';g.fillRect(380,70,180,8);g.fillStyle='#d8cfc2';g.fillRect(400,80,140,50);g.fillStyle='#94a1af';g.fillRect(400,80,140,4);
+ g.fillStyle='#8b5a2b';g.fillRect(420,160,120,30);g.fillStyle='#94a1af';g.fillRect(430,150,20,12);g.fillStyle='#ffd34d';g.fillRect(465,144,30,20);g.fillStyle='#94a1af';g.fillRect(510,150,20,12);
+ g.fillStyle='#94a1af';g.fillRect(100,120,160,50);g.fillStyle='#6a4c30';g.fillRect(100,120,160,8);g.fillStyle='#ffd34d';g.beginPath();g.arc(180,110,14,0,7);g.fill();
+ g.fillStyle='#3a3f4a';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('St. Martins',460,64);g.textAlign='left'};
+MAPS.bahnhof.paint=function(g){g.fillStyle='#cfd8e0';g.fillRect(60,60,820,440);g.fillStyle='#94a1af';g.fillRect(60,60,820,10);
+ g.fillStyle='#8b5a2b';g.fillRect(100,200,180,40);g.fillStyle='#6a4c30';g.fillRect(100,240,180,10);g.fillStyle='#3a5a7a';g.fillRect(100,170,180,12);
+ g.fillStyle='#8b5a2b';g.fillRect(100,400,180,40);g.fillStyle='#6a4c30';g.fillRect(100,440,180,10);
+ g.fillStyle='#94a1af';g.fillRect(300,90,260,120);g.fillStyle='#1d2b4a';g.fillRect(310,100,240,84);g.fillStyle='#94a1af';g.fillRect(300,196,260,10);g.fillStyle='#94a1af';g.fillRect(300,90,10,120);g.fillRect(550,90,10,120);g.fillRect(300,90,260,8);
+ g.fillStyle='#e8eef5';g.font='bold 13px monospace';g.fillText('FROHNAU \u2192 HENNINGSDORF \u2192 HOHEN NEUENDORF',322,135);g.fillText('Abfahrt: 10:12, 12:24, 15:03, 17:40',322,160);
+ g.fillStyle='#3a3f4a';g.fillRect(700,100,50,70);g.fillStyle='#6a7f8a';g.fillRect(710,110,30,50);g.fillStyle='#ffd34d';g.fillRect(714,120,6,6);g.fillRect(724,120,6,6);g.fillRect(714,134,6,6);g.fillRect(724,134,6,6);
+ g.fillStyle='#8b5a2b';g.fillRect(600,396,120,30);g.fillStyle='#6a4c30';g.fillRect(600,426,120,8);
+ g.fillStyle='#3a6a4a';drawRR(g,830,300,60,90,6,'#2e6b45');g.fillStyle='#e8eef5';g.fillRect(845,310,30,24);g.fillStyle='#94a1af';g.fillRect(840,296,40,8);
+ g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83d\ude89 Bahnhof Frohnau',70,54)};
+MAPS.laden.paint=function(g){g.fillStyle='#d8c8b0';g.fillRect(50,50,600,380);g.fillStyle='#c2b098';for(let y=60;y<430;y+=30)g.fillRect(50,y,600,3);
+ for(let s=0;s<3;s++){g.fillStyle='#8b5a2b';g.fillRect(220,90+s*80,60,14);g.fillStyle='#94a1af';g.fillRect(220,104+s*80,60,6);g.fillStyle='#94a1af';g.fillRect(480,90+s*80,60,14)}
+ g.fillStyle='#8b5a2b';g.fillRect(200,330,200,26);g.fillStyle='#94a1af';g.fillRect(200,356,200,8);g.fillStyle='#e8eef5';g.font='bold 13px sans-serif';g.fillText('\ud83c\udf84 Weihnachtsladen Frohnau',70,44);
+ g.fillStyle='#94a1af';g.font='11px sans-serif';g.fillText('\u201eBei uns bekommst du alles f\u00fcrs Fest \u2013 AUSSER heimlich mitnehmen!\u201c',70,424)};
+function drawXmasTree(g,x,y,dec){drawTanne(g,x,y,1.6);if(dec){for(let i=0;i<6;i++){g.fillStyle=['#e05a6b','#ffd34d','#7fd8ff','#ff9adf','#a0ffb0','#e8c04a'][i];g.beginPath();g.arc(x-14+((i*37)%28),y-10-i*8,3,0,7);g.fill()}
+ g.fillStyle='#ffd34d';g.beginPath();g.moveTo(x-4,y-52);g.lineTo(x,y-58);g.lineTo(x+4,y-52);g.closePath();g.fill()}}
+function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,w,h,to,px,py});
+ P('dorf',1050,436,60,26,'haus_eg',210,400);
+ P('dorf',470,436,60,26,'kirche',460,505);P('dorf',1620,436,60,26,'laden',350,380);P('dorf',600,926,60,30,'bahnhof',470,470);
+ P('kirche',420,505,80,20,'dorf',500,470);P('laden',300,398,80,18,'dorf',1650,470);P('bahnhof',420,470,80,20,'dorf',630,900);
+ P('haus_eg',180,468,70,18,'dorf',1080,480);P('haus_eg',320,62,80,18,'haus_og',410,80);P('haus_eg',96,468,50,18,'keller',310,380);
+ P('haus_og',370,468,80,18,'haus_eg',360,90);P('keller',280,368,60,16,'haus_eg',110,460);
+ const I=(m,x,y,label,fn)=>MAPS[m].inter.push({x,y,label,fn});
+ I('dorf',500,620,'Verschneiter Kirchweg',()=>{if(!inv.schaufel){toast('\u274c Du brauchst eine Schneeschaufel.');return}startMG('shovel')});
+ I('dorf',2480,1290,'Schneemann bauen',()=>{if(Q.schneemann.st!=='active'||Q.schneemann.step<1){toast('Hier k\u00f6nnte ein sch\u00f6ner Schneemann entstehen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.ast||!inv.kohle){toast('\u274c Du brauchst Tannenast + Kohle.');return}startMG('snowman')});
+ I('bahnhof',700,120,'Stromkasten',()=>{if(Q.beleuchtung.st!=='active'||Q.beleuchtung.step<1){toast('Ein alter Stromkasten. Verriegelt \u2013 irgendwie brauche ich hier eine Aufgabe.');return}if(inv.lichtkette<5){toast('\u274c Du brauchst 5 Lichterketten. Du hast: '+inv.lichtkette+'/5');return}Q.beleuchtung.step=Math.max(Q.beleuchtung.step,1);G.flags.lights=true;toast('\ud83d\udca1 Das ganze Dorf erstrahlt im Weihnachtslicht!');finQ('beleuchtung')});
+ I('bahnhof',860,300,'Postkasten',()=>{handInPostkasten()});
+ I('haus_eg',560,84,'Adventskranz',()=>{if(Q.kranz.st!=='active'||Q.kranz.step<1){toast('Der Adventskranz wartet auf 4 Kerzen.');return}if(inv.kerze<4){toast('\u274c 4 Kerzen n\u00f6tig. Du hast: '+inv.kerze+'/4');return}startMG('kranz')});
+ I('haus_eg',390,190,'Weihnachtsbaum',()=>{if(Q.baum.st!=='active'||Q.baum.step<1){toast('Der Tannenbaum ist noch ungeschm\u00fcckt.');return}if(!inv.kugel||!inv.glocke){toast('\u274c N\u00f6tig: Christbaumkugel + Glocke.');return}startMG('tree')});
+ I('haus_eg',130,430,'Schreibtisch',()=>{if(Q.brief.st!=='active'||Q.brief.step<1){toast('Der Schreibtisch vom Hausmeister.');return}if(!inv.brief||!inv.stempel){toast('\u274c N\u00f6tig: Brief + Siegelstempel.');return}startMG('letter')});
+ I('kirche',150,110,'Orgel',()=>{if(Q.orgel.st!=='active'||Q.orgel.step<1){toast('Die Orgel ist kaputt \u2013 ein trauriger Ton.') ;return}if(!inv.werkzeug){toast('\u274c Du brauchst die Werkzeugkiste.');return}startMG('organ')})}
+function questStep(id,extra){const q=Q[id],def=QUESTS.find(x=>x.id===id);if(q.st!=='active')return;q.step++;
+ if(q.step>=def.steps.length){q.st='done';toast('\ud83c\udf85 '+def.title+' \u2013 ABGESCHLOSSEN!'+(def.main?'':''));beep(880,0.3,'triangle');setTimeout(()=>beep(1170,0.4,'triangle'),180);checkWin()}else{toast('\ud83d\udcdd N\u00e4chster Schritt: '+def.steps[q.step].slice(0,60)+'\u2026');if(extra)extra()}}
+function finQ(id){const def=QUESTS.find(q=>q.id===id);if(Q[id].st==='active'){Q[id].step=def.steps.length-1;questStep(id)}}
+function checkWin(){const main=QUESTS.filter(q=>q.main);if(main.every(q=>Q[q.id].st==='done')){G.screen='win';beep(660,.2);setTimeout(()=>beep(880,.2),200);setTimeout(()=>beep(1320,.5),400)}}
+function handInPostkasten(){let did=false;
+ if(Q.zettel.st==='active'&&Q.zettel.step>=1&&inv.wunschzettel>=5){inv.wunschzettel-=5;questStep('zettel');did=true}
+ if(Q.brief.st==='active'&&Q.brief.step>=2&&inv.brief>=1){inv.brief--;questStep('brief');did=true}
+ if(!did)toast('\ud83d\udceb Hier kannst du deine Wunschzettel (5 St\u00fcck) oder den Weihnachtsbrief einwerfen.')}
+function updateNPCs(dt){const ts=G.speed;for(const n of NPCs){if(n.map!==G.map)continue;n.alert=Math.max(0,n.alert-dt*2);
+ const feast=day()>=24&&!isNight()&&n.map==='haus_eg'&&n.kind==='human';
+ const night=isNight()&&MAPS[n.map].indoor;
+ if(n.name==='Kater Murr'&&G.katzeSleep>0){n.sleeping=true}else n.sleeping=night;
+ if(feast){const t=FEAST[n.name]||{x:560,y:420};n.x=t.x;n.y=t.y;n.walk+=dt*ts*8;continue}
+ if(night||n.sleeping){n.walk+=dt*ts*8;continue}
+ if(!n.pts)continue;const p=n.pts[n.pi],dx=p[0]-n.x,dy=p[1]-n.y,d=Math.hypot(dx,dy);
+ if(d<4){n.pi=(n.pi+1)%n.pts.length}else{const st=n.spd*ts*dt/d;const nx=clamp(n.x+dx*st,20,MAPS[n.map].w-20),ny=clamp(n.y+dy*st,20,MAPS[n.map].h-20);if(!collAt(n.map,nx,ny)){n.x=nx;n.y=ny}else{if(!collAt(n.map,nx,n.y))n.x=nx;else if(!collAt(n.map,n.x,ny))n.y=ny;else n.pi=(n.pi+1)%n.pts.length}n.walk+=dt*ts*8}}}
+const FEAST={'Mama':{x:540,y:390},'Papa':{x:710,y:390},'Oma':{x:740,y:440}};
+let event=null;
+function startXmasEvent(kind){const cfg=kind==='nikolaus'?{a:'\ud83d\udc76 Nikolaus',pts:[{x:380,y:120},{x:280,y:250},{x:210,y:460}],end:'mandarin'}:{a:'\ud83c\udf85 Weihnachtsmann',pts:[{x:380,y:120},{x:280,y:250},{x:390,y:210}],end:'gift'};
+ event={kind,x:cfg.pts[0].x,y:cfg.pts[0].y,pts:cfg.pts,pi:0,end:cfg.end,walk:0};if(G.map==='haus_eg')toast(cfg.a+(kind==='nikolaus'?' huscht vom Kamin zur Haust\u00fcr!':' schleicht zum Baum!'))}
+function updateEvent(dt){if(!event)return;const p=event.pts[event.pi],dx=p.x-event.x,dy=p.y-event.y,d=Math.hypot(dx,dy);
+ if(d<6){event.pi++;if(event.pi>=event.pts.length){finishEvent();return}}else{const st=140*G.speed*dt/d;event.x+=dx*st;event.y+=dy*st}event.walk+=dt*G.speed*8}
+function finishEvent(){if(event.kind==='nikolaus'){G.flags.nik=true;for(let i=0;i<4;i++)MAPS.haus_og.items.push({map:'haus_og',x:120+i*40,y:200,id:'mandarine',rid:'nmand'+i});toast('\ud83c\udf4a Der Nikolaus hat Mandarinen im Kinderzimmer verteilt!');if(Q.nikolaus.st==='active'&&Q.nikolaus.step===0)questStep('nikolaus')}
+ else{G.flags.santa=true;toast('\ud83c\udf85 Der Weihnachtsmann hat 4 Geschenke unter den Baum gelegt!')}
+ event=null}
+function updateItems(dt){const m=MAPS[G.map];
+ for(let i=m.items.length-1;i>=0;i--){const it=m.items[i];
+  if(it.id==='kristall'&&(!G.flags.glitterVisible))continue;
+  if(Math.hypot(it.x-G.px,it.y-G.py)<30){m.items.splice(i,1);addInv(it.id,1);G.flags.collected.push(it.rid);
+   if(it.id==='lichtkette'&&Q.beleuchtung.st==='active'){if(Q.beleuchtung.step===0&&inv.lichtkette>=5)questStep('beleuchtung');else if(Q.beleuchtung.step===0)toast('Lichterkette! ('+inv.lichtkette+'/5)')}
+   if(it.id==='schaufel'&&Q.schaufeln.st==='active'&&Q.schaufeln.step===0)questStep('schaufeln');
+   if(it.id==='werkzeug'&&Q.orgel.st==='active'&&Q.orgel.step===0)questStep('orgel');
+   if(it.id==='lupe'&&Q.glitzer.st==='active'&&Q.glitzer.step===0)questStep('glitzer');
+   if(it.id==='zimt'&&Q.zimt.st==='active'&&Q.zimt.step===0)questStep('zimt');
+   if(it.id==='maus'&&Q.katze.st==='active'&&Q.katze.step===0)questStep('katze');
+   if(it.id==='wunschzettel'&&Q.zettel.st==='active'&&Q.zettel.step===0){if(inv.wunschzettel>=5)questStep('zettel');else toast('Wunschzettel: '+inv.wunschzettel+'/5')}
+   if((it.id==='brief'||it.id==='stempel')&&Q.brief.st==='active'&&Q.brief.step===0&&inv.brief&&inv.stempel)questStep('brief');
+   if((it.id==='kugel'||it.id==='glocke')&&Q.baum.st==='active'&&Q.baum.step===0&&inv.kugel&&inv.glocke)questStep('baum');
+   if(it.id==='kerze'&&Q.kranz.st==='active'&&Q.kranz.step===0&&inv.kerze>=4)questStep('kranz');
+   if((it.id==='ast')&&Q.schneemann.st==='active'&&Q.schneemann.step===0&&inv.ast&&inv.kohle)questStep('schneemann');
+   if(it.id==='mandarine'&&Q.nikolaus.st==='active'&&Q.nikolaus.step===1){if(inv.mandarine>=4)questStep('nikolaus');else toast('Mandarine: '+inv.mandarine+'/4')}}}
+ if(G.flags.glitterVisible){G.flags.glitterT-=dt;if(G.flags.glitterT<=0){G.flags.glitterVisible=false;MAPS.dorf.items=MAPS.dorf.items.filter(i=>i.id!=='kristall')}}}
+function updateSusp(dt){let rate=0,near=null;
+ for(const n of NPCs){if(n.map!==G.map)continue;const d=Math.hypot(n.x-G.px,n.y-G.py),rr=n.sleeping?n.rad*0.6:n.rad;
+  if(d<rr){const f=0.4+0.8*(1-d/rr);let r=1.667*f;if(inv['mütze'])r*=0.65;rate+=r;near=n;n.alert=Math.max(n.alert,1)}}
+ if(rate>0){G.susp=Math.min(100,G.susp+rate*dt);G.msg=near?'!':G.msg}
+ return near}
+function updateMinigAuto(dt){if(G.katzeSleep>0)G.katzeSleep-=dt}
+function switchMap(to,px,py){G.map=to;G.px=px;G.py=py;beep(320,0.1,'sine');
+ const m=MAPS[to];
+ if(!m.cache){m.cache=document.createElement('canvas');m.cache.width=m.w;m.cache.height=m.h;m.paint(m.cache.getContext('2d'))}}
+function update(dt){if(G.screen!=='play')return;const ts=G.speed;
+ G.time+=dt*ts;G.portalCd=Math.max(0,G.portalCd-dt);
+ const sp=230,ix=(keys['arrowright']||keys['d']?1:0)-(keys['arrowleft']||keys['a']?1:0),iy=(keys['arrowdown']||keys['s']?1:0)-(keys['arrowup']||keys['w']?1:0);
+ if(ix||iy){const l=Math.hypot(ix,iy);moveCircle(G,ix/l*sp*dt,iy/l*sp*dt,G.map);G.walk=(G.walk||0)+dt*10}
+ const m=MAPS[G.map];
+ for(const p of m.portals){if(G.portalCd<=0&&G.px>p.x&&G.px<p.x+p.w&&G.py>p.y&&G.py<p.y+p.h){G.portalCd=0.5;switchMap(p.to,p.px,p.py);break}}
+ updateItems(dt);updateNPCs(dt);updateEvent(dt);
+ const near=updateSusp(dt);
+ if(day()>=24&&!isNight()&&!G.flags.feast){G.flags.feast=true;NPCs.forEach(n=>{if(n.map==='haus_eg'&&(FEAST[n.name])){n.pts=null}});toast('\ud83c\udf5d Tag 24! Alle Bewohner haben sich zum Festessen mit G\u00e4nsebraten versammelt.')}
+ if(day()===6&&isNight()&&!G.flags.nik&&!event)startXmasEvent('nikolaus');
+ if(day()===24&&isNight()&&!G.flags.santa&&!event)startXmasEvent('santa');
+ if(day()>=25&&G.screen==='play'){const main=QUESTS.filter(q=>q.main);if(!main.every(q=>Q[q.id].st==='done')){G.screen='lose';G.loseWhy='Die Adventszeit ist vorbei \u2013 nicht alle Hauptquests erledigt!'}else checkWin()}
+ if(G.susp>=100&&G.screen==='play'){G.screen='lose';G.loseWhy='Du wurdest erwischt! Verdacht 100%.'}}
+const ICON={lichtkette:'\ud83d\udca1',schaufel:'\u26cf\ufe0f',werkzeug:'\ud83e\uddf0',lupe:'\ud83d\udd0d',kugel:'\ud83d\udd34',glocke:'\ud83d\udd14',kerze:'\ud83d\udd6b\ufe0f',ast:'\ud83c\udf3f',kohle:'\u26ab\ufe0f',brief:'\u2709\ufe0f',stempel:'\ud83d\uddd1\ufe0f',zimt:'\ud83e\udd6e',maus:'\ud83d\udc2d',mandarine:'\ud83c\udf4a',wunschzettel:'\ud83d\udcdd',kristall:'\u2744\ufe0f','mütze':'\ud83e\udde2'};
+function drawItemSprite(g,it){const b=Math.sin(performance.now()/300+it.x)*3;g.fillStyle='rgba(255,220,120,.35)';g.beginPath();g.arc(it.x,it.y-8+b,14,0,7);g.fill();
+ g.font='18px sans-serif';g.textAlign='center';g.fillText(ICON[it.id]||'\u2728',it.x,it.y-2+b);g.font='bold 10px sans-serif';g.fillStyle='#132341';g.fillStyle='#132441';g.fillText(ITEMS[it.id].name,it.x,it.y+16+b);g.textAlign='left'}
+function tryInteract(){if(G.screen!=='play')return;const m=MAPS[G.map];let best=null,bd=60;
+ for(const i of m.inter){const d=Math.hypot(i.x-G.px,i.y-G.py);if(d<bd){bd=d;best=i}}
+ if(best){best.fn();return}
+ for(const n of NPCs){if(n.map!==G.map)continue;const d=Math.hypot(n.x-G.px,n.y-G.py);if(d<56){talkTo(n);return}}
+ if(best===null)toast('\u2026')}
+function talkTo(n){if(n.name==='Oma'&&inv.zimt>0&&Q.zimt.st==='active'&&Q.zimt.step>=1){inv.zimt--;toast('\ud83e\uddf5 Oma: \u201eZimt! Jetzt kannst die Pl\u00e4tzchenbackstube wieder gl\u00e4nzen, mein Schatz. Danke, Wichtel!\u201c');questStep('zimt');return}
+ G.susp=Math.min(96,G.susp+3);n.alert=1;
+ const says={'Mama':'\u201eBerndt, h\u00f6rst du mich? Bist du im Haus?\u201c','Papa':'\u201eIch h\u00f6re da unten ein Getappel\u2026\u201c','Oma':'\u201eMeine Pl\u00e4tzchenbackstube braucht dringend Zimt\u2026\u201c','Luise':'\u201ePSST \u2013 ich glaube, ich habe einen Wichtel gesehen!\u201c','Finn':'\u201eKatze! Wo bist du, Kater Murr?\u201c','Frau Berg':'\u201eWas hat denn der kleine Kerl hier zu suchen?\u201c','Herr Klein':'\u201eEin Wichtel? Im Advent? Faszinierend.\u201c','Pfarrer Winter':'\u201eDie Orgel verstummt seit Tagen \u2013 ein Wunder w\u00e4re sch\u00f6n.\u201c','Bahnhofsw\u00e4rter Krause':'\u201eDer Stromkasten ist ausversehen verriegelt.\u201c','Verk\u00e4uferin Stern':'\u201eAlles sch\u00f6n ordentlich hier, keine Spur eines Wichtels.\u201c'};
+ toast('<b>'+n.name+':</b> '+(says[n.name]||'\u201eHuch! Wer war das denn?\u201c'))}
+function toggleItem(i){const owned=Object.keys(ITEMS).filter(k=>inv[k]>0);const id=owned[i];if(!id)return;
+ if(id==='lupe'){if(G.map!=='dorf'){toast('\ud83d\udd0d Die Lupe ist nur drau\u00dfen im Garten von Haus Berndt hilfreich.');return}
+  if(Math.hypot(G.px-1150,G.py-500)>320){toast('\ud83d\udd0d Zu weit weg \u2013 geh in den Garten von Haus Berndt.');return}
+  if(G.flags.glitterVisible){toast('Die Kristalle sind schon sichtbar!');return}
+  G.flags.glitterVisible=true;G.flags.glitterT=45;[[930,540,'KR1'],[1010,605,'KR2'],[1240,560,'KR3']].forEach(c=>{if(!G.flags.collected.includes(c[2]))MAPS.dorf.items.push({map:'dorf',x:c[0],y:c[1],id:'kristall',rid:c[2]})});toast('\ud83d\udd0d Durch die Lupe glitzern 3 Eiskristalle im Schnee! (45 Sekunden)')}
+ else if(id==='maus'){const kat=NPCs.find(n=>n.name==='Kater Murr');if(kat&&kat.map!==G.map){toast('\ud83d\udc2d Der Kater ist im 1. Stock im Flur.');return}
+  if(!kat||Math.hypot(kat.x-G.px,kat.y-G.py)>90){toast('\ud83d\udc2d Sei n\u00e4her beim Kater!');return}
+  inv.maus--;G.katzeSleep=60;kat.sleeping=true;toast('\ud83d\udc31 Der Kater schnurrt und schl\u00e4ft 60 Sekunden tief und fest!');if(Q.katze.st==='active'&&Q.katze.step>=1)questStep('katze')}
+ else toast(ITEMS[id].name+': \u201eWird automatisch bei N\u00e4he aufgehoben\u201c')+(id==='mandarine'||id==='kristall'?'':' ')}
+function questPanelHTML(){const main=QUESTS.filter(q=>q.main),nb=QUESTS.filter(q=>!q.main);
+ const card=q=>{const s=Q[q.id],cnt=s.st==='active'&&q.counter?' <span style="color:#ffd98a">('+Math.min(inv[q.counter.item],q.counter.need)+'/'+q.counter.need+')</span>':'';
+  if(s.st==='done')return '<div class="qcard'+(q.main?' main':'')+'"><h3>\u2611 '+q.title+'<span class="tag'+(q.main?'':' nb')+'">'+(q.main?'HAUPT':'NEBEN')+'</span></h3><div class="qst" style="color:#7fd08a">Abgeschlossen \u2713</div></div>';
+  let btn=s.st==='offer'?'<button onclick="acceptQuest(\''+q.id+'\')">Annehmen</button>':'<span class="qst">Schritt '+(s.step+1)+'/'+q.steps.length+': '+q.steps[Math.min(s.step,q.steps.length-1)]+(q.counter&&s.step===0?cnt:'')+'</span>';
+  return '<div class="qcard'+(q.main?' main':'')+'"><h3>\u2610 '+q.title+'<span class="tag'+(q.main?'':' nb')+'">'+(q.main?'HAUPT':'NEBEN')+'</span></h3><ul>'+q.steps.map((st,i)=>'<li class="'+(s.st==='active'&&i<s.step?'done':'')+'">'+st+'</li>').join('')+'</ul>'+btn+'</div>'};
+ return '<h2>\ud83d\udcdc Berndts Aufgaben-Liste</h2><p style="text-align:center;font-size:12px;color:#8ea0c0">Alle HAUPT-Quests m\u00fcssen bis Tag 24 fertig sein!</p>'+main.map(card).join('')+'<h2 style="margin-top:14px">\u2728 Nebenquests</h2>'+nb.map(card).join('')}
+function toggleQuests(){const p=document.getElementById('questPanel');if(p.style.display==='block'){p.style.display='none';return}p.style.display='block';p.innerHTML=questPanelHTML()}
+window.acceptQuest=function(id){Q[id].st='active';const def=QUESTS.find(q=>q.id===id);toast('\ud83d\udcab Auftrag angenommen: '+def.title);const p=document.getElementById('questPanel');p.innerHTML=questPanelHTML();beep(520,0.15,'triangle')};
+window.startMG=function(kind){const mg=document.getElementById('minigame');mg.style.display='block';MGS[kind](mg)};
+window.closeMG=function(){document.getElementById('minigame').style.display='none'};
+const MGS={};
+MGS.shovel=mg=>{mg.innerHTML='<h3>\u26cf\ufe0f Kirchweg freischaufeln</h3><b id="shtime" style="color:#ffd98a"></b><br><canvas id="shc" width="500" height="300"></canvas><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ const c=mg.querySelector('#shc'),g=c.getContext('2d');let piles=[];for(let i=0;i<10;i++)piles.push({x:50+(i%5)*90,y:80+Math.floor(i/5)*120,hp:3});
+ let t=22,done=false;
+ c.onclick=e=>{if(done)return;const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)*500/r.width,my=(e.clientY-r.top)*300/r.height;
+  for(const p of piles){if(p.hp>0&&Math.hypot(p.x-mx,p.y-my)<34&&t>0&&!done){p.hp--;beep(300,0.06,'square');
+   if(piles.every(q=>q.hp<=0)){done=true;G.flags.schaufel=true;beep(880,.12,'triangle');setTimeout(()=>beep(1100,.2),120);toast('\u26cf\ufe0f Der Kirchweg ist frei!');
+    finQ('schaufeln');setTimeout(closeMG,700)}}}};
+ let last=performance.now();
+ const iv=setInterval(()=>{const now=performance.now();t-=(now-last)/1000;last=now;if(t<=0&&!done){clearInterval(iv);toast('\u23f0 Zu langsam! Versuch es nochmal.');closeMG();return}
+  g.fillStyle='#e2eaf3';g.fillRect(0,0,500,300);g.fillStyle='#94a1af';g.fillRect(0,130,500,40);
+  for(const p of piles){if(p.hp<=0)continue;g.fillStyle='#f5f9fd';g.beginPath();g.ellipse(p.x,p.y,30,16+p.hp*4,0,0,7);g.fill();g.strokeStyle='#8d9aa8';g.stroke();g.fillStyle='#132441';g.font='11px sans-serif';g.textAlign='center';g.fillText(p.hp+'x',p.x,p.y+4);g.textAlign='left'}
+  if(done)g.font='bold 22px sans-serif',g.fillStyle='#3f8a52',g.fillText('Fertig!',210,150);
+  mg.querySelector('#shtime').textContent='Zeit: '+t.toFixed(1)+' s \u2013 klicke jede Schneeh\u00e4ufung 3\u00d7!'},100)};
+MGS.organ=mg=>{mg.innerHTML='<h3>\ud83c\udfb5 Orgel reparieren</h3><p style="font-size:13px">H\u00f6r die Melodie und wiederhole sie.</p><div id="pipes"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ const cols=['#c92f2f','#e8a03d','#ffd34d','#3f8a52','#3d6aa8','#8a3a9a'],fqs=[262,294,330,392,440,523],pipes=mg.querySelector('#pipes');
+ cols.forEach((c,i)=>{const b=document.createElement('button');b.className='orgpipe';b.style.background=c;b.textContent='\u266a';b.onclick=()=>hit(i);pipes.appendChild(b)});
+ const round=()=>{seq=[...Array(3+RND()).keys()];seq=seq.map((_,i)=>Math.floor(Math.rand&&Math.rand()||0))};
+ let goal=[],seq=[],input=[],rnd=0;
+ const next=()=>{goal=Array.from({length:3+rnd},()=>Math.floor(Math.random()*6));input=[];playSeq()};
+ const playSeq=()=>{let i=0;const iv=setInterval(()=>{if(i>=goal.length){clearInterval(iv);return}const k=goal[i++];beep(fqs[k],0.25,'triangle');const p=pipes.children[k];p.classList.add('flash');setTimeout(()=>p.classList.remove('flash'),220)},320)};
+ function hit(i){beep(fqs[i],0.2,'triangle');input.push(i);const k=input.length-1;
+  if(goal[k]!==i){toast('\u274c Falsch! Nochmal von vorn.'),
+   input=[],rnd=Math.max(0,rnd-1),setTimeout(playSeq,600);return}
+  if(input.length===goal.length){rnd++;if(rnd>=3){G.flags.organ=true;beep(392,.4,'triangle');toast('\ud83c\udfb5 Die Orgel klingt wieder wundersch\u00f6n!');finQ('orgel');setTimeout(closeMG,600)}else{toast('\u2713 Richtig! n\u00e4chste Runde\u2026');setTimeout(next,700)}}}
+ next()};
+MGS.kranz=mg=>{mg.innerHTML='<h3>\ud83d\udd6b\ufe0f Adventskranz: 4 Kerzen von LINKS nach RECHTS<br>z\u00fcnden!</h3><div id="cans" style="display:flex;justify-content:center;gap:14px"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ const cans=mg.querySelector('#cans'),lit=[false,false,false,false];
+ for(let i=0;i<4;i++){const b=document.createElement('button');b.className='orgpipe';b.style.background='#2a3652';b.textContent='\u2014';b.onclick=()=>{if(i===lit.filter(Boolean).length){lit[i]=true;b.style.background='#ffb56b';b.textContent='\ud83d\udd25';beep(700+i*80,.15,'sine');
+   if(lit.every(Boolean)){G.flags.candlesLit=true;toast('\ud83d\udd6b\ufe0f Der Adventskranz brennt!');if(Q.kranz.st==='active'){inv.kerze-=4;finQ('kranz')}setTimeout(closeMG,700)}}
+  else{toast('\u274c Falsche Kerze! Links anfangen.');lit.fill(false);[...cans.children].forEach(c=>{c.style.background='#2a3652';c.textContent='\u2014'})}};cans.appendChild(b)}
+ toast('\ud83d\udd6b Feuer frei \u2013 von links nach rechts! (4 Kerzen werden verbraucht wenn fertig)')};
+MGS.tree=mg=>{mg.innerHTML='<h3>\ud83c\udf84 Baum schm\u00fccken \u2013 klicke in Reihenfolge:</h3><p style="font-size:13px">1. Kugel \u2192 2. Glocke \u2192 3. Wieder Kugel (Doppelschmuck)</p><div id="orns" style="display:flex;gap:10px;justify-content:center"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ const list=['\ud83d\udd34 Kugel','\ud83d\udd14 Glocke','\ud83d\udd34 Kugel 2'],need=[0,1,2],orns=mg.querySelector('#orns');let nextI=0;
+ list.forEach((t,i)=>{const b=document.createElement('button');b.className='act';b.textContent=t;b.onclick=()=>{if(i===nextI){nextI++;beep(760+i*120,.15);b.style.outline='3px solid #8fd08f';
+   if(nextI>=3){G.flags.tree=true;toast('\ud83c\udf84 Der Baum erstrahlt im Schmuck!');if(Q.baum.st==='active'){inv.kugel--;finQ('baum')}setTimeout(closeMG,700)}}
+  else{toast('\u274c Andere Reihenfolge!');nextI=0;nextI=0;[...orns.children].forEach(c=>c.style.outline='none')}};orns.appendChild(b)})};
+MGS.snowman=mg=>{mg.innerHTML='<h3>\u26c4 Schneemann bauen \u2013 3 richtige Entscheidungen:</h3><div id="steps"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ const opts=[['Wovon die Nase?',['Karotte','Zweig','Stein'],0],['Was als Hut?',['Eimer','Tannenast-Hut','Filzhut'],1],['Womit die Augen?',['Kohle','Kn\u00f6pfe','Kiesel'],0]],st=0,el=mg.querySelector('#steps');
+ const show=()=>{if(st>=3){G.flags.snowman=true;toast('\u26c4 Der Schneemann steht da wie ein kleines Kunstwerk!');if(Q.schneemann.st==='active'){inv.ast--;inv.kohle--;finQ('schneemann')}setTimeout(closeMG,500);return}
+  const o=opts[st];el.innerHTML='<p style="font-size:15px;color:#ffe3a6">'+o[0]+'</p>'+o[1].map((c,i)=>'<button class="wishopt" data-i="'+i+'">'+c+'</button>').join('');
+  [...el.querySelectorAll('button')].forEach(b=>b.onclick=()=>{if(+b.dataset.i===o[2]){st++;beep(700,.1);show()}else{beep(200,.2,'square');toast('\u274c Das passt dem Schneemann nicht\u2026')}})};
+ show()};
+MGS.letter=mg=>{const wishes=['Ein Schlitten f\u00fcr Finn','Ein Puppenhaus f\u00fcr Luise','Friede im ganzen Dorf','Neue Orgelpfeifen f\u00fcr die Kirche','W\u00e4rme\u00fctzen f\u00fcr Oma','Ein USB-Stick'];
+ let sel=-1;
+ mg.innerHTML='<h3>\u2709\ufe0f Weihnachtsbrief: W\u00e4hle deinen Wunsch</h3><div id="wishes">'+wishes.map((w,i)=>'<button class="wishopt" data-i="'+i+'">'+w+'</button>').join('')+'</div><div class="mgbtns"><button class="act" id="seal" disabled>Siegeln \ud83d\udd10</button><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+ [...mg.querySelectorAll('.wishopt')].forEach(b=>b.onclick=()=>{[...mg.querySelectorAll('.wishopt')].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.i;mg.querySelector('#seal').disabled=false;beep(600,.08)});
+ mg.querySelector('#seal').onclick=()=>{if(sel<0)return;inv.brief--;G.flags.letter=wishes[sel];toast('\ud83e\uddf5 Wunsch versiegelt: '+wishes[sel]+' \u2013 jetzt ab zum Postkasten am Bahnhof!');if(Q.brief.st==='active')questStep('brief');closeMG()}};
+function drawHUD(){const m=MAPS[G.map];
+ ctx.fillStyle='rgba(10,18,34,.72)';drawRR(ctx,10,10,300,64,8,'rgba(10,18,34,.72)','#c9a15a');
+ ctx.fillStyle='#ffe9b0';ctx.font='bold 15px sans-serif';
+ const hh=Math.floor((G.time%86400)/3600),mm2=Math.floor((G.time%3600)/60),cclock=String(6+Math.floor(G.time/DAY_LEN)+Math.floor(G.time%3600/3600*24)).padStart(2,'0');
+ ctx.fillText('\ud83d\udcc5 Tag '+day()+'  \u2022  '+phaseName()+'  \u2022  Zeitfaktor ×'+G.speed,20,30);
+ ctx.fillText('Ziel: Alle Hauptquests bis Tag 24!',20,50);ctx.fillStyle='#c9a15a';ctx.font='12px sans-serif';ctx.fillText('WASD/ZXCV-bewegen \u2022 E benutzen \u2022 Q Quests',20,66);
+ const near=MAPS[G.map].inter.map(i=>({i,d:Math.hypot(i.x-G.px,i.y-G.py)})).filter(o=>o.d<56).sort((a,b)=>a.d-b.d)[0];
+ ctx.fillStyle='rgba(10,18,34,.72)';drawRR(ctx,10,84,near&&near.i?near.i.label.length*8+62:120,26,6,'rgba(10,18,34,.72)');
+ ctx.fillStyle=near&&near.i?'#ffd98a':'#8ea0c0';ctx.font='bold 13px sans-serif';ctx.fillText(near&&near.i?'\u2387 '+near.i.label:'E: benutzen',20,102);
+ ctx.fillStyle='rgba(10,18,34,.72)';drawRR(ctx,W-320,10,300,34,8,'rgba(10,18,34,.72)','#c9554f');
+ ctx.fillStyle='#ff8a7a';ctx.fillRect(W-310,22,280*G.susp/100? (280*G.susp/100):0,10);
+ ctx.strokeStyle='#c9554f';ctx.strokeRect(W-310,22,280,10);ctx.fillStyle='#fff';ctx.font='bold 12px sans-serif';
+ ctx.fillText('Verdacht '+Math.floor(G.susp)+'%',W-306,54);
+ let hx=14;let hy=H-58;
+ ctx.fillStyle='rgba(10,18,34,.8)';drawRR(ctx,hx-6,hy-14,Object.keys(ITEMS).length*46+12,54,8,'rgba(10,18,34,.8)');
+ let slot=0;for(const id in ITEMS){const c=inv[id]||0,x=hx+slot*46;
+  ctx.fillStyle=c>0?'#22335a':'#141d33';drawRR(ctx,x,hy-8,40,40,6,c>0?'#22335a':'#141d33',c>0?'#c9a15a':'#2a3550');
+  ctx.font=(c>0?'15px':'11px')+' sans-serif';ctx.globalAlpha=c>0?1:0.25;ctx.textAlign='center';ctx.fillStyle='#fff';
+  ctx.fillText(ICON[id]||'?',x+20,hy+6);
+  if(c>1){ctx.fillStyle='#ffd98a';ctx.font='bold 10px sans-serif';ctx.textAlign='right';ctx.fillText('×'+c,x+37,hy+2)}
+  ctx.globalAlpha=1;slot++}
+ ctx.fillStyle='#8ea0c0';ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText('Hotbar: gefundene Gegenst\u00e4nde (Zahlentaste 1-8: einsetzen)',hx,hy+44);
+ if(!MAPS[G.map].indoor&&G.time%DAY_LEN>=PHASE_LEN){}else{}
+ if(isNight()){const t=G.time%DAY_LEN,ph=t<240&&t>=PHASE_LEN?((t-PHASE_LEN)>=180?0.55:0.55):0.55;
+  const a=Math.min(0.6,0.35+0.25*((t-120)/120));
+  ctx.save();ctx.fillStyle='rgba(8,12,30,'+ (MAPS[G.map].indoor?0.42:a) +')';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='destination-out';
+  const px=G.px-cam.x,py=G.py-cam.y,gr=ctx.createRadialGradient(px,py,20,px,py,170);gr.addColorStop(0,'rgba(0,0,0,1)');gr.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='source-over';ctx.restore();
+  ctx.save();const gr2=ctx.createRadialGradient(px,py,6,px,py,90);gr2.addColorStop(0,'rgba(255,225,150,.30)');gr2.addColorStop(1,'rgba(255,225,150,0)');ctx.fillStyle=gr2;ctx.fillRect(0,0,W,H);ctx.restore()}}
+function drawTitle(){ctx.fillStyle='#0e1a33';ctx.fillRect(0,0,W,H);const r=mulberry(7);
+ for(let i=0;i<120;i++){const x=r()*W,y=r()*H,b=Math.sin(performance.now()/700+i)*6;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,(y+b)%H,1.5+r()*1.5,0,7);ctx.fill()}
+ drawTanne(ctx,120,560,2.2);drawTanne(ctx,840,560,2.6);drawTanne(ctx,740,570,1.6);drawTanne(ctx,220,572,1.5);
+ ctx.textAlign='center';ctx.fillStyle='#c92f2f';ctx.font='bold 44px sans-serif';ctx.fillText('\ud83c\udf84 Berndt \u2013 Der Weihnachts-Wichtel \ud83c\udf84',W/2,150);
+ ctx.fillStyle='#ffe9b0';ctx.font='17px sans-serif';ctx.fillText('Schleich dich durch Frohnau \u2013 ein adventliches Weihnachts-Stealth-Abenteuer',W/2,200);
+ ctx.fillStyle='#cfe0ff';ctx.font='15px sans-serif';
+ ['WASD / Pfeiltasten \u2013 bewegen','E \u2013 benutzen / items aufheben / reden','Q \u2013 Quests annehmen & ansehen  |  Hotbar 1-8: Items einsetzen','Bewege dich: 4 Hauptquests (Beleuchtung, Kirchweg, Orgel, Wunschzettel) bis Tag 24!','Verdacht: 60 Sekunden in einem Verdachtsradius = erwischt. Die Leiste sinkt NIE.','','Dr\u00fccke ENTER zum Start \u2013 Autosave ist aktiv, du kannst als Datei speichern (Knopf oben rechts)'].forEach((l,i)=>ctx.fillText(l,W/2,250+i*28));
+ ctx.textAlign='left'}
+function render(){if(G.screen==='title'){drawTitle();return}
+ const m=MAPS[G.map];ctx.fillStyle='#0b1220';ctx.fillRect(0,0,W,H);
+ if(!m.cacheDrawn){m.cache=m.cache||document.createElement('canvas');m.cache.width=m.w;m.cache.height=m.h;m.paint(m.cache.getContext('2d'));m.cacheDrawn=true}
+ cam.x=clamp(G.px-W/2,0,Math.max(0,m.w-W));cam.y=clamp(G.py-H/2,0,Math.max(0,m.h-H));
+ ctx.save();ctx.translate(-cam.x,-cam.y);ctx.drawImage(m.cache,0,0);
+ for(const p of m.portals){ctx.fillStyle='rgba(255,220,120,'+(0.15+0.1*Math.sin(performance.now()/300))+')';ctx.fillRect(p.x,p.y,p.w,p.h)}
+ for(const i of m.inter){ctx.fillStyle='rgba(120,200,255,.28)';ctx.beginPath();ctx.arc(i.x,i.y,26,0,7);ctx.fill();ctx.fillStyle='#7fd8ff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText(i.label,i.x,i.y-30);ctx.textAlign='left'}
+ for(const it of m.items)drawItemSprite(ctx,it);
+ for(const n of NPCs){if(n.map!==m.id)continue;const d=Math.hypot(n.x-G.px,n.y-G.py),rr=n.sleeping?n.rad*0.6:n.rad;
+  ctx.strokeStyle=d<rr?'rgba(255,80,60,'+(0.35+0.4*Math.sin(performance.now()/150))+')':'rgba(255,120,80,.16)';ctx.setLineDash([6,5]);ctx.lineWidth=2;ctx.beginPath();ctx.arc(n.x,n.y,rr,0,7);ctx.stroke();ctx.setLineDash([]);
+  ctx.save();ctx.translate(n.x,n.y);if(n.kind==='human')drawHuman(ctx,0,0,n.c1,n.c2,n.skin,n.walk,n.sleeping);
+  else if(n.kind==='cat')drawCat(ctx,0,0,n.walk,n.sleeping||G.katzeSleep>0);else if(n.kind==='dog')drawDog(ctx,0,0,n.walk);else drawBird(ctx,0,0,n.walk);
+  if(n.alert>0){ctx.fillStyle='#ff5544';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillText('!',0,-34);ctx.textAlign='left'}
+  ctx.restore()}
+ if(G.map==='haus_eg'&&(G.flags.feast||day()>=24)){ctx.fillStyle='#8b5a2b';ctx.beginPath();ctx.ellipse(612,388,26,15,0,0,7);ctx.fill();ctx.fillStyle='#6a4c30';ctx.beginPath();ctx.ellipse(612,398,22,9,0,0,7);ctx.fill();ctx.fillStyle='#e8cfa0';ctx.fillRect(596,372,32,12)}
+ if(event&&G.map==='haus_eg'){ctx.save();ctx.translate(event.x,event.y);drawHuman(ctx,0,0,event.kind==='nikolaus'?'#6a4a2a':'#c92f2f','#5a3a2a','#e8b99a',event.walk);ctx.restore()}
+ if(G.map==='haus_eg'&&G.flags.santa){for(let i=0;i<4;i++){drawRR(ctx,352+i*22,462,20,16,3,['#c92f2f','#3d6aa8','#3f8a52','#ffd34d'][i]);ctx.fillStyle='#ffd34d';ctx.fillRect(352+i*22,462,20,3)}}
+ if(G.map==='keller'&&false){}
+ ctx.save();ctx.translate(G.px,G.py);drawElf(ctx,0,0,G.walk||0);ctx.restore();
+ if(MAPS[G.map].indoor&&!isNight()){const px=G.px-cam.x,py=G.py-cam.y;ctx.save();const gr=ctx.createRadialGradient(px,py,6,px,py,90);gr.addColorStop(0,'rgba(255,228,160,.18)');gr.addColorStop(1,'rgba(255,228,160,0)');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);ctx.restore()}
+ ctx.restore();drawHUD();
+ if(G.screen==='win'||G.screen==='lose'){ctx.fillStyle='rgba(6,10,22,.85)';ctx.fillRect(0,0,W,H);ctx.textAlign='center';
+  if(G.screen==='win'){ctx.fillStyle='#ffd98a';ctx.font='bold 40px sans-serif';ctx.fillText('\ud83c\udf85 Frohe Weihnachten, Berndt!',W/2,250);ctx.fillStyle='#cfe0ff';ctx.font='16px sans-serif';ctx.fillText('Alle Hauptquests geschafft \u2013 das Dorf erstrahlt, die Orgel klingt, die W\u00fcnsche sind auf dem Weg.',W/2,300)}
+  else{ctx.fillStyle='#ff8a7a';ctx.font='bold 40px sans-serif';ctx.fillText('\ud83d\ude31 Erwischt \u2013 oder die Zeit ist um!',W/2,250);ctx.fillStyle='#cfe0ff';ctx.font='16px sans-serif';ctx.fillText(G.loseWhy||'',W/2,300)}
+  ctx.fillStyle='#ffd98a';ctx.font='15px sans-serif';ctx.fillText('ENTER \u2013 Neues Spiel \u21bb | Lade deinen Spielstand mit \ud83d\udcc2 wieder (falls gespeichert)',W/2,360);ctx.textAlign='left'}}
+let cam={x:0,y:0};
+function startNew(){for(const k in inv)inv[k]=0;for(const q in Q){Q[q].st='offer';Q[q].step=0}
+ G={screen:'play',time:0,speed:1,susp:0,map:'dorf',px:1080,py:472,walk:0,flags:{collected:[]},katzeSleep:0,portalCd:0};
+ buildWorld();initNPCs2();document.getElementById('questPanel').style.display='none'}
+function saveObj(){return {v:1,time:G.time,speed:G.speed,susp:G.susp,map:G.map,px:G.px,py:G.py,walk:G.walk,flags:G.flags,katzeSleep:G.katzeSleep,quest:JSON.parse(JSON.stringify(Q)),inv:Object.assign({},inv),collectd:null,collected:G.flags.collected}}
+function applySave(d){startNew();G.time=d.time;G.speed=d.speed;G.susp=d.susp;G.map=d.map;G.px=d.px;G.py=d.py;G.walk=d.walk||0;G.flags=d.flags;G.flags.collected=d.flags.collected||[];G.katzeSleep=d.katzeSleep||0;
+ Object.assign(Q,d.quest);for(const k in d.inv)inv[k]=d.inv[k];buildWorld();
+ const col=new Set([].concat(G.flags.collected,d.collected||[]));
+ MAPS[G.map].items=MAPS[G.map].items.filter(i=>!col.has(i.rid));
+ ['haus_eg','haus_og'].forEach(mm=>{MAPS[mm].items=MAPS[mm].items.filter(i=>!col.has(i.rid))});
+ clearCaches();if(window)toast('\ud83d\udcbe Spielstand geladen!')}
+function clearCaches(){for(const m in MAPS){MAPS[m].cacheDrawn=false}}
+function drawQuestHint(){const act=QUESTS.find(q=>Q[q.id].st==='active');if(!act)return;const s=Q[act.id].step;
+ const txt=(act.main?'[HAUPT] ':'[Neben] ')+act.title+' \u2013 Schritt '+(s+1)+': '+act.steps[Math.min(s,act.steps.length-1)];
+ ctx.font='bold 13px sans-serif';const w=ctx.measureText(txt).width+30;
+ drawRR(ctx,W/2-w/2,8,w,26,8,'rgba(10,18,34,.72)','#8a6a2a');ctx.fillStyle='#ffe9b0';ctx.fillText(txt,W/2-w/2+15,26)}
+document.getElementById('btnSpeed').onclick=()=>{const i=(SPEEDS.indexOf(G.speed)+1)%3;G.speed=SPEEDS[i];document.getElementById('btnSpeed').textContent='\u23e9 Zeit \u00d7'+G.speed;toast('Zeitfaktor: \u00d7'+G.speed+(G.speed>1?' \u2013 NPCs laufen auch schneller!':''))};
+document.getElementById('btnSave').onclick=()=>{const blob=new Blob([JSON.stringify(saveObj(),null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='berndt_spielstand.json';a.click();toast('\ud83d\udcbe Spielstand als Datei gespeichert (Downloads-Ordner)')};
+document.getElementById('btnLoad').onclick=()=>document.getElementById('loadfile').click();
+document.getElementById('loadfile').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{applySave(JSON.parse(t))}catch(err){toast('\u274c Keine g\u00fcltige Spielstands-Datei.')}})};
+setInterval(()=>{if(G.screen==='play')try{localStorage.setItem('berndt_autosave',JSON.stringify(saveObj()))}catch(e){}},10000);
+addEventListener('beforeunload',()=>{if(G.screen==='play')try{localStorage.setItem('bernt_auto','1');localStorage.setItem('berndt_autosave',JSON.stringify(saveObj()))}catch(e){}});
+addEventListener('keydown',e=>{if(e.key==='Enter'){if(G.screen==='title'||G.screen==='win'||G.screen==='lose')startNew()}
+ if(e.key.toLowerCase()==='l'&&G.screen==='title'){try{const d=localStorage.getItem('berndt_autosave');if(d){applySave(JSON.parse(d))}else toast('Kein Auto-Save gefunden \u2013 dr\u00fccke ENTER f\u00fcr ein neues Spiel.')}catch(err){}}});
+let loopLast=performance.now();
+function loop(){const now=performance.now();let dt=Math.min(0.05,(now-loopLast)/1000);loopLast=now;
+ if(keys['e']){}update(dt);render();if(G.screen==='play')drawQuestHint();requestAnimationFrame(loop)}
+buildRuntime();requestAnimationFrame(loop);
+</script></body></html>
