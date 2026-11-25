@@ -1,23 +1,33 @@
 # 🎄 Berndt – Der Weihnachts-Wichtel
-Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil, spielbar in **einer einzigen HTML-Datei**.
+Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer einzigen HTML-Datei** – jetzt mit **Musik** und in **2D- und 3D-Version**.
+
+## Zwei Versionen
+| Datei | Darstellung | Besonderes |
+|---|---|---|
+| `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Don't-bloß-Rects-Grafik) | sehr schnell, läuft überall |
+| `berndt-3d.html` | **3D** (Three.js, Low-Poly-Stil aus Software-Cospript-Modell) | Kamera mit gedrückter Maustaste drehen (braucht Internet für Three.js-Laden aus CDN) |
+
+Beide haben dieselben Quests, NPCs, Minispiele, Tag/Nacht (2 min) und Kalender (4 min), Speichern/Laden und **Musik (🔊 Jingle Bells, Taste-Button oben rechts)**.
 
 ## Spielen
-1. Datei `berndt-weihnachtsspiel.html` herunterladen
-2. Doppelklick → öffnet sich im Browser (kein Server nötig, kein Internet nötig)
-3. **Enter** zum Starten
+1. Datei herunterladen (siehe Tabelle)
+2. Doppelklick → öffnet sich im Browser
+3. **Enter** zum Starten (Musik startet automatisch, kann per 🔊-Button an/aus)
 
-## Steuerung
+## Steuerung (beide Versionen)
 | Taste | Aktion |
 |---|---|
 | WASD / Pfeile | Berndt bewegen |
 | E | Benutzen / aufheben / reden |
 | Q | Quests annehmen & ansehen |
 | 1–8 | Gegenstände aus der Hotbar einsetzen |
+| Maus ziehen | (nur 3D) Kamera drehen |
 
 ## Spielprinzip
-- 4 **Hauptquests** bis Tag 24 (Sonst verloren): Weihnachtsbeleuchtung, Kirchweg freischaufeln, Orgel reparieren, 5 Wunschzettel aus 5 Gärten
-- 8 Nebenquests (Baum schmücken, Adventskranz, Schneemann, Wunschbrief, Glitzer mit Lupe, Nikolaus-Mandarinen …)
-- Verdachtsradien bei Menschen und Tieren – die Leiste sinkt nie; 60 Sekunden in Radien = erwischt
-- Tag/Nacht alle 2 Minuten, Kalender alle 4 Minuten, ⏩ Zeit ×1/×5/×15
-- Tag 6: Nikolaus · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken
-- 💾 Speichern als Datei + Autosave (L auf dem Titelbildschirm lädt automatisch)
+- 4 **Hauptquests** bis Tag 24 (sonst verloren): Weihnachtsbeleuchtung im ganzen Dorf, Kirchweg freischaufeln, Orgel in der Kirche reparieren, 5 Wunschzettel aus 5 Gärten → Postkasten
+- 8 Nebenquests: Baum schmücken, Adventskranz (4 Kerzen), Schneemann, Weihnachtsbrief, Glitzer mit Lupe, Nikolaus-Mandarinen, Zimtstange für Oma, Spielzeugmaus für den Kater
+- Verdachtsradien bei **allen Menschen und Tieren** im ganzen Dorf – die Leiste sinkt nie; 60 Sekunden kumulativ in Radien = erwischt
+- Tag/Nacht alle 2 Minuten (mit Dunkelheit + Lichtkegel um Berndt), Kalender alle 4 Minuten
+- Tag 6: Nikolaus (vom Kamin bis zur Haustür, 4 Mandarinen im Kinderzimmer) · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken
+- ⏩ Zeit ×1/×5/×15 – spült die Tage echt vor
+- 📾 Speichern als Datei (Download) + Autosave im Browser

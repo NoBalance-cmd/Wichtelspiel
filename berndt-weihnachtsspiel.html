@@ -46,6 +46,7 @@
 <body>
 <div id="wrap"><canvas id="game" width="960" height="600"></canvas></div>
 <div id="toolbar">
+  <button id="btnMusic" onclick="toggleMusic()">🔇 Musik: aus</button>
   <button id="btnSpeed">⏩ Zeit ×1</button>
   <button id="btnQuests">📜 Quests (Q)</button>
   <button id="btnSave">💾 Speichern als Datei</button>
@@ -65,6 +66,14 @@ let toastBox=document.getElementById('toasts');
 function toast(msg){const d=document.createElement('div');d.className='toast';d.innerHTML=msg;toastBox.appendChild(d);setTimeout(()=>d.remove(),3300)}
 let audioCtx=null;
 function beep(freq,dur,type){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'sine';o.frequency.value=freq;g.gain.value=0.06;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+(dur||0.15));o.stop(audioCtx.currentTime+(dur||0.15))}catch(e){}}
+
+const MUSIC={on:false,step:0,timer:0,
+ MEL:[[659,.25],[659,.25],[659,.5],[659,.25],[659,.25],[659,.5],[659,.25],[784,.25],[523,.25],[587,.25],[659,.9],[0,.15],
+      [587,.25],[587,.25],[784,.25],[659,.25],[784,.25],[880,.5],[554,.25],[784,.25],[659,.25],[587,.25],[523,1],[0,.35]],
+ start(){if(this.on)return;this.on=true;this.timer=setInterval(()=>this.tick(),140)},
+ stop(){this.on=false;clearInterval(this.timer)},
+ tick(){const c=this.MEL[this.step%this.MEL.length];if(c[0]>0)beep(c[0],Math.max(0.12,c[1]*0.9),'triangle');if(this.step%2===0)beep(2400,0.03,'square');this.step++}};
+function toggleMusic(){if(!MUSIC.on){MUSIC.start();document.getElementById('btnMusic').textContent='\U0001F50A Musik: an';toast('\U0001F3B5 Jingle Bells l\u00e4uft!')}else{MUSIC.stop();document.getElementById('btnMusic').textContent='\U0001F507 Musik: aus'}}
 
 const ITEMS={
   lichtkette:{name:'Lichterkette',col:'#ffd34d',stack:true},
