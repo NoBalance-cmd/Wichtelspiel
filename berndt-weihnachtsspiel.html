@@ -274,7 +274,7 @@ function buildWorld(){for(const m in MAPS){MAPS[m].npcs=[];MAPS[m].items=[]}
  gardenSpots.forEach((gs,i)=>{MAPS.dorf.items.push({map:'dorf',x:gs.gx,y:gs.gy,id:'wunschzettel',rid:'wz'+i})})}
 let NPCs=[];
 function initNPCs2(){NPCs=[];
- const mk=(map,name,kind,x,y,pts,c1,c2,rad,spd)=>{const n={map,name,kind,x,y,pts:pts||null,pi:0,c1,c2,rad:rad||95,spd:spd||55,walk:0,sleeping:false,alert:0,sx:x,sy:y};NPCs.push(n);return n};
+ const mk=(map,name,kind,x,y,pts,c1,c2,rad,spd)=>{if(kind==='human'&&!c2)c2=c1;const n={map,name,kind,x,y,pts:pts||null,pi:0,c1,c2,rad:rad||95,spd:spd||55,walk:0,sleeping:false,alert:0,sx:x,sy:y};NPCs.push(n);return n};
  mk('dorf','Frau Berg','human',300,560,[[300,560],[3400,560]],'#b84a6a','#3a3450',95,50);
  mk('dorf','Herr Klein','human',2350,560,[[2350,560],[700,560]],'#3d6aa8','#2a3550',95,45);
  mk('dorf','Postboten-August','human',1200,880,[[700,880],[1900,880]],'#2e7d5b','#274356',95,62);
@@ -726,7 +726,8 @@ function drawIntro(g){const t=G.introT||0,tn=performance.now();g.save();
  for(let x=0;x<960;x+=160){g.fillStyle='#22314d';g.fillRect(x,508,104,50);g.beginPath();g.moveTo(x-14,508);g.lineTo(x+52,452);g.lineTo(x+118,508);g.closePath();g.fill();if((x/160)%2){g.fillStyle='#ffe9b0';g.fillRect(x+22,524,14,12)}}
  g.fillStyle='#e8eef5';g.fillRect(0,552,960,48);
  if(t<5.6){const sx=-340+t*300+60,sy=150+Math.sin(t*2.4)*12;
-  for(let i=0;i<2;i++){const rx2=sx-92-i*34,ry2=sy+8+Math.sin(t*3+i*2)*5;g.fillStyle='#9a6a3a';g.fillRect(rx2,ry2,26,18);g.fillRect(rx2+20,ry2-8,18,10);g.strokeStyle='#c98a4a';g.lineWidth=2.5;g.beginPath();g.moveTo(rx2+4,ry2-8);g.lineTo(rx2,ry2-18);g.moveTo(rx2+8,ry2-8);g.lineTo(rx2+9,ry2-19);g.stroke();g.fillStyle='#c92f2f';g.beginPath();g.arc(rx2+34,ry2+2,2.2,0,7);g.fill()}
+  for(let i=0;i<2;i++){const rx2=sx+108+i*36,ry2=sy+8+Math.sin(t*3+i*2)*5;const gal=Math.sin(t*9+i*1.7)*3;g.strokeStyle='#6a4a30';g.lineWidth=2.4;g.beginPath();g.moveTo(rx2+5,ry2+16);g.lineTo(rx2+4+gal,ry2+27);g.moveTo(rx2+19,ry2+16);g.lineTo(rx2+20-gal,ry2+27);g.stroke();g.fillStyle='#9a6a3a';g.fillRect(rx2,ry2,26,17);g.fillRect(rx2+20,ry2-8,18,10);g.fillStyle='#7d5535';g.fillRect(rx2+2,ry2+4,22,13);g.fillStyle='#3a2a1c';g.fillRect(rx2+2,ry2+15,6,4);g.fillRect(rx2+18,ry2+15,6,4);g.strokeStyle='#c98a4a';g.lineWidth=2.5;g.beginPath();g.moveTo(rx2+4,ry2-8);g.lineTo(rx2-1,ry2-19);g.moveTo(rx2+8,ry2-8);g.lineTo(rx2+10,ry2-20);g.moveTo(rx2-1,ry2-19);g.lineTo(rx2-4,ry2-24);g.moveTo(rx2+10,ry2-20);g.lineTo(rx2+13,ry2-25);g.stroke();g.fillStyle='#c92f2f';g.beginPath();g.arc(rx2+37,ry2+3,2.2,0,7);g.fill()}
+  g.strokeStyle='#4a3524';g.lineWidth=1.6;g.beginPath();g.moveTo(sx+96,sy+16);g.quadraticCurveTo(sx+104,sy+4,sx+116,sy+10);g.moveTo(sx+96,sy+16);g.quadraticCurveTo(sx+146,sy+2,sx+152,sy+11);g.stroke()
   g.fillStyle='#8b5a2b';g.fillRect(sx-60,sy+14,64,6);
   g.fillStyle='#c23b3b';g.fillRect(sx,sy,92,36);g.fillStyle='#ffd34d';g.fillRect(sx,sy+32,92,6);g.strokeStyle='#8b5a2b';g.lineWidth=3.5;g.beginPath();g.moveTo(sx-6,sy+44);g.lineTo(sx+98,sy+44);g.stroke();
   g.fillStyle='#2a3550';g.fillRect(sx,sy,6,40);g.fillRect(sx+86,sy,6,40);
