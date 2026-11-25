@@ -137,7 +137,7 @@ const QUESTS=[
  {id:'katze',main:false,title:'Spielzeugmaus für den Kater',
   steps:['Unter dem Sofa im Wohnzimmer versteckt sich eine Spielzeugmaus.','Gib dem Kater vor OGFLUR die Maus – er wird 60 Sekunden tief und fest schlafen.']},
  {id:'streuner',main:false,title:'Streunerkatze Mimi zaehmen'.replace('zaehmen','z\u00e4hmen'),
-  steps:['Eine scheue Streunerkatze streicht um den zugefrorenen See \u2013 Fisch mag sie am liebsten, Fleisch geht zur Not.','Sprich Mimi am Eissee an und gib ihr etwas zu fressen \u2013 dann folgt sie dir auf Schritt und Tritt.']}
+  steps:['Eine scheue Streunerkatze streicht um den zugefrorenen See \u2013 Fisch mag sie am liebsten, Fleisch geht zur Not.','Geh in ihre N\u00e4he am Eissee (im S\u00fcden, Karte M) \u2013 sobald du Fisch oder Fleisch dabei hast, f\u00fcttert Berndt sie dort automatisch und sie folgt dir dann \u00fcberall hin.']}
 ];
 const Q={};for(const q of QUESTS)Q[q.id]={st:'offer',step:0};
 let G={screen:'title',time:0,speed:1,susp:0,map:'dorf',px:1050,py:640,flags:{},katzeSleep:0,portalCd:0,msg:''};
@@ -687,7 +687,7 @@ function handInPostkasten(){let did=false;
  if(Q.zettel.st==='active'&&Q.zettel.step>=1&&inv.wunschzettel>=5){inv.wunschzettel-=5;questStep('zettel');did=true}
  if(Q.brief.st==='active'&&Q.brief.step>=2&&inv.brief>=1){inv.brief--;questStep('brief');did=true}
  if(!did)toast('\ud83d\udceb Hier kannst du deine Wunschzettel (5 St\u00fcck) oder den Weihnachtsbrief einwerfen.')}
-function updateNPCs(dt){const ts=Math.min(15,Math.max(1,G.speed|0));for(const n of NPCs){if(n.map!==G.map)continue;if(n.name==='Streunerkatze Mimi'&&G.flags.katzeZahm)continue;n.alert=Math.max(0,n.alert-dt*2);
+function updateNPCs(dt){const ts=Math.min(15,Math.max(1,G.speed|0));for(const n of NPCs){if(n.map!==G.map)continue;if(n.name==='Streunerkatze Mimi'&&G.flags.katzeZahm)continue;n.alert=Math.max(0,n.alert-dt*2);if(n.name==='Streunerkatze Mimi'&&Math.hypot(n.x-G.px,n.y-G.py)<95&&(inv.fisch>0||inv.fleisch>0))tameAttempt();
  const feast=day()>=24&&!isNight()&&n.map==='haus_eg'&&n.kind==='human';
  const night=isNight()&&MAPS[n.map].indoor;
  if(n.name==='Kater Murr'&&G.katzeSleep>0){n.sleeping=true}else n.sleeping=night;
@@ -753,7 +753,7 @@ function drawItemSprite(g,it){const b=Math.sin(performance.now()/300+it.x)*3;g.f
 function tryInteract(){if(G.screen!=='play')return;const m=MAPS[G.map];let best=null,bd=60;
  for(const i of m.inter){const d=Math.hypot(i.x-G.px,i.y-G.py);if(d<bd){bd=d;best=i}}
  if(best){best.fn();return}
- for(const n of NPCs){if(n.map!==G.map)continue;const d=Math.hypot(n.x-G.px,n.y-G.py);if(d<56){talkTo(n);return}}
+ for(const n of NPCs){if(n.map!==G.map)continue;const d=Math.hypot(n.x-G.px,n.y-G.py);if(d<(n.name==='Streunerkatze Mimi'?110:56)){talkTo(n);return}}
  if(best===null)toast('\u2026')}
 function talkTo(n){if(n.name==='Streunerkatze Mimi'){tameAttempt();return}if(n.name==='Oma'&&inv.zimt>0&&Q.zimt.st==='active'&&Q.zimt.step>=1){inv.zimt--;toast('\ud83e\uddf5 Oma: \u201eZimt! Jetzt kannst die Pl\u00e4tzchenbackstube wieder gl\u00e4nzen, mein Schatz. Danke, Wichtel!\u201c');questStep('zimt');return}
  G.susp=Math.min(96,G.susp+3);n.alert=1;
@@ -767,6 +767,7 @@ function toggleItem(i){const owned=Object.keys(ITEMS).filter(k=>inv[k]>0);const 
  else if(id==='maus'){const kat=NPCs.find(n=>n.name==='Kater Murr');if(kat&&kat.map!==G.map){toast('\ud83d\udc2d Der Kater ist im 1. Stock im Flur.');return}
   if(!kat||Math.hypot(kat.x-G.px,kat.y-G.py)>90){toast('\ud83d\udc2d Sei n\u00e4her beim Kater!');return}
   inv.maus--;G.katzeSleep=60;kat.sleeping=true;toast('\ud83d\udc31 Der Kater schnurrt und schl\u00e4ft 60 Sekunden tief und fest!');if(Q.katze.st==='active'&&Q.katze.step>=1)questStep('katze')}
+ else if(id==='fisch'||id==='fleisch'){toast('\ud83d\udc1f Fisch/Fleisch sind f\u00fcr Mimi am Eissee (S\u00fcden des Dorfes, Karte M). Geh nah genug heran \u2013 die F\u00fctterung passiert dann automatisch!');return}
  else toast(ITEMS[id].name+': \u201eWird automatisch bei N\u00e4he aufgehoben\u201c')+(id==='mandarine'||id==='kristall'?'':' ')}
 function questPanelHTML(){const main=QUESTS.filter(q=>q.main),nb=QUESTS.filter(q=>!q.main);
  const card=q=>{const s=Q[q.id],cnt=s.st==='active'&&q.counter?' <span style="color:#ffd98a">('+Math.min(inv[q.counter.item],q.counter.need)+'/'+q.counter.need+')</span>':'';
@@ -795,17 +796,19 @@ MGS.shovel=mg=>{mg.innerHTML='<h3>\u26cf\ufe0f Kirchweg freischaufeln</h3><b id=
   for(const p of piles){if(p.hp<=0)continue;g.fillStyle='#f5f9fd';g.beginPath();g.ellipse(p.x,p.y,30,16+p.hp*4,0,0,7);g.fill();g.strokeStyle='#8d9aa8';g.stroke();g.fillStyle='#132441';g.font='11px sans-serif';g.textAlign='center';g.fillText(p.hp+'x',p.x,p.y+4);g.textAlign='left'}
   if(done)g.font='bold 22px sans-serif',g.fillStyle='#3f8a52',g.fillText('Fertig!',210,150);
   mg.querySelector('#shtime').textContent='Zeit: '+t.toFixed(1)+' s \u2013 klicke jede Schneeh\u00e4ufung 3\u00d7!'},100)};
-MGS.organ=mg=>{mg.innerHTML='<h3>\ud83c\udfb5 Orgel reparieren</h3><p style="font-size:13px">H\u00f6r die Melodie und wiederhole sie.</p><div id="pipes"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
+MGS.organ=mg=>{mg.innerHTML='<h3>\ud83c\udfb5 Orgel reparieren</h3><p style="font-size:13px">Leichter Modus: die farbigen Punkte zeigen dir die Reihenfolge \u2013 einfach nachspielen.</p><div id="goaldots" style="display:flex;justify-content:center;gap:7px;margin:6px 0;min-height:22px"></div><div id="pipes"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
  const cols=['#c92f2f','#e8a03d','#ffd34d','#3f8a52','#3d6aa8','#8a3a9a'],fqs=[262,294,330,392,440,523],pipes=mg.querySelector('#pipes');
  cols.forEach((c,i)=>{const b=document.createElement('button');b.className='orgpipe';b.style.background=c;b.textContent='\u266a';b.onclick=()=>hit(i);pipes.appendChild(b)});
- const round=()=>{seq=[...Array(3+RND()).keys()];seq=seq.map((_,i)=>Math.floor(Math.rand&&Math.rand()||0))};
- let goal=[],seq=[],input=[],rnd=0;
- const next=()=>{goal=Array.from({length:3+rnd},()=>Math.floor(Math.random()*6));input=[];playSeq()};
- const playSeq=()=>{let i=0;const iv=setInterval(()=>{if(i>=goal.length){clearInterval(iv);return}const k=goal[i++];beep(fqs[k],0.25,'triangle');const p=pipes.children[k];p.classList.add('flash');setTimeout(()=>p.classList.remove('flash'),220)},320)};
+
+ const dots=mg.querySelector('#goaldots');
+ const showDots=()=>{dots.innerHTML=goal.map(k=>'<span style="width:20px;height:20px;border-radius:50%;display:inline-block;background:'+cols[k]+';box-shadow:0 0 8px '+cols[k]+'"></span>').join('')};
+ let goal=[],input=[],rnd=0;
+ const next=()=>{goal=Array.from({length:3},()=>Math.floor(Math.random()*6));input=[];showDots();playSeq()};
+ const playSeq=()=>{let i=0;const iv=setInterval(()=>{if(i>=goal.length){clearInterval(iv);return}const k=goal[i++];beep(fqs[k],0.25,'triangle');const p=pipes.children[k];p.classList.add('flash');setTimeout(()=>p.classList.remove('flash'),220)},430)};
  function hit(i){beep(fqs[i],0.2,'triangle');input.push(i);const k=input.length-1;
-  if(goal[k]!==i){toast('\u274c Falsch! Nochmal von vorn.'),
-   input=[],rnd=Math.max(0,rnd-1),setTimeout(playSeq,600);return}
-  if(input.length===goal.length){rnd++;if(rnd>=3){G.flags.organ=true;beep(392,.4,'triangle');toast('\ud83c\udfb5 Die Orgel klingt wieder wundersch\u00f6n!');finQ('orgel');setTimeout(closeMG,600)}else{toast('\u2713 Richtig! n\u00e4chste Runde\u2026');setTimeout(next,700)}}}
+  if(goal[k]!==i){toast('\u274c Nicht ganz \u2013 schau auf die farbigen Punkte! Nochmal.'),
+   input=[],setTimeout(playSeq,600);return}
+  if(input.length===goal.length){rnd++;if(rnd>=2){G.flags.organ=true;beep(392,.4,'triangle');toast('\ud83c\udfb5 Die Orgel klingt wieder wundersch\u00f6n!');finQ('orgel');setTimeout(closeMG,600)}else{toast('\u2713 Richtig! Jetzt die letzte Runde\u2026');setTimeout(next,700)}}}
  next()};
 MGS.kranz=mg=>{mg.innerHTML='<h3>\ud83d\udd6b\ufe0f Adventskranz: 4 Kerzen von LINKS nach RECHTS<br>z\u00fcnden!</h3><div id="cans" style="display:flex;justify-content:center;gap:14px"></div><div class="mgbtns"><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
  const cans=mg.querySelector('#cans'),lit=[false,false,false,false];
@@ -949,6 +952,7 @@ function render(){if(G.screen==='title'){drawTitle();return}if(G.screen==='intro
   ctx.strokeStyle=d<rr?'rgba(255,80,60,'+(0.35+0.4*Math.sin(performance.now()/150))+')':'rgba(255,120,80,.16)';ctx.setLineDash([6,5]);ctx.lineWidth=2;ctx.beginPath();ctx.arc(n.x,n.y,rr,0,7);ctx.stroke();ctx.setLineDash([]);
   ctx.save();ctx.translate(n.x,n.y);if(n.kind==='human')drawHuman(ctx,0,0,n.c1,n.c2,n.skin,n.walk,n.sleeping);
   else if(n.kind==='cat')drawCat(ctx,0,0,n.walk,n.sleeping||G.katzeSleep>0);else if(n.kind==='dog')drawDog(ctx,0,0,n.walk);else drawBird(ctx,0,0,n.walk);
+  if(n.name==='Streunerkatze Mimi'){const food=inv.fisch>0||inv.fleisch>0;ctx.textAlign='center';ctx.font='bold 12px sans-serif';ctx.strokeStyle='rgba(10,16,30,.85)';ctx.lineWidth=3;ctx.strokeText('\ud83d\udc08 Mimi',0,-28);ctx.fillStyle='#ffffff';ctx.fillText('\ud83d\udc08 Mimi',0,-28);if(food&&d<95){ctx.font='bold 11px sans-serif';ctx.fillStyle='#8fffa8';ctx.fillText('\u2714 Mimi wird gef\u00fcttert\u2026',0,-46)}else if(food){ctx.font='bold 11px sans-serif';ctx.fillStyle='#ffe3a6';ctx.fillText('Fisch/Fleisch bringen!',0,-46)}ctx.textAlign='left'}
   if(n.alert>0){ctx.fillStyle='#ff5544';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillText('!',0,-34);ctx.textAlign='left'}
   ctx.restore()}
  if(G.map==='haus_eg'&&(G.flags.feast||day()>=24)){ctx.fillStyle='#8b5a2b';ctx.beginPath();ctx.ellipse(612,388,26,15,0,0,7);ctx.fill();ctx.fillStyle='#6a4c30';ctx.beginPath();ctx.ellipse(612,398,22,9,0,0,7);ctx.fill();ctx.fillStyle='#e8cfa0';ctx.fillRect(596,372,32,12)}

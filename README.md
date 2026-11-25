@@ -34,7 +34,7 @@ Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Spe
 - Die **S1**: alle 2 Minuten rauscht eine **rot-gelbe Bahn** über die Gleise am Ostrand – **tödlich! Nicht auf die Gleise stellen!**
 - **Mehr begehbare Häuser mit eigenem detailliertem Interieur**: Müller (Backstube), Krüger (Leseecke), Schulz (Musikzimmer), Lehmann (Festsaal) + Alte Scheune (dort liegt der **Tannenast** für den Schneemann!)
 - **Frisch aufgepeppt**: Buntglasfenster in der Kirche, Bahnhofsuhr & Kofferstapel, die **Orgel am Altar** (Hauptquest dort reparieren), Werkzeugwand in der Scheune, Girlanden, Bilderrahmen, Sockelleisten u.v.m.
-- **🐈 Streunerkatze Mimi zähmen** (Nebenquest): Fisch (lieber!) oder Fleisch besorgen – beide sind im Dorf versteckt –, am Eissee anreden und füttern. Danach folgt sie dir überall hin (ohne Verdacht zu erzeugen)
+- **🐈 Streunerkatze Mimi zähmen** (Nebenquest): Fisch (lieber!) oder Fleisch besorgen – beide sind im Dorf versteckt – und in Mimis Nähe am Eissee gehen: Sie wird dann automatisch gefüttert und folgt dir überall hin (ohne Verdacht zu erzeugen). Die Orgel-Aufgabe gibt es jetzt im Leichtmodus mit sichtbarer Reihenfolge
 - **In der Nacht vom 5. auf den 6. Tag**: der Nikolaus läuft dynamisch seine Route – er durchquert das Haus, in dem du gerade bist, oder zweimal über die Straße, wenn du draußen bist (4 Mandarinen im Kinderzimmer) · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken (**gleiche Lauf-Animation**, ebenfalls dynamisch)
 - ⏩ Zeit – spült die Tage vor: **×1 / ×5 / ×15, maximal ×15**
 - Nach Schleichen-Sounds: Türen knarren beim Kartenwechsel, NPCs geben Warn-Piep von sich
