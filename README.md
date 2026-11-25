@@ -5,9 +5,10 @@ Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer e
 | Datei | Darstellung | Besonderes |
 |---|---|---|
 | `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Sprites- u. Szenerie-Grafik) | sehr schnell, läuft überall – **empfohlen & 100 % offline** |
+| `berndt-weihnachtsspiel-detailliert.html` | 2D-Karte **Extra-Detail-Version**: Wichtel, Menschen, Hunde, Vögel, Katzen, Tannen, Weihnachtsbaum, Laternen & Schneemann mit Verläufen, Konturen, Bezier-Formen, animierten Gliedmaßen, Schneekappen, Girlanden & Laternen-Glow | für starke PCs, ebenfalls 100 % offline, gleiche Steuerung wie die Standard-2D-Version |
 | `berndt-3d.html` | 3D-Dorf (Three.js) | experimentell, braucht beim Öffnen kurz Internet (CDN) |
 
-Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Speichern/Laden und **Musik** gibt es in beiden.
+Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Speichern/Laden und **Musik** gibt es in allen 2D-Versionen.
 
 ## Spielen
 1. Datei herunterladen von deinem USB-Stick
