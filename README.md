@@ -4,8 +4,8 @@ Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer e
 ## Zwei Versionen
 | Datei | Darstellung | Besonderes |
 |---|---|---|
-| `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Don't-bloß-Rects-Grafik) | sehr schnell, läuft überall |
-| `berndt-3d.html` | **3D** (Three.js, Low-Poly-Stil aus Software-Cospript-Modell) | Kamera mit gedrückter Maustaste drehen (braucht Internet für Three.js-Laden aus CDN) |
+| `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Sprites- u. Szenerie-Grafik) | sehr schnell, läuft überall |
+| `berndt-3d.html` | **3D** (Three.js, behaglicher Low-Poly-Stil) | Kamera mit gedrückter Maustaste drehen (braucht Internet für Three.js-Laden aus CDN) |
 
 Beide haben dieselben Quests, NPCs, Minispiele, Tag/Nacht (2 min) und Kalender (4 min), Speichern/Laden und **Musik (🔊 Jingle Bells, Taste-Button oben rechts)**.
 
