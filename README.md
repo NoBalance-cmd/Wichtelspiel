@@ -1,7 +1,7 @@
-# 🎄 Berndt – Der Weihnachts-Wichtel
-Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer einzigen HTML-Datei** – jetzt mit **Musik** und in **2D- und 3D-Version**.
+# 🎄 24 Days till Christmas
+Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer einzigen HTML-Datei**.
 
-## Zwei Versionen
+## Das 2D Spiel
 | Datei | Darstellung | Besonderes |
 |---|---|---|
 | `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Sprites- u. Szenerie-Grafik) | sehr schnell, läuft überall |
