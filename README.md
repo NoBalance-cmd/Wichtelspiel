@@ -7,7 +7,7 @@ Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer e
 | `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Sprites- u. Szenerie-Grafik) | sehr schnell, läuft überall – **empfohlen & 100 % offline** |
 | `berndt-3d.html` | 3D-Dorf (Three.js) | experimentell, braucht beim Öffnen kurz Internet (CDN) |
 
-Quests, NPCs, Minispiele, Tag/Nacht (2 min) und Kalender (4 min), Speichern/Laden und **Musik** gibt es in beiden.
+Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Speichern/Laden und **Musik** gibt es in beiden.
 
 ## Spielen
 1. Datei herunterladen von deinem USB-Stick
@@ -28,10 +28,15 @@ Quests, NPCs, Minispiele, Tag/Nacht (2 min) und Kalender (4 min), Speichern/Lade
 - 4 **Hauptquests** bis Tag 24 (sonst verloren): Weihnachtsbeleuchtung im ganzen Dorf, Kirchweg freischaufeln, Orgel in der Kirche reparieren, 5 Wunschzettel aus 5 Gärten → Postkasten
 - 8 Nebenquests: Baum schmücken, Adventskranz (4 Kerzen), Schneemann, Weihnachtsbrief, Glitzer mit Lupe, Nikolaus-Mandarinen, Zimtstange für Oma, Spielzeugmaus für den Kater
 - Verdachtsradien bei **allen Menschen und Tieren** im ganzen Dorf – die Leiste sinkt nie; ca. **45 Sekunden** kumulativ in Radien = erwischt (Nähe beschleunigt)
-- Tag/Nacht alle 2 Minuten (mit Dunkelheit + **Lichtkegel um Berndt**, damit man ihn nachts sieht), Kalender alle 4 Minuten
+- **Ein ganzer Tag = 2 Minuten** (Morgen, Tag, Abend und Nacht je 30 Sekunden) mit Dunkelheit + **Lichtkegel um Berndt**; der Küchen-Kalender zählt jeden Tag um 1 hoch
+- Ein **S1-Zug rauscht regelmäßig** über die Gleise am Ostrand des Dorfes
+- **Mehr begehbare Häuser mit eigenem detailliertem Interieur**: Müller (Backstube), Krüger (Leseecke), Schulz (Musikzimmer), Lehmann (Festsaal) + Alte Scheune (dort liegt der **Tannenast** für den Schneemann!)
+- **Frisch aufgepeppt**: Buntglasfenster in der Kirche, Bahnhofsuhr & Kofferstapel, Plüschbär im Laden, Werkzeugwand in der Scheune, Girlanden, Bilderrahmen, Sockelleisten u.v.m.
 - Tag 6: Nikolaus (vom Kamin bis zur Haustür, 4 Mandarinen im Kinderzimmer) · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken
 - ⏩ Zeit – spült die Tage vor: **×1 / ×5 / ×15, maximal ×15**
 - Nach Schleichen-Sounds: Türen knarren beim Kartenwechsel, NPCs geben Warn-Piep von sich
+- Die aktive Quest wird **oben rechts in der Leiste** (neben Musik & Zeit) angezeigt, mit Fortschritt in Schritten
+- **Vor der Quest-Annahme gefundene Gegenstände zählen automatisch** – nichts geht verloren
 - 💾 Speichern als Datei (Download) + Autosave im Browser >>>>> Datei auf den USB-Stick ziehen und jederzeit und überall den passenden Spielstand haben
 
 ## Dorf & Karte
