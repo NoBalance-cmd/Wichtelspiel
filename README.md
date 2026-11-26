@@ -1,52 +1,153 @@
 # 🎄 24 Days till Christmas
-Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer einzigen HTML-Datei**.
+
+*Berndt – Der Weihnachts-Wichtel*
+
+Ein Weihnachts-Stealth-Abenteuer im Frohnau-Stil (Berlin), spielbar in **einer einzigen HTML-Datei** – 100 % offline, kein Installer, keine Internetverbindung nötig.
+
+---
 
 ## Die Spiel-Versionen
+
 | Datei | Darstellung | Besonderes |
 |---|---|---|
-| `berndt-weihnachtsspiel.html` | 2D-Karte (detaillierte Sprites- u. Szenerie-Grafik) | sehr schnell, läuft überall – **empfohlen & 100 % offline** |
-| `berndt-weihnachtsspiel-detailliert.html` | 2D-Karte **Extra-Detail-Version**: Wichtel, Menschen, Hunde, Vögel, Katzen, Tannen, Weihnachtsbaum, Laternen & Schneemann mit Verläufen, Konturen, Bezier-Formen, animierten Gliedmaßen, Schneekappen, Girlanden & Laternen-Glow | für starke PCs, ebenfalls 100 % offline, gleiche Steuerung wie die Standard-2D-Version |
-| `berndt-3d.html` | 3D-Dorf (Three.js) | experimentell, braucht beim Öffnen kurz Internet (CDN) |
+| `berndt-weihnachtsspiel.html` | 2D-Karte mit detaillierten Sprites & Szenengrafik | sehr schnell, läuft auf praktisch jedem PC – **empfohlen & 100 % offline** |
+| `berndt-weihnachtsspiel-detailliert.html` | 2D-Karte **Extra-Detail-Version**: Wichtel, Menschen, Hunde, Vögel, Katzen, Tannen, Weihnachtsbäume, Laternen & Schneemann mit Farbverläufen, Konturen, Bezier-Formen, animierten Gliedmaßen, Schneekappen, Girlanden & Laternen-Glühen | für starke PCs, ebenfalls 100 % offline, identische Steuerung |
+| `berndt-3d.html` | 3D-Dorf (Three.js) | experimentell, **eingefroren** – braucht beim Öffnen kurz Internet (CDN) |
 
-Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Speichern/Laden und **Musik** gibt es in allen 2D-Versionen.
+Alle Spielinhalte (Quests, NPCs, Minispiele, 2-Minuten-Tage, Speichern/Laden, Musik) sind in beiden 2D-Versionen identisch.
 
-## Spielen
-1. Datei herunterladen von deinem USB-Stick
-2. Doppelklick → öffnet sich im Browser
-3. **Enter** zum Starten (**Musik startet nie von selbst – erst auf Klick auf den 🔊-Button**; Tür- & Warngeräusche eher wie im echten Haus klingen automatisch)
+## So startest du
 
-## Steuerung (beide Versionen)
-| Taste | Aktion |
+1. HTML-Datei auf den USB-Stick ziehen
+2. Auf jedem PC: Doppelklick → öffnet sich im Standard-Browser
+3. **ENTER** drücken, um zu starten
+4. **Musik startet nie von selbst** – nur wenn du auf den 🔊-Knopf oben rechts klickst (Türknarzen & Warngeräusche im Spiel sind unabhängig davon aktiv)
+
+---
+
+## Das Spielprinzip
+
+Du bist **Berndt**, ein kleiner Wichtel, der heimlich in einem Haus in Frohnau wohnt und im Advent Aufgaben erledigt, ohne von den Bewohnern oder Tieren gesehen zu werden:
+
+- **Hauptquests bis Tag 24**: Alle 4 Hauptquests müssen bis **Tag 24** abgeschlossen sein. Ist Tag 24 vorbei, bevor alle fertig sind → verloren. Alle geschafft → Weihnachtssieg 🎁
+- **Verdachts-System**: Jeder Mensch, jede Katze, jeder Hund und jedes andere Tier hat einen **Verdachtsradius** (gestrichelter Kreis). Betrittst du ihn, steigt die rote Verdachtsleiste oben rechts. Die Leiste **sinkt niemals** ab! Etwa **45 Sekunden** insgesamt in Verdachtsradien (Nähe beschleunigt stark) = **erwischt → verloren**. Zeigt ein NPC sein Ausrufezeichen („!") über dem Kopf: wegrennen!
+- **Nachts schlafen alle** – die beste Zeit zum Schleichen. Nachts herrscht Dunkelheit, aber um Berndt gibt es einen **Lichtkegel**, damit du ihn immer siehst
+- **Gefundene Gegenstände zählen rückwirkend**: Nimmst du eine Quest erst an, nachdem du bereits einen passenden Gegenstand hast, springt der Quest-Schritt automatisch weiter – nichts geht verloren
+
+## Das Intro
+
+Beim Spielstart segelst du mit dem **Weihnachtsmann auf seinem Schlitten** (mit galoppierenden Rentieren davor) über das nächtliche Dorf, springst mit einem **Fallschirm** ab und landest über ein **Jump-and-Run über drei Häuserdächer** (Leertaste/W/↑ = Springen) schließlich direkt **vor der Kirche**. Ein Fehler auf den Dächern startet den Dachlauf neu. Jede andere Taste überspringt das Intro.
+
+## Steuerung
+
+| Taste / Knopf | Aktion |
 |---|---|
-| WASD / Pfeile | Berndt bewegen |
-| E | Benutzen / aufheben / reden |
-| Q | Quest-Kiste öffnen (schließt auch mit **✕ Schließen**, ESC oder Klick daneben) |
-| M | **Karte** des ganzen Terrains öffnen/schließen |
-| 1–8 | Gegenstände aus der Hotbar einsetzen |
-| L (am Titelbild) | Auto-Speicherstand laden |
+| WASD / Pfeiltasten | Berndt bewegen |
+| **E** | Benutzen / aufheben / reden (Interaktionskreise im Spiel zeigen dir was) |
+| **Q** | Quest-Kiste öffnen – Aufträge annehmen, Schritte lesen (schließt auch mit ✕, ESC oder Klick daneben) |
+| **M** | Karte des ganzen Terrains öffnen/schließen |
+| **1–9, 0** | Hotbar-Slot einsetzen (auch: direkter **Klick auf den Hotbar-Slot**) |
+| ⏩ | Zeit umstellen **×1 / ×5 / ×15** (Maximum ×15 – mehr geht nicht) |
+| 🔊 | Musik an/aus (ruhige „Stille Nacht", nur manuell) |
+| 💾 / 📂 | Spielstand als Datei speichern / laden (oben rechts) |
+| ENTER | Am Titelbild: neues Spiel · L = Auto-Speicherstand laden |
 
-## Spielprinzip
-- 4 **Hauptquests** bis Tag 24 (sonst verloren): Weihnachtsbeleuchtung im ganzen Dorf, Kirchweg freischaufeln, Orgel in der Kirche reparieren, 5 Wunschzettel aus 5 Gärten → Postkasten
-- 10 Nebenquests: Baum schmücken, Adventskranz (4 Kerzen), Schneemann, Weihnachtsbrief, Glitzer mit Lupe, Nikolaus-Mandarinen, Zimtstange für Oma, Spielzeugmaus für den Kater, **Streunerkatze Mimi zähmen**, **Vergessene Weihnachtseinkäufe im Zug** (stehenden Zug am Gleis 2 betreten und zur questmarkierten Villa zurückbringen)
-- **Intro-Cutscene**: Schlittenflug mit dem Weihnachtsmann über das nächtliche Dorf, Fallschirm-Absprung, dann ein **Dach-Jump-and-Run über drei Häuserdächer** (Leertaste = Springen, jede andere Taste überspringt) – Landung vor der Kirche. Erwischte Dach-Lücken starten neu
-- Verdachtsradien bei **allen Menschen und Tieren** im ganzen Dorf – die Leiste sinkt nie; ca. **45 Sekunden** kumulativ in Radien = erwischt (Nähe beschleunigt)
-- **Ein ganzer Tag = 2 Minuten** (Morgen, Tag, Abend und Nacht je 30 Sekunden) mit Dunkelheit + **Lichtkegel um Berndt**; der Küchen-Kalender zählt jeden Tag um 1 hoch
-- Die **S1**: alle 2 Minuten rauscht eine **rot-gelbe Bahn** über die Gleise am Ostrand – **tödlich! Nicht auf die Gleise stellen!**
-- **Mehr begehbare Häuser mit eigenem detailliertem Interieur**: Müller (Backstube), Krüger (Leseecke), Schulz (Musikzimmer), Lehmann (Festsaal) + Alte Scheune (dort liegt der **Tannenast** für den Schneemann!)
-- **Frisch aufgepeppt**: Buntglasfenster in der Kirche, Bahnhofsuhr & Kofferstapel, die **Orgel am Altar** (Hauptquest dort reparieren), Werkzeugwand in der Scheune, Girlanden, Bilderrahmen, Sockelleisten u.v.m.
-- **🚆 Stehende S-Bahn am Gleis 2**: Der Zug östlich am Bahnhof hält dauerhaft – du kannst einsteigen (Drinnen bewegt er sich nicht), dort liegen vergessene Weihnachtseinkäufe. Die querende rote S1 bleibt natürlich tödlich!
-- **🎄 Großer Dorf-Weihnachtsbaum**: spitz, mit Kugeln und goldenem Stern – in der Mitte eines kleinen Kreisverkehrs mit Schneainsel und gestrichelter Markierung
-- **🎵 Cozy-Musik**: 🔊 spielt jetzt eine ruhige „Stille Nacht“ in weichen Klängen – wie am Weihnachtsabend (weiterhin nur manuell)
-- **🐈 Streunerkatze Mimi zähmen** (Nebenquest): Fisch (lieber!) oder Fleisch besorgen – beide sind im Dorf versteckt – und in Mimis Nähe am Eissee gehen: Sie wird dann automatisch gefüttert und folgt dir überall hin (ohne Verdacht zu erzeugen). Die Orgel-Aufgabe gibt es jetzt im Leichtmodus mit sichtbarer Reihenfolge
-- **In der Nacht vom 5. auf den 6. Tag**: der Nikolaus läuft dynamisch seine Route – er durchquert das Haus, in dem du gerade bist, oder zweimal über die Straße, wenn du draußen bist (4 Mandarinen im Kinderzimmer) · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken (**gleiche Lauf-Animation**, ebenfalls dynamisch)
-- ⏩ Zeit – spült die Tage vor: **×1 / ×5 / ×15, maximal ×15**
-- Nach Schleichen-Sounds: Türen knarren beim Kartenwechsel, NPCs geben Warn-Piep von sich
-- **Karten-Hinweis**: in Innenräumen zeigt die Karte bewusst keine Live-Position an (keine irreführenden Punkte, z. B. vermeintlich auf den Gleisen)
-- **🐱 Neue Katzen-Grafik** mit Laufanimation (Beine, wedelnder Schwanz, Schnurrhaare, Ohr-Bewegung)
-- **Unsichtbare Wände sichtbar**: Haus-Innenwände werden jetzt gezeichnet
-- Die aktive Quest wird nur noch **einmal oben rechts in der Leiste** (neben Musik & Zeit) angezeigt (Doppel-Anzeige entfernt)
-- **Vor der Quest-Annahme gefundene Gegenstände zählen automatisch** – nichts geht verloren
-- 💾 Speichern als Datei (Download) + Autosave im Browser >>>>> Datei auf den USB-Stick ziehen und jederzeit und überall den passenden Spielstand haben
+---
 
-## Dorf & Karte
-Das Dorf ist **3800 × 2200** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, vertikale Seitenstraße), Eissee und Rodelhügel, 11 begehbare Villen-Grundstücke mit Zäunen. Die **S1** fährt am Bahnhof Frohnau: Norden → **Oranienburg**, Süden → **Wannsee** (Gleisanlage mit Anzeigetafel an der S1 im Bahnhofs-Interieur).
+## Zeit, Kalender & Events
+
+- **Ein ganzer Tag = 2 Minuten**: Morgen → Tag → Abend → Nacht (je 30 Sekunden), mit animierter Dunkelheit und Lichtkegel nachts
+- Der **Kalender in der Küche** zeigt immer den aktuellen Tag an
+- **In der Nacht vom 5. auf den 6. Tag** kommt der **Nikolaus**: Er läuft eine dynamische Route – durch das Haus, in dem du gerade bist, oder einmal über die Straße, wenn du draußen bist – und hinterlässt **4 Mandarinen im Kinderzimmer**
+- **Tag 24**: Alle Menschen zieht es zum gedeckten **Esstisch mit Gänsebraten**; nachts kommt der **Weihnachtsmann** (gleiche Lauf-Animation wie der Nikolaus, ebenfalls dynamisch) und stellt **4 Geschenke unter den Weihnachtsbaum**
+- **Die S1**: Alle 2 Minuten rauscht eine **rot-gelbe Bahn** über die Gleise – **Tödlich! Berührt sie dich, hast du sofort verloren!** (Am Bahnhof Frohnau: Norden → Oranienburg, Süden → Wannsee.)
+
+## Die Welt: Dorf, Häuser & Innenräume
+
+Das Dorf ist **3800 × 2200 px** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, Seitenstraße), Eissee mit Spielplatz und Rodelhügel, umzäunte Villen-Grundstücke – **jedes Haus hat seinen eigenen Garten** (in 5 davon wehen Wunschzettel). Neuer Mittelpunkt: ein **kleiner Kreisverkehr mit dem großen, spitzen Dorf-Weihnachtsbaum** (Kugeln + goldenem Stern) auf der Schneainsel.
+
+Begehbare Orte mit eigenem Interieur:
+
+| Ort | Innenraum |
+|---|---|
+| **Haus EG** (Berndt) | Flur, Küche (mit Adventskranz & Kalender), Wohnzimmer (Weihnachtsbaum, Schreibtisch, Sofa mit Katzenspielzeug), Esszimmer |
+| **Haus OG** | Kinderzimmer, Schlafzimmer, Bad, Flur (hier wohnt auch Kater Murr) |
+| **Keller** | Werkstatt-Regale: Werkzeugkiste, Kohle, Schaufel, Lichterkette, Wollmütze, Fisch |
+| **Kirche** | Bänke, Buntglasfenster, **Orgel am Altar** (Hauptquest) |
+| **Bahnhof Frohnau** | Bahnhofsuhr, Kofferstapel, Stromkasten, Postkasten, Gleisanlage |
+| **Weihnachts-Laden** | Kugeln, Glocken, Lichterketten, Lupe, Briefpapier, Siegelstempel, Kerzen |
+| **Haus Müller** | Backstube (Vanillekipferl!) |
+| **Haus Krüger** | Leseecke mit Bücherregal |
+| **Haus Schulz** | Musikzimmer mit Klavier |
+| **Haus Lehmann** | Festsaal (Familienfoto) |
+| **Alte Scheune** | Heulager + Werkzeugwand (Tannenast & Kohle für den Schneemann) |
+
+**🚋 Stehende S-Bahn am Gleis 2** (östliche Schienen): Der die ganze Zeit haltende Zug kann betreten werden – drinnen bewegt er sich nicht. In seinem Innenraum (Fenster mit Schnee, Bänke, Gepäcknetz, Haltestange) hat jemand **Weihnachtseinkäufe** liegen lassen…
+
+**Lebendiges Haus & Dorf**: 6 Bewohner mit festen Laufrouten (Mama, Papa, Luise, Oma, Finn + **Kater Murr** mit Schlafbereich), plus Dorfbewohner (Frau Berg, Herr Klein, Postbote August, Herr Sommer, Frau Winter), Kirchenpfarrer, Bahnhofswärter, Verkäuferin, Scheunenhund Bo, Katze Minka, Hund Bello und ein Taubenpaar.
+
+## Quests
+
+**Hauptquests (bis Tag 24, sonst verloren):**
+
+1. **Weihnachtsbeleuchtung im ganzen Dorf** (à la Berlin-Frohnau): 5 Lichterketten einsammeln → Stromkasten am Bahnhof einschalten
+2. **Schneeschaufeln auf dem Kirchweg**: Schaufel finden → Kirchweg freischaufeln (Klick-Minispiel)
+3. **Orgel in der Kirche reparieren**: Werkzeugkiste finden → Orgel-Minispiel im **Leichtmodus** (sichtbare farbige Reihenfolge zum Nachspielen)
+4. **5 Wunschzettel aus 5 Gärten** → alle in den Postkasten am Bahnhof
+
+**10 Nebenquests:**
+
+| Quest | Kurz |
+|---|---|
+| Weihnachtsbaum schmücken | Kugel + Glocke finden → Klick-Minispiel am Baum |
+| Adventskranz | 4 Kerzen in richtiger Reihenfolge anzünden (Küche) |
+| Schneemann bauen | Tannenast + Kohle → 3-Schritt-Auswahl-Minispiel |
+| Weihnachtsbrief | Papier + Stempel → Wunsch am Schreibtisch wählen, versiegeln, einwerfen |
+| Glitzer im Schnee | Lupe → 3 Eiskristalle im Garten von Haus Berndt aufspüren |
+| Nacht des Nikolaus | In der Nacht von Tag 5→6 Mandarinen im Kinderzimmer einsammeln |
+| Zimt für Oma | Zimtstange in der Küche → Oma ansprechen |
+| Spielzeugmaus für den Kater | Maus unterm Sofa → Kater Murr schläft 60 Sekunden tief und fest |
+| 🐱 Streunerkatze Mimi zähmen | Fisch (bevorzugt) oder Fleisch besorgen und in Mimis Nähe am Eissee gehen – die Fütterung passiert **automatisch**, danach folgt sie dir überall hin (ohne Verdacht zu erzeugen) |
+| 🎁 Vergessene Weihnachtseinkäufe im Zug | Im stehenden Zug am Gleis 2 die Einkäufe aufheben und zur **questmarkierten Villa** (goldener Pfeil über dem Haus) bringen und vor die Tür legen |
+
+Nach dem Annehmen zeigt das **Quest-Panel (Q)** einen **Schritt-für-Schritt-Plan**, der den Weg andeutet, aber nie direkt die Lösung verrät. Die **aktive Quest erscheint einmal oben in der Leiste** (neben Musik & Zeit) – sie verdeckt das Spiel nicht mehr.
+
+## Items & Hotbar
+
+Sobald du etwas findest, landet es in der **Hotbar unten** (20 Gegenständen, farbig benannt mit Emoji-Icon, Slot-Nummern-Badge):
+
+Lichterkette 💡 · Schneeschaufel ⛏️ · Werkzeugkiste 🧰 · Lupe 🔍 · Christbaumkugel 🔴 · Weihnachtsglocke 🔔 · Kerze 🕯️ · Tannenast 🌿 · Kohle ⚫ · Weihnachtsbrief ✉️ · Siegelstempel 🗑️ · Zimtstange 🥮 · Spielzeugmaus 🐭 · Mandarine 🍊 · Wunschzettel 📝 · Eiskristall ❄️ · Wollmütze 🧢 · Fisch 🐟 · Fleisch 🥩 · **Weihnachtseinkäufe 🎁**
+
+Einsetzen per **Zahlentaste 1–9/0** oder **Klick auf den Slot** – je nach Gegenstand startet ein Minispiel, gibt einen Hinweis oder löst etwas aus.
+
+## Musik & Sounds
+
+- **Musik nur auf Knopfdruck** (🔊): eine ruhige, weiche **„Stille Nacht"** mit warmen Bässen und langsamen Hüllen – das Cozy-Weihnachtsabend-Gefühl, ohne nerviges Dauer-Geplätscher
+- **Sound-Effekte** (automatisch): Türen knarren beim Kartenwechsel, NPCs geben Warntöne von sich, Erfolgs- und Fehlerklänge in Minispielen
+
+## Speichern & Laden
+
+- **💾 Speichern als Datei**: Download eines Spielstandes – ideal, um ihn **auf den USB-Stick** neben das Spiel zu legen
+- **📂 Laden**: Datei wieder einlesen, wo und wann du willst
+- **Autosave** läuft zusätzlich im jeweiligen Browser
+- Kehrt ein geladener Spielstand sofort ins Spiel zurück (das Intro läuft nicht erneut)
+
+## Karte (M)
+
+- Draußen: Live-Position von **Berndt und allen NPCs** auf der Dorfkarte (inkl. Bahnhof, Gleise, Eissee, Kreisverkehr-Baum)
+- **In Innenräumen: bewusst keine Live-Position** – so kannst du dich nie über irreführende Punkte wundern (z. B. vermeintlich auf den Gleisen stehen)
+
+## Tipps & Taktiken
+
+- **Nachts schleichen** ist fast immer sicher – tagsüber großen Bogen um die Radien machen
+- **⏩ ×15** nutzen, um auf Tag 6 (Nikolaus-Nacht) oder Tag 24 (Weihnachtsmann) zu warten
+- Erst **Gegenstände sammeln, dann Quests annehmen**? Egal – das rückwirkende Zählen* springt automatisch weiter
+- **Tödliche S1** nie auf den Gleisen abpassen – 2-Minuten-Takt
+- Mimi braucht **Fisch** (lieber!) oder Fleisch – Fisch liegt im Dorf und im Keller, Fleisch in Scheune und Kirche
+- Der **stehende Zug** ist sicher – nur die schnelle rote S1 auf den Gleisen ist tödlich
+
+## Technik
+
+- Eine einzige HTML-Datei, reines HTML/CSS/JS, **kein Internet nötig** (nur die 3D-Datei braucht einmalig ein CDN)
+- Canvas 960 × 600, läuft offline in jedem modernen Browser; Spielstand-Speicherung im Browser + Download als Datei
+- Getestet mit automatisierten Headless-Tests: Intro & Dachlauf, Portale, Verdacht, Minispiele, Mimi-Fütterung, Zug & Einkäufe, Nikolaus & Weihnachtsmann, Canvas-Validierung (Kontext-Argumente) für beide 2D-Versionen
