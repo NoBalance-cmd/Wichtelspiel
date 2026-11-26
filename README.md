@@ -29,7 +29,7 @@ Alle Spielinhalte (Quests, NPCs, Minispiele, 2-Minuten-Tage, Speichern/Laden, Mu
 
 Du bist **Berndt**, ein kleiner Wichtel, der heimlich in einem Haus in Frohnau wohnt und im Advent Aufgaben erledigt, ohne von den Bewohnern oder Tieren gesehen zu werden:
 
-- **Hauptquests bis Tag 24**: Alle 4 Hauptquests müssen bis **Tag 24** abgeschlossen sein. Ist Tag 24 vorbei, bevor alle fertig sind → verloren. Alle geschafft → Weihnachtssieg 🎁
+- **Hauptquests bis Tag 24**: Alle 6 Hauptquests müssen bis **Tag 24** abgeschlossen sein. Ist Tag 24 vorbei, bevor alle fertig sind → verloren. Alle geschafft → Weihnachtssieg 🎁 – und du kannst **mit LEERTASTE weiterspielen** und Nebenquests fertig machen
 - **Verdachts-System**: Jeder Mensch, jede Katze, jeder Hund und jedes andere Tier hat einen **Verdachtsradius** (gestrichelter Kreis). Betrittst du ihn, steigt die rote Verdachtsleiste oben rechts. Die Leiste **sinkt niemals** ab! Etwa **45 Sekunden** insgesamt in Verdachtsradien (Nähe beschleunigt stark) = **erwischt → verloren**. Zeigt ein NPC sein Ausrufezeichen („!") über dem Kopf: wegrennen!
 - **Nachts schlafen alle** – die beste Zeit zum Schleichen. Nachts herrscht Dunkelheit, aber um Berndt gibt es einen **Lichtkegel**, damit du ihn immer siehst
 - **Gefundene Gegenstände zählen rückwirkend**: Nimmst du eine Quest erst an, nachdem du bereits einen passenden Gegenstand hast, springt der Quest-Schritt automatisch weiter – nichts geht verloren
@@ -64,7 +64,7 @@ Beim Spielstart segelst du mit dem **Weihnachtsmann auf seinem Schlitten** (mit 
 
 ## Die Welt: Dorf, Häuser & Innenräume
 
-Das Dorf ist **3800 × 2200 px** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, Seitenstraße), Eissee mit Spielplatz und Rodelhügel, umzäunte Villen-Grundstücke – **jedes Haus hat seinen eigenen Garten** (in 5 davon wehen Wunschzettel). Neuer Mittelpunkt: ein **kleiner Kreisverkehr mit dem großen, spitzen Dorf-Weihnachtsbaum** (Kugeln + goldenem Stern) auf der Schneainsel.
+Das Dorf ist **3800 × 2200 px** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, Seitenstraße), Eissee mit Spielplatz, umzäunte Villen-Grundstücke – **jedes Haus hat seinen eigenen Garten** (in 5 davon wehen Wunschzettel). Neuer Mittelpunkt: ein **kleiner Kreisverkehr, der die Hauptstraße an dieser Stelle ersetzt**, mit dem großen, spitzen Dorf-Weihnachtsbaum (Kugeln + goldenem Stern) auf der Schneainsel in der Mitte – Baum und Insel sind fest blockiert, die Ringfahrbahn bleibt frei. Die Häuser Krüger, Schulz und Lehmann haben jetzt **Haustüren an der Fassade** und Eingänge an den Zauntoren.
 
 Begehbare Orte mit eigenem Interieur:
 
@@ -82,7 +82,7 @@ Begehbare Orte mit eigenem Interieur:
 | **Haus Lehmann** | Festsaal (Familienfoto) |
 | **Alte Scheune** | Heulager + Werkzeugwand (Tannenast & Kohle für den Schneemann) |
 
-**🚋 Stehende S-Bahn am Gleis 2** (östliche Schienen): Der die ganze Zeit haltende Zug kann betreten werden – drinnen bewegt er sich nicht. In seinem Innenraum (Fenster mit Schnee, Bänke, Gepäcknetz, Haltestange) hat jemand **Weihnachtseinkäufe** liegen lassen…
+**🚋 Stehende S-Bahn am Abstellgleis**: Direkt **südlich am Bahnhof Frohnau** steht auf einem eigenen Abstellgleis ein haltender Zug, den du betreten kannst (vom Bahnhofsvorplatz oder aus dem Bahnhofs-Inneren) – drinnen bewegt er sich nicht. In seinem Innenraum (Fenster mit Schnee, Bänke, Gepäcknetz, Haltestange) hat jemand **Weihnachtseinkäufe** liegen lassen…
 
 **Lebendiges Haus & Dorf**: 6 Bewohner mit festen Laufrouten (Mama, Papa, Luise, Oma, Finn + **Kater Murr** mit Schlafbereich), plus Dorfbewohner (Frau Berg, Herr Klein, Postbote August, Herr Sommer, Frau Winter), Kirchenpfarrer, Bahnhofswärter, Verkäuferin, Scheunenhund Bo, Katze Minka, Hund Bello und ein Taubenpaar.
 
@@ -94,29 +94,31 @@ Begehbare Orte mit eigenem Interieur:
 2. **Schneeschaufeln auf dem Kirchweg**: Schaufel finden → Kirchweg freischaufeln (Klick-Minispiel)
 3. **Orgel in der Kirche reparieren**: Werkzeugkiste finden → Orgel-Minispiel im **Leichtmodus** (sichtbare farbige Reihenfolge zum Nachspielen)
 4. **5 Wunschzettel aus 5 Gärten** → alle in den Postkasten am Bahnhof
+5. **Vergessene Weihnachtseinkäufe**: Im stehenden Zug am Abstellgleis aufheben → an der Haustür des questmarkierten Hauses (goldener Pfeil) ablegen
+6. **Weihnachtsbrief schreiben**: Papier + Stempel aus dem Laden → Wunsch am Schreibtisch wählen, versiegeln, einwerfen
 
-**10 Nebenquests:**
+**8 Nebenquests:**
 
 | Quest | Kurz |
 |---|---|
 | Weihnachtsbaum schmücken | Kugel + Glocke finden → Klick-Minispiel am Baum |
 | Adventskranz | 4 Kerzen in richtiger Reihenfolge anzünden (Küche) |
 | Schneemann bauen | Tannenast + Kohle → 3-Schritt-Auswahl-Minispiel |
-| Weihnachtsbrief | Papier + Stempel → Wunsch am Schreibtisch wählen, versiegeln, einwerfen |
-| Glitzer im Schnee | Lupe → 3 Eiskristalle im Garten von Haus Berndt aufspüren |
-| Nacht des Nikolaus | In der Nacht von Tag 5→6 Mandarinen im Kinderzimmer einsammeln |
+| Glitzer im Schnee | Lupe → 3 Eiskristalle im Garten von Haus Keiler aufspüren |
+| Nacht des Nikolaus | In der Nacht von Tag 5→6 Mandarinen im Kinderzimmer einsammeln – die Quest lässt sich **auch nachträglich annehmen**, wenn der Nikolaus schon da war (die Mandarinen liegen dann noch da) |
 | Zimt für Oma | Zimtstange in der Küche → Oma ansprechen |
 | Spielzeugmaus für den Kater | Maus unterm Sofa → Kater Murr schläft 60 Sekunden tief und fest |
 | 🐱 Streunerkatze Mimi zähmen | Fisch (bevorzugt) oder Fleisch besorgen und in Mimis Nähe am Eissee gehen – die Fütterung passiert **automatisch**, danach folgt sie dir überall hin (ohne Verdacht zu erzeugen) |
-| 🎁 Vergessene Weihnachtseinkäufe im Zug | Im stehenden Zug am Gleis 2 die Einkäufe aufheben und zur **questmarkierten Villa** (goldener Pfeil über dem Haus) bringen und vor die Tür legen |
 
-Nach dem Annehmen zeigt das **Quest-Panel (Q)** einen **Schritt-für-Schritt-Plan**, der den Weg andeutet, aber nie direkt die Lösung verrät. Die **aktive Quest erscheint einmal oben in der Leiste** (neben Musik & Zeit) – sie verdeckt das Spiel nicht mehr.
+Nach dem Annehmen zeigt das **Quest-Panel (Q)** einen **Schritt-für-Schritt-Plan**, der den Weg andeutet, aber nie direkt die Lösung verrät. **Mehrere Quests gleichzeitig? Kein Problem** – nimm einfach alle an: Sie werden im Spiel als Hinweisboxen **untereinander** angezeigt (bis zu 3 sichtbar, Rest zählt zusammen), und die Leiste oben zeigt die erste aktive Quest plus „+N weitere (Q)“. Sobald eine Quest abgeschlossen ist, **verschwindet auch ihr blauer E-Interaktionskreis** an der zugehörigen Stelle.
+
+Zwei kleine Komfort-Fixes: Die **Weihnachtseinkäufe** und der **Weihnachtsbrief** zählen als Hauptquests, und der **Weihnachtsbrief kann auch nachträglich in den Postkasten eingeworfen** werden (der Brief bleibt nach dem Versiegeln im Inventar-Flagsystem erhalten). Außerdem laufen die Bahnhofs- und Laden-NPCs (Krause & Stern) wieder **frei über ihre kompletten Routen**, statt in Ecken stehen zu bleiben.
 
 ## Items & Hotbar
 
 Sobald du etwas findest, landet es in der **Hotbar unten** (20 Gegenständen, farbig benannt mit Emoji-Icon, Slot-Nummern-Badge):
 
-Lichterkette 💡 · Schneeschaufel ⛏️ · Werkzeugkiste 🧰 · Lupe 🔍 · Christbaumkugel 🔴 · Weihnachtsglocke 🔔 · Kerze 🕯️ · Tannenast 🌿 · Kohle ⚫ · Weihnachtsbrief ✉️ · Siegelstempel 🗑️ · Zimtstange 🥮 · Spielzeugmaus 🐭 · Mandarine 🍊 · Wunschzettel 📝 · Eiskristall ❄️ · Wollmütze 🧢 · Fisch 🐟 · Fleisch 🥩 · **Weihnachtseinkäufe 🎁**
+Lichterkette 💡 · Schneeschaufel ⛏️ · Werkzeugkiste 🧰 · Lupe 🔍 · Christbaumkugel 🔴 · Weihnachtsglocke 🔔 · Kerze 🕯️ · Tannenast 🌿 · Kohle ⚫ · Weihnachtsbrief ✉️ · Siegelstempel ✒️ · Zimtstange 🥮 · Spielzeugmaus 🐭 · Mandarine 🍊 · Wunschzettel 📝 · Eiskristall ❄️ · Wollmütze 🧢 · Fisch 🐟 · Fleisch 🥩 · **Weihnachtseinkäufe 🎁**
 
 Einsetzen per **Zahlentaste 1–9/0** oder **Klick auf den Slot** – je nach Gegenstand startet ein Minispiel, gibt einen Hinweis oder löst etwas aus.
 
