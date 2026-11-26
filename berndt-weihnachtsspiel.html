@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Berndt – Der Weihnachts-Wichtel</title>
+<title>24 Days till Christmas</title>
 <style>
   html,body{margin:0;padding:0;background:#0b1220;color:#e8f0ff;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
   #wrap{position:relative;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
@@ -788,13 +788,13 @@ function drawIntro(g){const t=G.introT||0,tn=performance.now();g.save();
  if(t<5.6){const sx=-340+t*300+60,sy=150+Math.sin(t*2.4)*12;
   for(let i=0;i<2;i++){const rx2=sx+108+i*36,ry2=sy+8+Math.sin(t*3+i*2)*5;const gal=Math.sin(t*9+i*1.7)*3;g.strokeStyle='#6a4a30';g.lineWidth=2.4;g.beginPath();g.moveTo(rx2+5,ry2+16);g.lineTo(rx2+4+gal,ry2+27);g.moveTo(rx2+19,ry2+16);g.lineTo(rx2+20-gal,ry2+27);g.stroke();g.fillStyle='#9a6a3a';g.fillRect(rx2,ry2,26,17);g.fillRect(rx2+20,ry2-8,18,10);g.fillStyle='#7d5535';g.fillRect(rx2+2,ry2+4,22,13);g.fillStyle='#3a2a1c';g.fillRect(rx2+2,ry2+15,6,4);g.fillRect(rx2+18,ry2+15,6,4);g.strokeStyle='#c98a4a';g.lineWidth=2.5;g.beginPath();g.moveTo(rx2+4,ry2-8);g.lineTo(rx2-1,ry2-19);g.moveTo(rx2+8,ry2-8);g.lineTo(rx2+10,ry2-20);g.moveTo(rx2-1,ry2-19);g.lineTo(rx2-4,ry2-24);g.moveTo(rx2+10,ry2-20);g.lineTo(rx2+13,ry2-25);g.stroke();g.fillStyle='#c92f2f';g.beginPath();g.arc(rx2+37,ry2+3,2.2,0,7);g.fill()}
   g.strokeStyle='#4a3524';g.lineWidth=1.6;g.beginPath();g.moveTo(sx+96,sy+16);g.quadraticCurveTo(sx+104,sy+4,sx+116,sy+10);g.moveTo(sx+96,sy+16);g.quadraticCurveTo(sx+146,sy+2,sx+152,sy+11);g.stroke()
-  g.fillStyle='#8b5a2b';g.fillRect(sx-60,sy+14,64,6);
-  g.fillStyle='#c23b3b';g.fillRect(sx,sy,92,36);g.fillStyle='#ffd34d';g.fillRect(sx,sy+32,92,6);g.strokeStyle='#8b5a2b';g.lineWidth=3.5;g.beginPath();g.moveTo(sx-6,sy+44);g.lineTo(sx+98,sy+44);g.stroke();
+    g.fillStyle='#c23b3b';g.fillRect(sx,sy,92,36);g.fillStyle='#ffd34d';g.fillRect(sx,sy+32,92,6);g.strokeStyle='#8b5a2b';g.lineWidth=3.5;g.beginPath();g.moveTo(sx-6,sy+44);g.lineTo(sx+98,sy+44);g.stroke();
   g.fillStyle='#2a3550';g.fillRect(sx,sy,6,40);g.fillRect(sx+86,sy,6,40);
   drawRR(g,sx+10,sy-20,14,12,2,'#3d6aa8');drawRR(g,sx+30,sy-20,14,12,2,'#3f8a52');drawRR(g,sx+50,sy-20,14,12,2,'#c92f2f');
   drawHuman(g,sx+64,sy-4,'#c92f2f','#5a3a2a','#e8b99a',t*10,false);
   g.save();g.translate(sx+30,sy-2);g.scale(0.72,0.72);drawElf(g,0,0,t*14);g.restore();
-  g.fillStyle='#ffe9b0';g.font='bold 15px sans-serif';g.fillText('Auf dem Weg nach Frohnau \u2026',sx+6,sy-52)}
+  g.fillStyle='#ffe9b0';g.font='bold 15px sans-serif';g.fillText('Auf dem Weg nach Frohnau \u2026',sx+6,sy-52);
+  const fade=Math.min(1,t/1.4);g.globalAlpha=fade;g.textAlign='center';g.fillStyle='#ffe9b0';g.font='bold 34px sans-serif';g.fillText('24 Days till Christmas',480,64);g.fillStyle='#cfe0ff';g.font='15px sans-serif';g.fillText('Berndt \u2013 Der Weihnachts-Wichtel',480,90);g.globalAlpha=1;g.textAlign='left'}
  else if(t<10){const ft=t-5.6,px2=Math.min(466,320+ft*40),py2=Math.min(468,120+ft*95);
   if(py2<468){g.fillStyle='#c92f2f';g.beginPath();g.arc(px2,py2-66,36,Math.PI,0);g.fill();g.fillStyle='#e8eef5';g.fillRect(px2-40,py2-70,80,7);g.strokeStyle='#ffd98a';g.lineWidth=2;g.beginPath();g.moveTo(px2-32,py2-64);g.lineTo(px2-7,py2-16);g.moveTo(px2+32,py2-64);g.lineTo(px2+7,py2-16);g.stroke()}
   drawRR(g,px2-10,py2-30,20,8,2,'#c92f2f');
@@ -824,8 +824,8 @@ function drawIntroRoofs(g,tn){const R=G.introRoof,PL=[[0,300,400],[390,660,356],
 function drawTitle(){ctx.fillStyle='#0e1a33';ctx.fillRect(0,0,W,H);const r=mulberry(7);
  for(let i=0;i<120;i++){const x=r()*W,y=r()*H,b=Math.sin(performance.now()/700+i)*6;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,(y+b)%H,1.5+r()*1.5,0,7);ctx.fill()}
  drawTanne(ctx,120,560,2.2);drawTanne(ctx,840,560,2.6);drawTanne(ctx,740,570,1.6);drawTanne(ctx,220,572,1.5);
- ctx.textAlign='center';ctx.fillStyle='#c92f2f';ctx.font='bold 44px sans-serif';ctx.fillText('\ud83c\udf84 Berndt \u2013 Der Weihnachts-Wichtel \ud83c\udf84',W/2,150);
- ctx.fillStyle='#ffe9b0';ctx.font='17px sans-serif';ctx.fillText('Schleich dich durch Frohnau \u2013 ein adventliches Weihnachts-Stealth-Abenteuer',W/2,200);
+ ctx.textAlign='center';ctx.fillStyle='#c92f2f';ctx.font='bold 44px sans-serif';ctx.fillText('\ud83c\udf84 24 Days till Christmas \ud83c\udf84',W/2,150);
+ ctx.fillStyle='#ffe9b0';ctx.font='17px sans-serif';ctx.fillText('Berndt \u2013 Der Weihnachts-Wichtel \u2022 Schleich dich durch Frohnau',W/2,200);
  ctx.fillStyle='#cfe0ff';ctx.font='15px sans-serif';
  ['WASD / Pfeiltasten \u2013 bewegen','E \u2013 benutzen / items aufheben / reden','Q \u2013 Quests annehmen & ansehen  |  M \u2013 Karte  |  Hotbar 1-8: Items einsetzen','Bewege dich: 4 Hauptquests (Beleuchtung, Kirchweg, Orgel, Wunschzettel) bis Tag 24!','Verdacht: 45 Sekunden in einem Verdachtsradius = erwischt. Die Leiste sinkt NIE.','','Dr\u00fccke ENTER zum Start \u2013 Autosave ist aktiv, du kannst als Datei speichern (Knopf oben rechts)'].forEach((l,i)=>ctx.fillText(l,W/2,250+i*28));
  ctx.textAlign='left'}
