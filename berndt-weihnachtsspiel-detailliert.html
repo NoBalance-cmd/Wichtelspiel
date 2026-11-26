@@ -80,13 +80,29 @@ function toast(msg){const d=document.createElement('div');d.className='toast';d.
 let audioCtx=null;
 function beep(freq,dur,type){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'sine';o.frequency.value=freq;g.gain.value=0.06;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+(dur||0.15));o.stop(audioCtx.currentTime+(dur||0.15))}catch(e){}}
 
-const MUSIC={on:false,step:0,timer:0,
- MEL:[[659,.25],[659,.25],[659,.5],[659,.25],[659,.25],[659,.5],[659,.25],[784,.25],[523,.25],[587,.25],[659,.9],[0,.15],
-      [587,.25],[587,.25],[784,.25],[659,.25],[784,.25],[880,.5],[554,.25],[784,.25],[659,.25],[587,.25],[523,1],[0,.35]],
- start(){if(this.on)return;this.on=true;this.timer=setInterval(()=>this.tick(),140)},
- stop(){this.on=false;clearInterval(this.timer)},
- tick(){const c=this.MEL[this.step%this.MEL.length];if(c[0]>0)beep(c[0],Math.max(0.12,c[1]*0.9),'triangle');if(this.step%2===0)beep(2400,0.03,'square');this.step++}};
-function toggleMusic(){if(!MUSIC.on){MUSIC.start();document.getElementById('btnMusic').textContent='\U0001F50A Musik: an';toast('\U0001F3B5 Jingle Bells l\u00e4uft!')}else{MUSIC.stop();document.getElementById('btnMusic').textContent='\U0001F507 Musik: aus'}}
+const MUSIC={on:false,step:0,timer:0,BPM:50,
+ MEL:[[392,3,130.81],[440,1,130.81],[392,4,130.81],[329.63,5,130.81],
+      [392,3,196],[440,1,196],[392,4,196],[329.63,5,196],
+      [587.33,3,98],[587.33,1,98],[493.88,5,98],
+      [523.25,3,130.81],[523.25,1,130.81],[392,5,130.81],
+      [440,1.5,174.61],[440,1.5,174.61],[523.25,1.5,174.61],[493.88,1,174.61],[440,1.5,174.61],
+      [392,1.5,130.81],[440,1.5,130.81],[392,1.5,130.81],[329.63,5,130.81],
+      [440,1.5,174.61],[440,1.5,174.61],[523.25,1.5,174.61],[493.88,1,174.61],[440,1.5,174.61],
+      [392,1.5,130.81],[440,1.5,130.81],[392,1.5,130.81],[329.63,5,130.81],
+      [587.33,3,123.47],[587.33,1,123.47],[698.46,3,123.47],[587.33,1,98],[493.88,5,98],
+      [523.25,3,130.81],[659.25,1,130.81],[523.25,3,130.81],[392,1,130.81],[392,2,130.81],[329.63,1,98],[392,1,98],[349.23,1,98],[293.66,1,98],[261.63,6,130.81]],
+ start(){if(this.on)return;this.on=true;this.step=0;this.tick()},
+ stop(){this.on=false;clearTimeout(this.timer)},
+ tick(){const c=this.MEL[this.step%this.MEL.length];this.step++;if(c[0]>0)this.note(c[0],c[1],c[2]);
+  this.timer=setTimeout(()=>{if(this.on)this.tick()},c[1]*(60/this.BPM)*1000)},
+ note(f,dur,bass){const a=sfxA();if(!a)return;const t0=a.currentTime,dd=dur*(60/this.BPM);
+  const g=a.createGain();g.gain.setValueAtTime(0.0001,t0);g.gain.linearRampToValueAtTime(0.045,t0+0.14);g.gain.exponentialRampToValueAtTime(0.0001,t0+dd*0.98);g.connect(a.destination);
+  const o=a.createOscillator();o.type='sine';o.frequency.value=f;o.connect(g);o.start(t0);o.stop(t0+dd);
+  const g2=a.createGain();g2.gain.setValueAtTime(0.012,t0);g2.gain.exponentialRampToValueAtTime(0.0001,t0+dd*0.9);g2.connect(a.destination);
+  const o2=a.createOscillator();o2.type='triangle';o2.frequency.value=f*2;o2.connect(g2);o2.start(t0);o2.stop(t0+dd);
+  if(bass){const gb=a.createGain();gb.gain.setValueAtTime(0.0001,t0);gb.gain.linearRampToValueAtTime(0.028,t0+0.3);gb.gain.exponentialRampToValueAtTime(0.0001,t0+dd*1.05);gb.connect(a.destination);
+   const b=a.createOscillator();b.type='sine';b.frequency.value=bass;b.connect(gb);b.start(t0);b.stop(t0+dd*1.05)}}};
+function toggleMusic(){if(!MUSIC.on){MUSIC.start();document.getElementById('btnMusic').textContent='\U0001F50A Musik: an';toast('\ud83c\udfb5 Stille Nacht l\u00e4uft \u2013 ganz ruhig und cozy!')}else{MUSIC.stop();document.getElementById('btnMusic').textContent='\U0001F507 Musik: aus'}}
 
 const ITEMS={
   lichtkette:{name:'Lichterkette',col:'#ffd34d',stack:true},
@@ -107,7 +123,8 @@ const ITEMS={
   kristall:{name:'Eiskristall',col:'#bfe8ff',stack:true},
   mütze:{name:'Wollmütze',col:'#5aa0d8',stack:false},
   fisch:{name:'Fisch',col:'#6ab0d8',stack:true},
-  fleisch:{name:'Fleisch',col:'#c96a5a',stack:true}
+  fleisch:{name:'Fleisch',col:'#c96a5a',stack:true},
+  einkaeufe:{name:'Weihnachtseink\u00e4ufe',col:'#c9497a',stack:false}
 };
 const inv={};for(const k in ITEMS)inv[k]=0;
 
@@ -137,7 +154,9 @@ const QUESTS=[
  {id:'katze',main:false,title:'Spielzeugmaus für den Kater',
   steps:['Unter dem Sofa im Wohnzimmer versteckt sich eine Spielzeugmaus.','Gib dem Kater vor OGFLUR die Maus – er wird 60 Sekunden tief und fest schlafen.']},
  {id:'streuner',main:false,title:'Streunerkatze Mimi zaehmen'.replace('zaehmen','z\u00e4hmen'),
-  steps:['Eine scheue Streunerkatze streicht um den zugefrorenen See \u2013 Fisch mag sie am liebsten, Fleisch geht zur Not.','Geh in ihre N\u00e4he am Eissee (im S\u00fcden, Karte M) \u2013 sobald du Fisch oder Fleisch dabei hast, f\u00fcttert Berndt sie dort automatisch und sie folgt dir dann \u00fcberall hin.']}
+  steps:['Eine scheue Streunerkatze streicht um den zugefrorenen See \u2013 Fisch mag sie am liebsten, Fleisch geht zur Not.','Geh in ihre N\u00e4he am Eissee (im S\u00fcden, Karte M) \u2013 sobald du Fisch oder Fleisch dabei hast, f\u00fcttert Berndt sie dort automatisch und sie folgt dir dann \u00fcberall hin.']},
+ {id:'einkaeufe',main:false,title:'Vergessene Weihnachtseink\u00e4ufe im Zug',
+  steps:['Am Gleis 2 (im Osten des Dorfes) steht ein stehender Zug \u2013 dort kannst du einsteigen! Irgendwo in der Bahn liegen vergessene Weihnachtseink\u00e4ufe.','Bring die Eink\u00e4ufe zum Haus mit dem goldenen Pfeil (Haus Kr\u00fcger, Nordstra\u00dfe) und lege sie vor die T\u00fcr.']}
 ];
 const Q={};for(const q of QUESTS)Q[q.id]={st:'offer',step:0};
 let G={screen:'title',time:0,speed:1,susp:0,map:'dorf',px:1050,py:640,flags:{},katzeSleep:0,portalCd:0,msg:''};
@@ -378,6 +397,10 @@ mapDef('haus_lehmann',700,480,true,null,[
  {x:0,y:0,w:700,h:50},{x:0,y:430,w:700,h:50},{x:0,y:0,w:50,h:480},{x:650,y:0,w:50,h:480},{x:180,y:200,w:14,h:110},{x:520,y:200,w:14,h:110}]);
 mapDef('scheune',760,520,true,null,[
  {x:0,y:0,w:760,h:50},{x:0,y:470,w:760,h:50},{x:0,y:0,w:50,h:520},{x:710,y:0,w:50,h:520},{x:300,y:60,w:16,h:140}]);
+mapDef('zug',640,380,true,null,[
+ {x:0,y:0,w:640,h:50},{x:0,y:0,w:50,h:380},{x:590,y:0,w:50,h:380},
+ {x:0,y:334,w:240,h:46},{x:410,y:334,w:230,h:46},
+ {x:150,y:120,w:120,h:30},{x:150,y:180,w:120,h:30},{x:370,y:120,w:120,h:30},{x:370,y:180,w:120,h:30}]);
 const itemDefs=[
  {map:'dorf',x:1290,y:1560,id:'fisch',n:1},{map:'keller',x:480,y:160,id:'fisch',n:1},
  {map:'scheune',x:520,y:180,id:'fleisch',n:1},{map:'kirche',x:520,y:460,id:'fleisch',n:1}, {map:'keller',x:120,y:340,id:'werkzeug',n:1},{map:'keller',x:170,y:340,id:'kohle',n:1},{map:'keller',x:90,y:340,id:'mütze',n:1},{map:'keller',x:145,y:340,id:'lichtkette',n:1},{map:'keller',x:200,y:340,id:'schaufel',n:1},
@@ -386,13 +409,15 @@ const itemDefs=[
  {map:'laden',x:250,y:120,id:'glocke',n:1},{map:'laden',x:250,y:200,id:'brief',n:1},{map:'laden',x:250,y:280,id:'stempel',n:1},{map:'laden',x:500,y:120,id:'kerze',n:2},{map:'laden',x:500,y:200,id:'lichtkette',n:1},{map:'laden',x:500,y:280,id:'lupe',n:1},
  {map:'haus_eg',x:90,y:120,id:'kerze',n:1},{map:'haus_eg',x:250,y:120,id:'lichtkette',n:1},{map:'haus_eg',x:345,y:330,id:'zimt',n:1},{map:'haus_eg',x:312,y:418,id:'maus',n:1},{map:'haus_eg',x:312,y:405,id:'zimt',n:0},
  {map:'haus_og',x:500,y:120,id:'kerze',n:1},{map:'haus_og',x:500,y:420,id:'kugel',n:1},{map:'haus_og',x:120,y:180,id:'mandarine',n:0},{map:'haus_og',x:690,y:120,id:'lupe',n:1},{map:'haus_og',x:690,y:180,id:'brief',n:0},
- {map:'haus_mueller',x:560,y:330,id:'kerze',n:1},{map:'haus_krueger',x:560,y:330,id:'zimt',n:1},{map:'haus_schulz',x:560,y:330,id:'kerze',n:1},{map:'scheune',x:560,y:330,id:'ast',n:1},{map:'scheune',x:620,y:330,id:'kohle',n:1}
+ {map:'haus_mueller',x:560,y:330,id:'kerze',n:1},{map:'haus_krueger',x:560,y:330,id:'zimt',n:1},{map:'haus_schulz',x:560,y:330,id:'kerze',n:1},{map:'scheune',x:560,y:330,id:'ast',n:1},{map:'scheune',x:620,y:330,id:'kohle',n:1},
+ {map:'zug',x:455,y:260,id:'einkaeufe',n:1}
 ];
 const gardenSpots=[
  {n:'Berndt',x:880,y:760,gx:890,gy:760},{n:'Müller',x:1440,y:760,gx:1450,gy:760},{n:'Krüger',x:880,y:1380,gx:890,gy:1330},{n:'Schulz',x:1620,y:1380,gx:1630,gy:1330},{n:'Lehmann',x:2280,y:1380,gx:2290,gy:1330}];
 function buildWorld(){for(const m in MAPS){MAPS[m].npcs=[];MAPS[m].items=[]}
  for(const d of itemDefs){if(d.n>0)MAPS[d.map].items.push({map:d.map,x:d.x,y:d.y,id:d.id,rid:'it:'+d.map+':'+d.x+':'+d.y})}
  gardenSpots.forEach((gs,i)=>{MAPS.dorf.items.push({map:'dorf',x:gs.gx,y:gs.gy,id:'wunschzettel',rid:'wz'+i})})}
+MAPS.dorf.coll.push({x:3120,y:1140,w:210,h:540},{x:940,y:776,w:120,h:114});
 let NPCs=[];
 function initNPCs2(){NPCs=[];
  const mk=(map,name,kind,x,y,pts,c1,c2,rad,spd)=>{if(kind==='human'&&!c2)c2=c1;const n={map,name,kind,x,y,pts:pts||null,pi:0,c1,c2,rad:rad||95,spd:spd||55,walk:0,sleeping:false,alert:0,sx:x,sy:y};NPCs.push(n);return n};
@@ -437,6 +462,18 @@ function drawVilla(g,x,y,w,h,body,roof,doorX,name,lit){g.fillStyle='#cdd9e6';g.f
 function drawFence(g,x1,x2,y,gapX){g.strokeStyle='#6a4c30';g.lineWidth=5;for(let x=x1;x<x2;x+=40){if(gapX>=0&&Math.abs(x-gapX)<46){continue}g.beginPath();g.moveTo(x,y);g.lineTo(x,y+34);g.stroke()}
  g.beginPath();g.moveTo(x1,y+9);g.lineTo(x2,y+9);g.moveTo(x1,y+26);g.lineTo(x2,y+26);g.stroke();
  g.fillStyle='#ffffffaa';g.fillRect(x1,y-3,x2-x1,4)}
+function drawWeihnachtsbaum(g,x,y){const s=4.4;drawTanne(g,x,y,s);
+ for(let i=0;i<9;i++){g.fillStyle=['#e05a6b','#ffd34d','#7fd8ff','#ff9adf'][i%4];g.beginPath();g.arc(x-34+((i*71)%68),y-28-(i*19)%150,4.5,0,7);g.fill()}
+ const ty=y-44*s-14;g.fillStyle='#ffd34d';g.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=(i%2?7:15);const sx=x+Math.cos(a)*r,sy=ty+Math.sin(a)*r;i?g.lineTo(sx,sy):g.moveTo(sx,sy)}g.closePath();g.fill();
+ g.strokeStyle='#b8902a';g.lineWidth=2;g.stroke()}
+function drawParkedTrain(g){for(let i=2;i>=0;i--){const wy=1150+i*170;
+ g.fillStyle='rgba(30,50,80,.25)';g.beginPath();g.ellipse(3235,wy+164,102,9,0,0,7);g.fill();
+ g.fillStyle='#c43a2a';drawRR(g,3132,wy,200,158,10,'#c43a2a');
+ g.fillStyle='#222b3a';g.fillRect(3132,wy,200,10);g.fillStyle='#3a3f4a';g.fillRect(3132,wy+148,200,10);
+ g.fillStyle='#ffd34d';g.fillRect(3132,wy+64,200,10);
+ g.fillStyle='#ffd98a';g.fillRect(3152,wy+24,44,30);g.fillRect(3218,wy+24,44,30);g.fillRect(3152,wy+96,44,40);g.fillRect(3218,wy+96,44,40);
+ if(i===1){g.fillStyle='#27313f';g.fillRect(3130,1372,18,66);g.fillStyle='#8fd08f';g.beginPath();g.arc(3139,1364,4,0,7);g.fill()}}
+ g.fillStyle='#22314d';g.font='bold 12px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2190',3108,1352);g.textAlign='left'}
 MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  g.fillStyle='#8d9aa8';g.fillRect(0,520,3800,390);g.strokeStyle='#e8eef5';g.setLineDash([34,28]);g.lineWidth=6;g.beginPath();for(let y=700;y<740;y+=14){g.moveTo(0,y);g.lineTo(3800,y)}g.stroke();g.setLineDash([]);
  for(const zc of[380,1050,1830,2700,3290])for(let i=0;i<6;i++){g.fillStyle='#e8eef5';g.fillRect(zc+i*24,532,12,48)}
@@ -474,6 +511,8 @@ MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  drawTanne(g,830,300,0.8);drawTanne(g,1360,240,1);drawTanne(g,1940,260,0.9);drawTanne(g,2900,260,1);drawTanne(g,3660,320,0.9);
  drawTanne(g,400,1850,1);drawTanne(g,650,1520,1.1);drawTanne(g,2950,1700,1);drawTanne(g,3650,1850,1);
  drawTanne(g,2550,1450,1.5);drawTanne(g,760,1450,1.3);
+ drawWeihnachtsbaum(g,1000,840);drawParkedTrain(g);
+ g.fillStyle='#22314d';g.font='bold 14px sans-serif';g.textAlign='center';g.fillText('\ud83c\udf84 Dorf-Weihnachtsbaum',1000,610);g.textAlign='left';
  g.fillStyle='#8d9aa8';g.font='bold 15px sans-serif';g.fillText('\u26c4 Spielplatz (Ost)',60,300);
  if(G.flags.lights){for(let i=0;i<6;i++){const hx=[250,860,1420,2000,860,1600][i];g.fillStyle=['#ff6a6a','#ffd34d','#7fd8ff','#a0ffb0','#ff9adf','#fff'][i];for(let j=0;j<8;j++){g.beginPath();g.arc(hx+40+j*60,(i<4?170:1010),4,0,7);g.fill()}}}
  if(G.flags.snowman){drawSnowman(g,2480,1290,true)}
@@ -634,6 +673,16 @@ MAPS.scheune.paint=function(g){g.fillStyle='#8a6a4a';g.fillRect(50,50,660,420);g
  g.fillStyle='#d8b45a';g.fillRect(120,240,90,60);g.strokeStyle='#b59045';g.lineWidth=2;g.strokeRect(120,240,90,60);g.beginPath();g.moveTo(120,270);g.lineTo(210,270);g.moveTo(150,240);g.lineTo(150,300);g.moveTo(180,240);g.lineTo(180,300);g.stroke();
  g.fillStyle='#8a94a3';g.beginPath();g.moveTo(430,360);g.lineTo(470,360);g.lineTo(464,392);g.lineTo(436,392);g.closePath();g.fill();g.strokeStyle='#5a6a8a';g.lineWidth=3;g.beginPath();g.arc(450,360,14,3.14,7);g.stroke();
  g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83c\udf3e Alte Scheune \u2013 Heu & Werkzeug',70,44)};
+MAPS.zug.paint=function(g){g.fillStyle='#dde2e8';g.fillRect(50,50,540,280);g.fillStyle='#c8ccd2';for(let y=70;y<330;y+=34)g.fillRect(50,y,540,2);
+ g.fillStyle='#eef3f8';g.fillRect(50,50,540,16);g.fillStyle='#93a0ae';g.fillRect(50,66,540,6);
+ g.fillStyle='#33455e';g.fillRect(58,54,524,4);
+ for(let i=0;i<5;i++){g.fillStyle='#a9cbe4';g.fillRect(70+i*104,74,84,54);g.fillStyle='#ffffffcc';g.fillRect(70+i*104,74,84,10);g.fillStyle='#f2f6fa';for(let k=0;k<4;k++){g.beginPath();g.ellipse(88+i*104+k*22,120,10,5,0,0,7);g.fill()}}
+ g.fillStyle='#5a6a7a';g.fillRect(58,136,524,5);
+ for(let i=0;i<3;i++){g.fillStyle='#8a6a4a';g.fillRect(96+i*40,142,30,20);g.strokeStyle='#6a4c30';g.lineWidth=2;g.strokeRect(96+i*40,142,30,20)}
+ for(const bx of[150,370]){for(const by of[120,180]){g.fillStyle='#2f5f9e';g.beginPath();g.moveTo(bx,by);g.lineTo(bx+120,by);g.lineTo(bx+120,by+30);g.lineTo(bx,by+30);g.closePath();g.fill();g.fillStyle='#3d6fae';g.fillRect(bx,by+30,120,8);g.fillStyle='#24466e';g.fillRect(bx+6,by+6,108,4)}}
+ g.fillStyle='#e8c04a';g.fillRect(316,64,6,266);g.fillRect(314,64,10,6);
+ g.fillStyle='#3a4656';g.fillRect(268,300,104,80);g.fillStyle='#8fd08f';g.beginPath();g.arc(316,308,4,0,7);g.fill();g.fillStyle='#22314d';g.font='bold 11px sans-serif';g.fillStyle='#22314d';g.fillText('Ausstieg \u2192 Bahnsteig',242,292)
+ g.fillStyle='#22314d';g.font='bold 12px sans-serif';g.fillText('S-Bahn Berlin \u2022 S1 \u2022 Frohnau',70,44)};
 function drawXmasTree(g,x,y,dec){
  drawTanne(g,x,y,1.6);
  if(dec){
@@ -662,6 +711,7 @@ function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,
  P('haus_mueller',300,402,80,18,'dorf',2230,470);P('haus_krueger',300,402,80,18,'dorf',1140,470);P('haus_schulz',300,402,80,18,'dorf',1880,470);P('haus_lehmann',300,402,80,18,'dorf',2430,470);P('scheune',340,440,80,18,'dorf',3390,470);
  P('haus_eg',180,468,70,18,'dorf',1080,480);P('haus_eg',320,62,80,18,'haus_og',366,95);P('haus_eg',96,468,50,18,'keller',250,340);
  P('haus_og',370,468,80,18,'haus_eg',360,90);P('keller',280,368,60,16,'haus_eg',110,460);
+ P('dorf',3086,1368,44,64,'zug',320,300);P('zug',280,332,80,20,'dorf',3060,1380);
  const I=(m,x,y,label,fn)=>MAPS[m].inter.push({x,y,label,fn});
  I('dorf',500,620,'Verschneiter Kirchweg',()=>{if(!inv.schaufel){toast('\u274c Du brauchst eine Schneeschaufel.');return}startMG('shovel')});
  I('dorf',2480,1290,'Schneemann bauen',()=>{if(Q.schneemann.st!=='active'||Q.schneemann.step<1){toast('Hier k\u00f6nnte ein sch\u00f6ner Schneemann entstehen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.ast||!inv.kohle){toast('\u274c Du brauchst Tannenast + Kohle.');return}startMG('snowman')});
@@ -678,6 +728,7 @@ function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,
  I('haus_lehmann',350,250,'Familienfoto',()=>toast('\ud83d\udcbc Die ganze Familie Lehmann am ersten Advent.'));
  I('scheune',380,200,'Heulager',()=>toast('\ud83c\udf3e Heu, das nach Sommer riecht \u2013 mitten im Winter.'));
  I('dorf',1290,1620,'Streunerkatze',()=>{tameAttempt()});
+ I('dorf',1140,486,'Paketabgabe',()=>{if(Q.einkaeufe.st!=='active'){toast('\ud83d\udce6 Hier k\u00f6nnten die Eink\u00e4ufe aus dem Zug hinpassen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.einkaeufe){toast('\ud83c\udf81 Die Weihnachtseink\u00e4ufe liegen im stehenden Zug am Gleis 2.');return}inv.einkaeufe--;G.flags.einkaeufe=true;toast('\ud83c\udf81 Die Eink\u00e4ufe liegen vor dem markierten Haus \u2013 Frau Kr\u00fcger wird sich riesig freuen!');finQ('einkaeufe')});
  I('kirche',180,150,'Orgel reparieren',()=>{if(Q.orgel.st!=='active'||Q.orgel.step<1){toast('Die Orgel verstummt \u2013 nimm zuerst den Orgel-Auftrag an (Q).') ;return}if(!inv.werkzeug){toast('\u274c Du brauchst die Werkzeugkiste.');return}startMG('organ')})}
 function questStep(id,extra){const q=Q[id],def=QUESTS.find(x=>x.id===id);if(q.st!=='active')return;updateTicker();q.step++;
  if(q.step>=def.steps.length){q.st='done';toast('\ud83c\udf85 '+def.title+' \u2013 ABGESCHLOSSEN!'+(def.main?'':''));beep(880,0.3,'triangle');setTimeout(()=>beep(1170,0.4,'triangle'),180);checkWin()}else{toast('\ud83d\udcdd N\u00e4chster Schritt: '+def.steps[q.step].slice(0,60)+'\u2026');if(extra)extra()}}
@@ -716,6 +767,7 @@ function updateItems(dt){const m=MAPS[G.map];
    if(it.id==='lupe'&&Q.glitzer.st==='active'&&Q.glitzer.step===0)questStep('glitzer');
    if(it.id==='zimt'&&Q.zimt.st==='active'&&Q.zimt.step===0)questStep('zimt');
    if(it.id==='maus'&&Q.katze.st==='active'&&Q.katze.step===0)questStep('katze');
+   if(it.id==='einkaeufe'&&Q.einkaeufe.st==='active'&&Q.einkaeufe.step===0)questStep('einkaeufe');
    if(it.id==='wunschzettel'&&Q.zettel.st==='active'&&Q.zettel.step===0){if(inv.wunschzettel>=5)questStep('zettel');else toast('Wunschzettel: '+inv.wunschzettel+'/5')}
    if((it.id==='brief'||it.id==='stempel')&&Q.brief.st==='active'&&Q.brief.step===0&&inv.brief&&inv.stempel)questStep('brief');
    if((it.id==='kugel'||it.id==='glocke')&&Q.baum.st==='active'&&Q.baum.step===0&&inv.kugel&&inv.glocke)questStep('baum');
@@ -747,7 +799,7 @@ function update(dt){if(G.screen!=='play')return;for(let i=feet.length-1;i>=0;i--
  if(day()===24&&isNight()&&!G.flags.santa&&!event)startXmasEvent('santa');
  if(day()>=25&&G.screen==='play'){const main=QUESTS.filter(q=>q.main);if(!main.every(q=>Q[q.id].st==='done')){G.screen='lose';G.loseWhy='Die Adventszeit ist vorbei \u2013 nicht alle Hauptquests erledigt!'}else checkWin()}
  if(G.susp>=100&&G.screen==='play'){G.screen='lose';G.loseWhy='Du wurdest erwischt! Verdacht 100%.'}}
-const ICON={lichtkette:'\ud83d\udca1',schaufel:'\u26cf\ufe0f',werkzeug:'\ud83e\uddf0',lupe:'\ud83d\udd0d',kugel:'\ud83d\udd34',glocke:'\ud83d\udd14',kerze:'\ud83d\udd6b\ufe0f',ast:'\ud83c\udf3f',kohle:'\u26ab\ufe0f',brief:'\u2709\ufe0f',stempel:'\ud83d\uddd1\ufe0f',zimt:'\ud83e\udd6e',maus:'\ud83d\udc2d',mandarine:'\ud83c\udf4a',wunschzettel:'\ud83d\udcdd',kristall:'\u2744\ufe0f','mütze':'\ud83e\udde2',fisch:'\ud83d\udc1f',fleisch:'\ud83e\udd69'};
+const ICON={lichtkette:'\ud83d\udca1',schaufel:'\u26cf\ufe0f',werkzeug:'\ud83e\uddf0',lupe:'\ud83d\udd0d',kugel:'\ud83d\udd34',glocke:'\ud83d\udd14',kerze:'\ud83d\udd6b\ufe0f',ast:'\ud83c\udf3f',kohle:'\u26ab\ufe0f',brief:'\u2709\ufe0f',stempel:'\ud83d\uddd1\ufe0f',zimt:'\ud83e\udd6e',maus:'\ud83d\udc2d',mandarine:'\ud83c\udf4a',wunschzettel:'\ud83d\udcdd',kristall:'\u2744\ufe0f','mütze':'\ud83e\udde2',fisch:'\ud83d\udc1f',fleisch:'\ud83d\udc69',einkaeufe:'\ud83c\udf81'};
 function drawItemSprite(g,it){const b=Math.sin(performance.now()/300+it.x)*3;g.fillStyle='rgba(255,220,120,.35)';g.beginPath();g.arc(it.x,it.y-8+b,14,0,7);g.fill();
  g.font='18px sans-serif';g.textAlign='center';g.fillText(ICON[it.id]||'\u2728',it.x,it.y-2+b);g.font='bold 10px sans-serif';g.fillStyle='#132341';g.fillStyle='#132441';g.fillText(ITEMS[it.id].name,it.x,it.y+16+b);g.textAlign='left'}
 function tryInteract(){if(G.screen!=='play')return;const m=MAPS[G.map];let best=null,bd=60;
@@ -776,7 +828,7 @@ function questPanelHTML(){const main=QUESTS.filter(q=>q.main),nb=QUESTS.filter(q
   return '<div class="qcard'+(q.main?' main':'')+'"><h3>\u2610 '+q.title+'<span class="tag'+(q.main?'':' nb')+'">'+(q.main?'HAUPT':'NEBEN')+'</span></h3><ul>'+q.steps.map((st,i)=>'<li class="'+(s.st==='active'&&i<s.step?'done':'')+'">'+st+'</li>').join('')+'</ul>'+btn+'</div>'};
  return '<button class="qclose" onclick="toggleQuests()">\u2715 Schlie\u00dfen</button><h2>\ud83d\udcdc Berndts Aufgaben-Liste</h2><p style="text-align:center;font-size:12px;color:#8ea0c0">Alle HAUPT-Quests m\u00fcssen bis Tag 24 fertig sein!</p>'+main.map(card).join('')+'<h2 style="margin-top:14px">\u2728 Nebenquests</h2>'+nb.map(card).join('')}
 function toggleQuests(){const p=document.getElementById('questPanel');if(p.style.display==='block'){p.style.display='none';return}p.style.display='block';p.innerHTML=questPanelHTML()}
-function syncQ(id){const q=Q[id];if(q.st!=='active')return;let ok=false;switch(id){case 'beleuchtung':ok=inv.lichtkette>=5;break;case 'schaufeln':ok=!!inv.schaufel;break;case 'orgel':ok=!!inv.werkzeug;break;case 'glitzer':ok=!!inv.lupe;break;case 'zimt':ok=!!inv.zimt;break;case 'katze':ok=!!inv.maus;break;case 'kranz':ok=inv.kerze>=4;break;case 'schneemann':ok=!!inv.ast&&!!inv.kohle;break;case 'baum':ok=!!inv.kugel&&!!inv.glocke;break;case 'brief':ok=!!inv.brief&&!!inv.stempel;break;case 'zettel':ok=inv.wunschzettel>=5;break}if(ok){questStep(id);toast('\u2728 Bereits gefundene Gegenst\u00e4nde z\u00e4hlen automatisch \u2013 n\u00e4chster Schritt freigeschaltet!')}}
+function syncQ(id){const q=Q[id];if(q.st!=='active')return;let ok=false;switch(id){case 'beleuchtung':ok=inv.lichtkette>=5;break;case 'schaufeln':ok=!!inv.schaufel;break;case 'orgel':ok=!!inv.werkzeug;break;case 'glitzer':ok=!!inv.lupe;break;case 'zimt':ok=!!inv.zimt;break;case 'katze':ok=!!inv.maus;break;case 'kranz':ok=inv.kerze>=4;break;case 'schneemann':ok=!!inv.ast&&!!inv.kohle;break;case 'baum':ok=!!inv.kugel&&!!inv.glocke;break;case 'brief':ok=!!inv.brief&&!!inv.stempel;break;case 'zettel':ok=inv.wunschzettel>=5;break;case 'einkaeufe':ok=!!inv.einkaeufe;break}if(ok){questStep(id);toast('\u2728 Bereits gefundene Gegenst\u00e4nde z\u00e4hlen automatisch \u2013 n\u00e4chster Schritt freigeschaltet!')}}
 let _tickLast='';
 function updateTicker(){const el=document.getElementById('qaTick');if(!el)return;const act=QUESTS.find(q=>Q[q.id].st==='active');const t=act?((act.main?'HAUPT':'Neben')+': '+act.title+' \u2013 Schritt '+(Q[act.id].step+1)+'/'+act.steps.length):'Kein Auftrag aktiv \u2013 Q \u00f6ffnet die Quest-Kiste';if(t!==_tickLast){_tickLast=t;el.textContent=t}}
 window.acceptQuest=function(id){Q[id].st='active';const def=QUESTS.find(q=>q.id===id);toast('\ud83d\udcab Auftrag angenommen: '+def.title);const p=document.getElementById('questPanel');p.innerHTML=questPanelHTML();syncQ(id);updateTicker();beep(520,0.15,'triangle')};
@@ -948,6 +1000,7 @@ function render(){if(G.screen==='title'){drawTitle();return}if(G.screen==='intro
  if(G.flags.katzeZahm)drawFollowCat(ctx);
  for(const i of m.inter){ctx.fillStyle='rgba(120,200,255,.28)';ctx.beginPath();ctx.arc(i.x,i.y,26,0,7);ctx.fill();ctx.fillStyle='#7fd8ff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText(i.label,i.x,i.y-30);ctx.textAlign='left'}
  for(const it of m.items)drawItemSprite(ctx,it);
+ if(G.map==='dorf'&&Q.einkaeufe.st==='active'){const mx=1140,my=478-Math.abs(Math.sin(performance.now()/300))*9;ctx.fillStyle='#ffd34d';ctx.beginPath();ctx.moveTo(mx-11,my-8);ctx.lineTo(mx+11,my-8);ctx.lineTo(mx,my+8);ctx.closePath();ctx.fill();ctx.strokeStyle='#8a6a10';ctx.lineWidth=2;ctx.stroke();ctx.strokeStyle='rgba(255,211,77,.4)';ctx.lineWidth=6;ctx.beginPath();ctx.arc(mx,my,17,0,7);ctx.stroke()}
  for(const n of NPCs){if(n.map!==m.id)continue;if(n.name==='Streunerkatze Mimi'&&G.flags.katzeZahm)continue;const d=Math.hypot(n.x-G.px,n.y-G.py),rr=n.sleeping?n.rad*0.6:n.rad;
   ctx.strokeStyle=d<rr?'rgba(255,80,60,'+(0.35+0.4*Math.sin(performance.now()/150))+')':'rgba(255,120,80,.16)';ctx.setLineDash([6,5]);ctx.lineWidth=2;ctx.beginPath();ctx.arc(n.x,n.y,rr,0,7);ctx.stroke();ctx.setLineDash([]);
   ctx.save();ctx.translate(n.x,n.y);if(n.kind==='human')drawHuman(ctx,0,0,n.c1,n.c2,n.skin,n.walk,n.sleeping);
