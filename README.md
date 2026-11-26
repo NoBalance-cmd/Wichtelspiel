@@ -64,7 +64,7 @@ Beim Spielstart segelst du mit dem **Weihnachtsmann auf seinem Schlitten** (mit 
 
 ## Die Welt: Dorf, Häuser & Innenräume
 
-Das Dorf ist **3800 × 2200 px** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, Seitenstraße), Eissee mit Spielplatz, umzäunte Villen-Grundstücke – **jedes Haus hat seinen eigenen Garten** (in 5 davon wehen Wunschzettel). Neuer Mittelpunkt: ein **kleiner Kreisverkehr, der die Hauptstraße an dieser Stelle ersetzt**, mit dem großen, spitzen Dorf-Weihnachtsbaum (Kugeln + goldenem Stern) auf der Schneainsel in der Mitte – Baum und Insel sind fest blockiert, die Ringfahrbahn bleibt frei. Die Häuser Krüger, Schulz und Lehmann haben jetzt **Haustüren an der Fassade** und Eingänge an den Zauntoren.
+Das Dorf ist **3800 × 2200 px** groß: Einkaufsstraße mit Zebra-Streifen, Ost-Bezirk (Scheune, Häuser Sandmeier & Wattebach, Seitenstraße), Eissee mit Spielplatz, umzäunte Villen-Grundstücke – **jedes Haus hat seinen eigenen Garten** (in 5 davon wehen Wunschzettel). Neuer Mittelpunkt: ein **kleiner Kreisverkehr, der die Hauptstraße an dieser Stelle ersetzt**, mit dem großen, spitzen Dorf-Weihnachtsbaum (Kugeln + goldenem Stern) auf der Schneainsel in der Mitte – Baum und Insel sind fest blockiert, die Ringfahrbahn bleibt frei. Die Häuser Krüger, Schulz und Lehmann betritt man durch ihre **sichtbaren Haustüren an der Vorderseite** (Hofseite – durch das Zauntor, dann in den Türspalt treten).
 
 Begehbare Orte mit eigenem Interieur:
 
