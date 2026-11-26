@@ -35,7 +35,7 @@ Quests, NPCs, Minispiele, **2-Minuten-Tage** (ein ganzer Tag = Tag + Nacht), Spe
 - **Mehr begehbare Häuser mit eigenem detailliertem Interieur**: Müller (Backstube), Krüger (Leseecke), Schulz (Musikzimmer), Lehmann (Festsaal) + Alte Scheune (dort liegt der **Tannenast** für den Schneemann!)
 - **Frisch aufgepeppt**: Buntglasfenster in der Kirche, Bahnhofsuhr & Kofferstapel, die **Orgel am Altar** (Hauptquest dort reparieren), Werkzeugwand in der Scheune, Girlanden, Bilderrahmen, Sockelleisten u.v.m.
 - **🚆 Stehende S-Bahn am Gleis 2**: Der Zug östlich am Bahnhof hält dauerhaft – du kannst einsteigen (Drinnen bewegt er sich nicht), dort liegen vergessene Weihnachtseinkäufe. Die querende rote S1 bleibt natürlich tödlich!
-- **🎄 Großer Dorf-Weihnachtsbaum**: spitz, mit Kugeln und goldenem Stern auf dem Platz an der Nordkreuzung
+- **🎄 Großer Dorf-Weihnachtsbaum**: spitz, mit Kugeln und goldenem Stern – in der Mitte eines kleinen Kreisverkehrs mit Schneainsel und gestrichelter Markierung
 - **🎵 Cozy-Musik**: 🔊 spielt jetzt eine ruhige „Stille Nacht“ in weichen Klängen – wie am Weihnachtsabend (weiterhin nur manuell)
 - **🐈 Streunerkatze Mimi zähmen** (Nebenquest): Fisch (lieber!) oder Fleisch besorgen – beide sind im Dorf versteckt – und in Mimis Nähe am Eissee gehen: Sie wird dann automatisch gefüttert und folgt dir überall hin (ohne Verdacht zu erzeugen). Die Orgel-Aufgabe gibt es jetzt im Leichtmodus mit sichtbarer Reihenfolge
 - **In der Nacht vom 5. auf den 6. Tag**: der Nikolaus läuft dynamisch seine Route – er durchquert das Haus, in dem du gerade bist, oder zweimal über die Straße, wenn du draußen bist (4 Mandarinen im Kinderzimmer) · Tag 24: Gänsebraten-Fest + Weihnachtsmann mit 4 Geschenken (**gleiche Lauf-Animation**, ebenfalls dynamisch)
