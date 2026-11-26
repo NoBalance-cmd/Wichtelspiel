@@ -615,7 +615,9 @@ MAPS.kirche.paint=function(g){g.fillStyle='#cfc4b0';g.fillRect(60,70,800,460);g.
  g.fillStyle='#3a3f4a';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('St. Martins',460,64);g.textAlign='left'};
 MAPS.bahnhof.paint=function(g){g.fillStyle='#cfd8e0';g.fillRect(60,60,820,440);g.fillStyle='#94a1af';g.fillRect(60,60,820,10);
  g.fillStyle='#8b5a2b';g.fillRect(100,200,180,40);g.fillStyle='#6a4c30';g.fillRect(100,240,180,10);g.fillStyle='#3a5a7a';g.fillRect(100,170,180,12);
- g.fillStyle='#8b5a2b';g.fillRect(100,400,180,40);g.fillStyle='#6a4c30';g.fillRect(100,440,180,10);
+ g.fillStyle='#c43a2a';drawRR(g,90,432,160,66,8,'#c43a2a');g.fillStyle='#ffd34d';g.fillRect(90,458,160,8);
+ g.fillStyle='#ffd98a';g.fillRect(102,440,30,14);g.fillRect(208,440,30,14);
+ g.fillStyle='#27313f';g.fillRect(148,438,36,54);g.fillStyle='#8fd08f';g.beginPath();g.arc(162,430,3.5,0,7);g.fill();
  g.fillStyle='#94a1af';g.fillRect(300,90,260,120);g.fillStyle='#1d2b4a';g.fillRect(310,100,240,84);g.fillStyle='#94a1af';g.fillRect(300,196,260,10);g.fillStyle='#94a1af';g.fillRect(300,90,10,120);g.fillRect(550,90,10,120);g.fillRect(300,90,260,8);
  g.fillStyle='#e8eef5';g.font='bold 12px monospace';g.fillText('S1 \u2192 Wannsee \u00b7 S1 \u2192 Oranienburg',318,128);g.font='11px monospace';g.fillText('Abfahrt \u2013 Gleis 1/2:',318,150);g.fillText('10:12 \u00b7 12:24 \u00b7 15:03 \u00b7 17:40',318,172);
  g.fillStyle='#3a3f4a';g.fillRect(700,100,50,70);g.fillStyle='#6a7f8a';g.fillRect(710,110,30,50);g.fillStyle='#ffd34d';g.fillRect(714,120,6,6);g.fillRect(724,120,6,6);g.fillRect(714,134,6,6);g.fillRect(724,134,6,6);
@@ -627,10 +629,7 @@ MAPS.bahnhof.paint=function(g){g.fillStyle='#cfd8e0';g.fillRect(60,60,820,440);g
  g.fillStyle='#8b5a2b';g.fillRect(340,260,26,84);g.fillStyle='#e8eef5';g.fillRect(328,238,50,24);g.strokeStyle='#6a4c30';g.lineWidth=2;g.strokeRect(328,238,50,24);
  g.fillStyle='#b8622a';g.fillRect(770,110,26,20);g.fillStyle='#2e6b45';g.fillRect(772,80,8,30);g.fillRect(784,80,8,30);g.fillRect(778,70,6,36);
  g.fillStyle='rgba(30,50,80,.22)';g.beginPath();g.ellipse(450,500,96,10,0,0,7);g.fill();
- g.fillStyle='#c43a2a';drawRR(g,360,432,180,66,8,'#c43a2a');g.fillStyle='#ffd34d';g.fillRect(360,458,180,8);
- g.fillStyle='#ffd98a';g.fillRect(372,440,30,14);g.fillRect(498,440,30,14);
- g.fillStyle='#27313f';g.fillRect(432,438,36,54);g.fillStyle='#8fd08f';g.beginPath();g.arc(446,430,3.5,0,7);g.fill();
- g.fillStyle='#22314d';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2192 Zug',450,424);g.textAlign='left';
+  g.fillStyle='#22314d';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2192 Zug',166,424);g.textAlign='left';
 g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83d\ude89 Bahnhof Frohnau',70,54)};
 MAPS.laden.paint=function(g){g.fillStyle='#d8c8b0';g.fillRect(50,50,600,380);g.fillStyle='#c2b098';for(let y=60;y<430;y+=30)g.fillRect(50,y,600,3);
  for(let s=0;s<3;s++){g.fillStyle='#8b5a2b';g.fillRect(220,90+s*80,60,14);g.fillStyle='#94a1af';g.fillRect(220,104+s*80,60,6);g.fillStyle='#94a1af';g.fillRect(480,90+s*80,60,14)}
@@ -728,7 +727,7 @@ function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,
  P('haus_mueller',300,402,80,18,'dorf',2230,470);P('haus_krueger',300,402,80,18,'dorf',1130,992);P('haus_schulz',300,402,80,18,'dorf',1890,992);P('haus_lehmann',300,402,80,18,'dorf',2460,992);P('scheune',340,440,80,18,'dorf',3390,470);
  P('haus_eg',180,468,70,18,'dorf',1080,480);P('haus_eg',320,62,80,18,'haus_og',366,95);P('haus_eg',96,468,50,18,'keller',250,340);
  P('haus_og',370,468,80,18,'haus_eg',360,90);P('keller',280,368,60,16,'haus_eg',110,460);
- P('dorf',500,1336,80,36,'zug',320,300);P('zug',280,332,80,20,'bahnhof',450,430);P('bahnhof',420,448,60,30,'zug',320,300);
+ P('dorf',500,1336,80,36,'zug',320,300);P('zug',280,332,80,20,'bahnhof',160,410);P('bahnhof',120,452,60,30,'zug',320,300);
  const I=(m,x,y,label,fn)=>MAPS[m].inter.push({x,y,label,fn});
  I('dorf',500,620,'Verschneiter Kirchweg',()=>{if(!inv.schaufel){toast('\u274c Du brauchst eine Schneeschaufel.');return}startMG('shovel')});
  I('dorf',2480,1290,'Schneemann bauen',()=>{if(Q.schneemann.st!=='active'||Q.schneemann.step<1){toast('Hier k\u00f6nnte ein sch\u00f6ner Schneemann entstehen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.ast||!inv.kohle){toast('\u274c Du brauchst Tannenast + Kohle.');return}startMG('snowman')});
