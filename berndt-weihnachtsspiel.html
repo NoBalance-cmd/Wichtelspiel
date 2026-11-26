@@ -130,33 +130,33 @@ const inv={};for(const k in ITEMS)inv[k]=0;
 
 const QUESTS=[
  {id:'beleuchtung',main:true,title:'Weihnachtsbeleuchtung im ganzen Dorf',
-  steps:['Angeblich liegen wohl Lichterketten im ganzen Dorf verstreut – Scheune, Haus, Keller, Kirche & Bahnhof locken.','Auf dem Bahnhofsgelände muss es einen alten Stromkasten geben – der Kasten außen rechts wirkt verdächtig.','Schalte im Stromkasten die Beleuchtung fürs ganze Dorf ein.']},
+  steps:['Angeblich liegen wohl Lichterketten im ganzen Dorf verstreut – Scheune, Haus Keiler, Kirche & Bahnhof locken.','Auf dem Bahnhofsgelände muss es einen alten Stromkasten geben – der Kasten außen rechts wirkt verdächtig.','Schalte im Stromkasten die Beleuchtung fürs ganze Dorf ein.']},
  {id:'schaufeln',main:true,title:'Schneeschaufeln auf dem Kirchweg',
-  steps:['Eine Schneeschaufel soll es im Depot am Bahnhof geben – oder unten im Keller.','Nimm die Schaufel und schaufle den verschneiten Kirchweg frei.']},
+  steps:['Eine Schneeschaufel soll es im Depot am Bahnhof geben – oder unten im Keller von Haus Keiler.','Nimm die Schaufel und schaufle den verschneiten Kirchweg frei.']},
  {id:'orgel',main:true,title:'Orgel in der Kirche reparieren',
-  steps:['Ohne Werkzeug geht da nichts – sowas liegt sicher irgendwo rum, vielleicht im Keller.','Spiel die Melodie der Orgel nach, damit sie wieder klingt.']},
+  steps:['Ohne Werkzeug geht da nichts – sowas liegt sicher im Keller von Haus Keiler rum.','Spiel die Melodie der Orgel nach, damit sie wieder klingt.']},
  {id:'zettel',main:true,title:'5 Wunschzettel aus 5 Gärten',counter:{item:'wunschzettel',need:5,hint:'Suche in 5 Gärten des Dorfes (je Haus einer!)'},
   steps:['In den Gärten von 5 verschiedenen Häusern wehen Wunschzettel durch den Schnee.','Bring alle Wunschzettel zum Postkasten am Bahnhof – da, wo der gelbe Briefkasten steht.']},
  {id:'baum',main:false,title:'Den Weihnachtsbaum schmücken',
-  steps:['Eine Christbaumkugel soll in der Spielzeugkiste im Kinderzimmer liegen und eine Glocke im Laden.','Schmücke im Wohnzimmer den Weihnachtsbaum, wenn keiner hinsieht.']},
+  steps:['Eine Christbaumkugel soll in der Spielzeugkiste im Kinderzimmer von Haus Keiler (1. Stock) liegen und eine Glocke im Weihnachts-Laden.','Schmücke im Wohnzimmer von Haus Keiler (Erdgeschoss) den Weihnachtsbaum, wenn keiner hinsieht.']},
  {id:'kranz',main:false,title:'Adventskranz anzünden',
-  steps:['Sammle 4 Kerzen (Laden, Wohnzimmer, Kinderzimmer, Bad).','Zünde den Adventskranz in der Küche Kerze für Kerze in richtiger Reihenfolge an.']},
+  steps:['Sammle 4 Kerzen (Weihnachts-Laden sowie Wohnzimmer, Kinderzimmer & Bad im Haus Keiler).','Zünde den Adventskranz in der Küche von Haus Keiler (Erdgeschoss) Kerze für Kerze in richtiger Reihenfolge an.']},
  {id:'schneemann',main:false,title:'Schneemann im Garten bauen',
-  steps:['Ein Tannenast versteckt sich in den Gärten, Kohle liegt im Keller.','Baue im Garten von Haus Lehmann (rechts unten) den Schneemann auf.']},
- {id:'brief',main:false,title:'Weihnachtsbrief schreiben',
-  steps:['Ein Briefpapier und ein Siegelstempel – beides soll im Laden zu finden sein.','Wähle am Schreibtisch im Wohnzimmer einen Wunsch und versiegele den Brief.','Wirf den fertigen Brief in den Postkasten am Bahnhof.']},
+  steps:['Ein Tannenast liegt in der Alten Scheune (im Osten des Dorfes), Kohle im Keller von Haus Keiler.','Baue im Garten von Haus Lehmann (rechts unten) den Schneemann auf.']},
+ {id:'brief',main:true,title:'Weihnachtsbrief schreiben',
+  steps:['Ein Briefpapier und ein Siegelstempel – beides soll im Weihnachts-Laden zu finden sein.','Wähle am Schreibtisch im Wohnzimmer von Haus Keiler (Erdgeschoss) einen Wunsch und versiegele den Brief.','Wirf den fertigen Brief in den Postkasten am Bahnhof.']},
  {id:'glitzer',main:false,title:'Glitzer im Schnee',counter:{item:'kristall',need:3,hint:'Kristalle sind nur mit der Lupe sichtbar'},
-  steps:['Besorge eine Lupe – vielleicht liegt die auf einem Nachttisch.','Mit der Lupe erscheinen im Garten von Haus Berndt Eiskristalle. Sammle 3.']},
+  steps:['Besorge eine Lupe – vielleicht liegt die auf einem Nachttisch.','Mit der Lupe erscheinen im Garten von Haus Keiler Eiskristalle. Sammle 3.']},
  {id:'nikolaus',main:false,title:'Nacht des Nikolaus (Tag 6)',
-  steps:['Warte bis zur Nacht vom 5. auf den 6. Tag (⏩-Knopf hilft) und bleib im Versteck.','Sobald der Nikolaus da war: Sammle die Mandarinen im Kinderzimmer.']},
+  steps:['Warte bis zur Nacht vom 5. auf den 6. Tag (⏩-Knopf hilft) und bleib im Versteck.','Sobald der Nikolaus da war: Sammle die Mandarinen im Kinderzimmer von Haus Keiler (1. Stock).']},
  {id:'zimt',main:false,title:'Zimt für Omas Plätzchen',
-  steps:['Eine Zimtstange muss im Küchenregal liegen – ausgerechnet, wenn Mama weg ist.','Gib Oma die Zimtstange – sprich sie an, wenn du nahe genug bist.']},
+  steps:['Eine Zimtstange muss im Küchenregal von Haus Keiler liegen – ausgerechnet, wenn Mama weg ist.','Gib Oma die Zimtstange – sprich sie an, wenn du nahe genug bist.']},
  {id:'katze',main:false,title:'Spielzeugmaus für den Kater',
-  steps:['Unter dem Sofa im Wohnzimmer versteckt sich eine Spielzeugmaus.','Gib dem Kater vor OGFLUR die Maus – er wird 60 Sekunden tief und fest schlafen.']},
+  steps:['Unter dem Sofa im Wohnzimmer von Haus Keiler (Erdgeschoss) versteckt sich eine Spielzeugmaus.','Gib dem Kater im Obergeschoss von Haus Keiler die Maus – er wird 60 Sekunden tief und fest schlafen.']},
  {id:'streuner',main:false,title:'Streunerkatze Mimi zaehmen'.replace('zaehmen','z\u00e4hmen'),
   steps:['Eine scheue Streunerkatze streicht um den zugefrorenen See \u2013 Fisch mag sie am liebsten, Fleisch geht zur Not.','Geh in ihre N\u00e4he am Eissee (im S\u00fcden, Karte M) \u2013 sobald du Fisch oder Fleisch dabei hast, f\u00fcttert Berndt sie dort automatisch und sie folgt dir dann \u00fcberall hin.']},
- {id:'einkaeufe',main:false,title:'Vergessene Weihnachtseink\u00e4ufe im Zug',
-  steps:['Am Gleis 2 (im Osten des Dorfes) steht ein stehender Zug \u2013 dort kannst du einsteigen! Irgendwo in der Bahn liegen vergessene Weihnachtseink\u00e4ufe.','Bring die Eink\u00e4ufe zum Haus mit dem goldenen Pfeil (Haus Kr\u00fcger, Nordstra\u00dfe) und lege sie vor die T\u00fcr.']}
+ {id:'einkaeufe',main:true,title:'Vergessene Weihnachtseink\u00e4ufe im Zug',
+  steps:['Direkt am Bahnhof steht am Abstellgleis ein stehender Zug \u2013 dort kannst du einsteigen! Irgendwo in der Bahn liegen vergessene Weihnachtseink\u00e4ufe.','Bring die Eink\u00e4ufe zum Haus mit dem goldenen Pfeil (Haus Kr\u00fcger) und lege sie an der Haust\u00fcr ab.']}
 ];
 const Q={};for(const q of QUESTS)Q[q.id]={st:'offer',step:0};
 let G={screen:'title',time:0,speed:1,susp:0,map:'dorf',px:1050,py:640,flags:{},katzeSleep:0,portalCd:0,msg:''};
@@ -188,8 +188,8 @@ addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;
   if(e.key>='1'&&e.key<='9')toggleItem(+e.key-1);if(e.key==='0')toggleItem(9)});
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
 cv.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();mouse.x=(e.clientX-r.left)*W/r.width;mouse.y=(e.clientY-r.top)*H/r.height});
-cv.addEventListener('mousedown',e=>{if(G.screen!=='play')return;const r=cv.getBoundingClientRect();const mx=(e.clientX-r.left)*W/r.width,my=(e.clientY-r.top)*H/r.height;const hy2=H-58;const nx=Object.keys(ITEMS).length;
- if(mx>=8&&mx<=8+46*nx&&my>=hy2-14&&my<=hy2+34){const si=Math.floor((mx-8)/46);const owned=Object.keys(ITEMS).filter(k=>inv[k]>0);if(si>=0&&si<owned.length){toggleItem(si);if(e.preventDefault)e.preventDefault()}}});
+cv.addEventListener('mousedown',e=>{if(G.screen!=='play')return;const r=cv.getBoundingClientRect();const mx=(e.clientX-r.left)*W/r.width,my=(e.clientY-r.top)*H/r.height;const hy2=H-58;const ids=Object.keys(ITEMS);
+ if(mx>=8&&mx<=8+46*ids.length&&my>=hy2-14&&my<=hy2+34){const si=Math.floor((mx-14)/46);const sid=ids[si];if(sid&&inv[sid]>0){useItem(sid);if(e.preventDefault)e.preventDefault()}}});
 function addInv(id,n){inv[id]=(inv[id]||0)+n;beep(660,0.12,'triangle');const it=ITEMS[id];toast('\u2728 '+it.name+(n>1?' ×'+n:'')+' aufgehoben!')}
 function drawRR(g,x,y,w,h,r,fill,stroke){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();if(fill){g.fillStyle=fill;g.fill()}if(stroke){g.strokeStyle=stroke;g.stroke()}}
 function drawTanne(g,x,y,s,gcol){
@@ -199,7 +199,7 @@ function drawTanne(g,x,y,s,gcol){
  g.beginPath();g.moveTo(x-6*s,y+9.5*s);g.lineTo(x-2.2*s,y+4*s);g.lineTo(x-2.2*s,y+9.5*s);g.closePath();g.fill();
  g.beginPath();g.moveTo(x+6*s,y+9.5*s);g.lineTo(x+2.2*s,y+4*s);g.lineTo(x+2.2*s,y+9.5*s);g.closePath();g.fill();
  for(let i=3;i>=0;i--){
-  const w=(8+i*5.6)*s, ty=y-(20+i*8)*s, by=y-(6+i*8)*s;
+  const w=(8+(3-i)*5.6)*s, ty=y-(20+i*8)*s, by=y-(6+i*8)*s;
   g.fillStyle=i%2?'#2a5f3c':(gcol||'#2e6b45');
   g.beginPath();g.moveTo(x,ty);g.lineTo(x+w,by);
   g.quadraticCurveTo(x+w*0.45,by+3*s,x,by);g.quadraticCurveTo(x-w*0.45,by+3*s,x-w,by);
@@ -207,7 +207,7 @@ function drawTanne(g,x,y,s,gcol){
  }
  g.fillStyle='rgba(244,248,255,.92)';
  for(let i=3;i>=1;i--){
-  const w=(8+i*5.6)*s, ty=y-(20+i*8)*s, by=y-(6+i*8)*s;
+  const w=(8+(3-i)*5.6)*s, ty=y-(20+i*8)*s, by=y-(6+i*8)*s;
   g.beginPath();g.moveTo(x,ty+1.5*s);g.lineTo(x+w*0.52,by-6*s);
   g.quadraticCurveTo(x,by-1.5*s,x-w*0.52,by-6*s);g.closePath();g.fill();
  }
@@ -263,7 +263,7 @@ mapDef('keller',620,440,true,null,[
 mapDef('kirche',920,600,true,null,[
  {x:0,y:0,w:920,h:70},{x:0,y:530,w:920,h:70},{x:0,y:0,w:60,h:600},{x:700,y:0,w:220,h:30},{x:80,y:230,w:170,h:40},{x:640,y:230,w:170,h:40},{x:80,y:330,w:170,h:40},{x:640,y:330,w:170,h:40}]);
 mapDef('bahnhof',940,560,true,null,[
- {x:0,y:0,w:940,h:60},{x:0,y:500,w:940,h:60},{x:0,y:0,w:60,h:560},{x:880,y:0,w:60,h:560},{x:340,y:60,w:20,h:120},{x:560,y:380,w:240,h:16}]);
+ {x:0,y:0,w:940,h:60},{x:0,y:500,w:940,h:60},{x:0,y:0,w:60,h:560},{x:880,y:0,w:60,h:560},{x:270,y:60,w:20,h:120},{x:560,y:380,w:240,h:16}]);
 mapDef('laden',700,480,true,null,[
  {x:0,y:0,w:700,h:50},{x:0,y:430,w:700,h:50},{x:0,y:0,w:50,h:480},{x:650,y:0,w:50,h:480},{x:170,y:60,w:20,h:150},{x:430,y:60,w:20,h:150},{x:200,y:330,w:200,h:16}]);
 mapDef('haus_mueller',700,480,true,null,[
@@ -292,16 +292,16 @@ const itemDefs=[
  {map:'zug',x:455,y:260,id:'einkaeufe',n:1}
 ];
 const gardenSpots=[
- {n:'Berndt',x:1010,y:470,gx:1010,gy:470},{n:'Müller',x:1440,y:760,gx:1450,gy:760},{n:'Krüger',x:880,y:1380,gx:890,gy:1330},{n:'Schulz',x:1620,y:1380,gx:1630,gy:1330},{n:'Lehmann',x:2280,y:1380,gx:2290,gy:1330}];
+ {n:'Keiler',x:1010,y:470,gx:1010,gy:470},{n:'Müller',x:1440,y:760,gx:1450,gy:760},{n:'Krüger',x:880,y:1380,gx:890,gy:1330},{n:'Schulz',x:1620,y:1380,gx:1630,gy:1330},{n:'Lehmann',x:2280,y:1380,gx:2290,gy:1330}];
 function buildWorld(){for(const m in MAPS){MAPS[m].npcs=[];MAPS[m].items=[]}
  for(const d of itemDefs){if(d.n>0)MAPS[d.map].items.push({map:d.map,x:d.x,y:d.y,id:d.id,rid:'it:'+d.map+':'+d.x+':'+d.y})}
  gardenSpots.forEach((gs,i)=>{MAPS.dorf.items.push({map:'dorf',x:gs.gx,y:gs.gy,id:'wunschzettel',rid:'wz'+i})})}
-MAPS.dorf.coll.push({x:3120,y:1140,w:210,h:540},{x:810,y:660,w:120,h:112});
+MAPS.dorf.coll.push({x:300,y:1386,w:500,h:98},{x:790,y:560,w:160,h:220});
 let NPCs=[];
 function initNPCs2(){NPCs=[];
  const mk=(map,name,kind,x,y,pts,c1,c2,rad,spd)=>{if(kind==='human'&&!c2)c2=c1;const n={map,name,kind,x,y,pts:pts||null,pi:0,c1,c2,rad:rad||95,spd:spd||55,walk:0,sleeping:false,alert:0,sx:x,sy:y};NPCs.push(n);return n};
- mk('dorf','Frau Berg','human',300,560,[[300,560],[3400,560]],'#b84a6a','#3a3450',95,50);
- mk('dorf','Herr Klein','human',2350,560,[[2350,560],[700,560]],'#3d6aa8','#2a3550',95,45);
+ mk('dorf','Frau Berg','human',300,480,[[300,480],[3400,480]],'#b84a6a','#3a3450',95,50);
+ mk('dorf','Herr Klein','human',2350,480,[[2350,480],[700,480]],'#3d6aa8','#2a3550',95,45);
  mk('dorf','Postboten-August','human',1200,880,[[700,880],[1900,880]],'#2e7d5b','#274356',95,62);
  mk('dorf','Bello','dog',960,820,[[960,820],[1300,800],[980,760]],'#8a6a4a',null,70,70);
  mk('dorf','Minka','cat',450,800,[[450,800],[640,790]],'#caa27a',null,55,40);
@@ -313,8 +313,8 @@ function initNPCs2(){NPCs=[];
  mk('haus_og','Finn','human',650,300,[[650,300],[650,470],[520,130]],'#4a7a9a','#3d5a6a',85,55);
  mk('haus_og','Kater Murr','cat',730,250,[[730,250],[700,470]],'#6a6a72',null,55,35);
  mk('kirche','Pfarrer Winter','human',380,480,[[380,480],[600,180],[220,180]],'#2b2b3a','#33334a',95,35);
- mk('bahnhof','Bahnhofswärter Krause','human',700,150,[[700,150],[200,180],[700,450]],'#3a5a7a','#2a4055',95,42);
- mk('laden','Verkäuferin Stern','human',350,120,[[350,120],[600,380]],'#8a3a5a','#4a3350',85,45);
+ mk('bahnhof','Bahnhofswärter Krause','human',700,140,[[700,140],[400,140],[400,240],[200,240],[420,450],[700,450]],'#3a5a7a','#2a4055',95,42);
+ mk('laden','Verkäuferin Stern','human',350,120,[[350,120],[350,280],[600,380]],'#8a3a5a','#4a3350',85,45);
  mk('kirche','Kirchenkater','cat',850,400,[[850,400],[750,480]],'#aa8a5a',null,55,30);
  mk('dorf','Herr Sommer','human',3240,950,[[3240,950],[3240,1930]],'#7a5a2a','#2a2a3a',85,50);
  mk('dorf','Frau Winter','human',300,1950,[[300,1950],[2500,1950]],'#9a3a5a',null,85,45);
@@ -325,6 +325,7 @@ function initNPCs2(){NPCs=[];
  mk('scheune','Scheunenhund Bo','dog',200,300,[[200,300],[520,300],[520,400],[200,400]],'#6a4a3a',null,70,55);
  mk('dorf','Streunerkatze Mimi','cat',1290,1620,[[1290,1620],[1450,1560]],'#8a8a92',null,55,30);}
 const collAt=(m,x,y)=>MAPS[m].coll.some(c=>x>c.x-12&&x<c.x+c.w+12&&y>c.y-12&&y<c.y+c.h+12);
+const onFacade=(x,y)=>G.map==='dorf'&&MAPS.dorf.coll.some(c=>c.w<1000&&x>c.x-14&&x<c.x+c.w+14&&y>c.y-132&&y<c.y+6);
 function moveCircle(o,dx,dy,map){const m=MAPS[map];let nx=clamp(o.px+dx,20,m.w-20),ny=clamp(o.py+dy,20,m.h-20);
  if(!collAt(map,nx,o.py))o.px=nx; if(!collAt(map,o.px,ny))o.py=ny}
 function drawVilla(g,x,y,w,h,body,roof,doorX,name,lit){g.fillStyle='#cdd9e6';g.fillRect(x-6,y+h,w+12,10);
@@ -341,18 +342,25 @@ function drawVilla(g,x,y,w,h,body,roof,doorX,name,lit){g.fillStyle='#cdd9e6';g.f
 function drawFence(g,x1,x2,y,gapX){g.strokeStyle='#6a4c30';g.lineWidth=5;for(let x=x1;x<x2;x+=40){if(gapX>=0&&Math.abs(x-gapX)<46){continue}g.beginPath();g.moveTo(x,y);g.lineTo(x,y+34);g.stroke()}
  g.beginPath();g.moveTo(x1,y+9);g.lineTo(x2,y+9);g.moveTo(x1,y+26);g.lineTo(x2,y+26);g.stroke();
  g.fillStyle='#ffffffaa';g.fillRect(x1,y-3,x2-x1,4)}
+
+function drawHouseDoor(g,x,y){g.fillStyle='rgba(30,50,80,.18)';g.beginPath();g.ellipse(x,y+48,20,5,0,0,7);g.fill();g.fillStyle='#5a3d28';g.fillRect(x-16,y-2,32,46);g.fillStyle='#7a5537';g.fillRect(x-13,y+2,26,40);g.fillStyle='#e8c04a';g.beginPath();g.arc(x+8,y+24,2.5,0,7);g.fill();g.strokeStyle='#2f6b45';g.lineWidth=3;g.beginPath();g.arc(x,y+18,8,0,7);g.stroke();g.fillStyle='#c92f2f';g.fillRect(x-2,y+14,4,3);g.fillStyle='#b9c3ce';g.fillRect(x-20,y+46,40,4)}
 function drawWeihnachtsbaum(g,x,y){const s=4.4;drawTanne(g,x,y,s);
  for(let i=0;i<9;i++){g.fillStyle=['#e05a6b','#ffd34d','#7fd8ff','#ff9adf'][i%4];g.beginPath();g.arc(x-34+((i*71)%68),y-28-(i*19)%150,4.5,0,7);g.fill()}
  const ty=y-44*s-14;g.fillStyle='#ffd34d';g.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=(i%2?7:15);const sx=x+Math.cos(a)*r,sy=ty+Math.sin(a)*r;i?g.lineTo(sx,sy):g.moveTo(sx,sy)}g.closePath();g.fill();
  g.strokeStyle='#b8902a';g.lineWidth=2;g.stroke()}
-function drawParkedTrain(g){for(let i=2;i>=0;i--){const wy=1150+i*170;
- g.fillStyle='rgba(30,50,80,.25)';g.beginPath();g.ellipse(3235,wy+164,102,9,0,0,7);g.fill();
- g.fillStyle='#c43a2a';drawRR(g,3132,wy,200,158,10,'#c43a2a');
- g.fillStyle='#222b3a';g.fillRect(3132,wy,200,10);g.fillStyle='#3a3f4a';g.fillRect(3132,wy+148,200,10);
- g.fillStyle='#ffd34d';g.fillRect(3132,wy+64,200,10);
- g.fillStyle='#ffd98a';g.fillRect(3152,wy+24,44,30);g.fillRect(3218,wy+24,44,30);g.fillRect(3152,wy+96,44,40);g.fillRect(3218,wy+96,44,40);
- if(i===1){g.fillStyle='#27313f';g.fillRect(3130,1372,18,66);g.fillStyle='#8fd08f';g.beginPath();g.arc(3139,1364,4,0,7);g.fill()}}
- g.fillStyle='#22314d';g.font='bold 12px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2190',3108,1352);g.textAlign='left'}
+function drawParkedTrain(g){
+ g.fillStyle='#8d9aa8';g.fillRect(280,1352,540,150);
+ g.fillStyle='#6a5a48';for(let x=300;x<806;x+=26)g.fillRect(x,1366,8,122);
+ g.fillStyle='#9aa2ad';g.fillRect(280,1402,540,6);g.fillRect(280,1448,540,6);
+ g.fillStyle='#8d9aa8';g.fillRect(256,1390,30,74);
+ for(let i=2;i>=0;i--){const wx=310+i*158;
+  g.fillStyle='rgba(30,50,80,.25)';g.beginPath();g.ellipse(wx+75,1480,80,7,0,0,7);g.fill();
+  g.fillStyle='#c43a2a';drawRR(g,wx,1382,150,92,10,'#c43a2a');
+  g.fillStyle='#222b3a';g.fillRect(wx,1382,150,10);g.fillStyle='#3a3f4a';g.fillRect(wx,1464,150,10);
+  g.fillStyle='#ffd34d';g.fillRect(wx,1422,150,10);
+  g.fillStyle='#ffd98a';g.fillRect(wx+18,1398,40,24);g.fillRect(wx+92,1398,40,24);g.fillRect(wx+18,1438,40,20);g.fillRect(wx+92,1438,40,20);
+  if(i===1){g.fillStyle='#27313f';g.fillRect(wx+57,1380,36,16);g.fillStyle='#8fd08f';g.beginPath();g.arc(wx+75,1376,4,0,7);g.fill()}}
+ g.fillStyle='#22314d';g.font='bold 12px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2193',540,1330);g.textAlign='left'}
 MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  g.fillStyle='#8d9aa8';g.fillRect(0,520,3800,390);g.strokeStyle='#e8eef5';g.setLineDash([34,28]);g.lineWidth=6;g.beginPath();for(let y=700;y<740;y+=14){g.moveTo(0,y);g.lineTo(3800,y)}g.stroke();g.setLineDash([]);
  for(const zc of[380,1050,1830,2700,3290])for(let i=0;i<6;i++){g.fillStyle='#e8eef5';g.fillRect(zc+i*24,532,12,48)}
@@ -365,10 +373,9 @@ MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  g.fillStyle='#22314d';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('S1 \u2192 Oranienburg',178,44);g.fillText('S1 \u2192 Wannsee',178,2154);g.textAlign='left';
  g.fillStyle='#a9cbe4';g.beginPath();g.ellipse(1500,1700,400,220,0,0,7);g.fill();
  g.strokeStyle='#7fb2d8';g.lineWidth=4;g.beginPath();g.ellipse(1500,1700,390,210,0,0,7);g.stroke();
- g.fillStyle='#eef5fb';g.beginPath();g.moveTo(280,1880);g.lineTo(450,1690);g.lineTo(640,1880);g.closePath();g.fill();g.strokeStyle='#94a1af';g.lineWidth=3;g.stroke();
- g.fillStyle='#5a4632';g.fillRect(446,1602,8,92);g.fillStyle='#c92f2f';g.beginPath();g.moveTo(454,1602);g.lineTo(490,1613);g.lineTo(454,1624);g.closePath();g.fill();
+ drawFence(g,860,1420,960,1130);drawFence(g,1600,2160,960,1890);drawFence(g,2260,2600,960,2460);drawFence(g,2700,3100,960,2900);drawFence(g,3380,3780,960,3580);
  drawVilla(g,250,180,560,260,'#d8cfc2','#8a4438',500,'St. Martins-Kirche',G.flags.lights);
- drawVilla(g,860,180,440,260,'#c9b89a','#5a6a8a',1080,'Haus Berndt',G.flags.lights);
+ drawVilla(g,860,180,440,260,'#c9b89a','#5a6a8a',1080,'Haus Keiler',G.flags.lights);
  drawVilla(g,1420,180,460,260,'#b8c4b0','#7a5545',1650,'Weihnachts-Laden',G.flags.lights);
  drawVilla(g,2000,180,460,260,'#d0b8c4','#6a4a6a',2230,'Haus M\u00fcller',G.flags.lights);
  drawVilla(g,3200,180,380,260,'#c8b09a','#6a4a3a',3390,'Alte Scheune',G.flags.lights);
@@ -378,9 +385,8 @@ MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  drawVilla(g,2260,1020,340,300,'#b8a8c8','#5a5578',2430,'Haus Lehmann',G.flags.lights);
  drawVilla(g,2700,1020,400,300,'#b8c8c0','#7a6a8a',2900,'Haus Sandmeier',G.flags.lights);
  drawVilla(g,3380,1020,400,300,'#c8b8a8','#8a6a4a',3580,'Haus Wattebach',G.flags.lights);
- drawFence(g,860,1420,960,1130);drawFence(g,1600,2160,960,1890);drawFence(g,2260,2600,960,2460);
+ drawHouseDoor(g,1130,1020);drawHouseDoor(g,1890,1020);drawHouseDoor(g,2460,1020);
  drawFence(g,860,1420,1360,1130);drawFence(g,1600,2160,1360,1890);drawFence(g,2260,2600,1360,2460);
- drawFence(g,2700,3100,960,2900);drawFence(g,3380,3780,960,3580);
  drawFence(g,2700,3100,1360,2900);drawFence(g,3380,3780,1360,3580);
  for(let i=0;i<4;i++)g.fillStyle='#3f7d4a',g.fillRect(900+i*120,1330,60,20);
  g.fillStyle='#6a4c30';g.fillRect(455,470,90,18);g.fillStyle='#94a1af';g.fillRect(455,470,90,6);
@@ -388,19 +394,20 @@ MAPS.dorf.paint=function(g){snowGround(g,this.w,this.h,42);
  for(let x=260;x<3800;x+=320)drawLampP(g,x,508,G.flags.lights||!isNight());
  for(let x=600;x<3400;x+=580)drawLampP(g,x,900,G.flags.lights||!isNight());
  drawTanne(g,830,300,0.8);drawTanne(g,1360,240,1);drawTanne(g,1940,260,0.9);drawTanne(g,2900,260,1);drawTanne(g,3660,320,0.9);
- drawTanne(g,400,1850,1);drawTanne(g,650,1520,1.1);drawTanne(g,2950,1700,1);drawTanne(g,3650,1850,1);
- drawTanne(g,2550,1450,1.5);drawTanne(g,760,1450,1.3);
+ drawTanne(g,400,1850,1);drawTanne(g,980,1780,1.1);drawTanne(g,2950,1700,1);drawTanne(g,3650,1850,1);
+ drawTanne(g,2550,1450,1.5);drawTanne(g,1000,1560,1.3);
  drawParkedTrain(g);
- g.fillStyle='#aebbc9';g.beginPath();g.arc(870,716,142,0,7);g.fill();
+ g.fillStyle='#8d9aa8';g.beginPath();g.arc(870,716,195,0,7);g.fill();
+ g.strokeStyle='#7d8a98';g.lineWidth=3;g.beginPath();g.arc(870,716,195,0,7);g.stroke();
+ g.strokeStyle='#ffffffcc';g.setLineDash([18,14]);g.lineWidth=4;g.beginPath();g.arc(870,716,122,0,7);g.stroke();g.setLineDash([]);
  g.fillStyle='#dfe8f1';g.beginPath();g.arc(870,716,64,0,7);g.fill();
  g.strokeStyle='#94a1af';g.lineWidth=4;g.beginPath();g.arc(870,716,64,0,7);g.stroke();
- g.strokeStyle='#ffffffcc';g.setLineDash([18,14]);g.lineWidth=4;g.beginPath();g.arc(870,716,104,0,7);g.stroke();g.setLineDash([]);
  drawWeihnachtsbaum(g,870,716);
  g.fillStyle='#22314d';g.font='bold 14px sans-serif';g.textAlign='center';g.fillText('\ud83c\udf84 Dorf-Weihnachtsbaum',870,498);g.textAlign='left';
  g.fillStyle='#8d9aa8';g.font='bold 15px sans-serif';g.fillText('\u26c4 Spielplatz (Ost)',60,300);
  if(G.flags.lights){for(let i=0;i<6;i++){const hx=[250,860,1420,2000,860,1600][i];g.fillStyle=['#ff6a6a','#ffd34d','#7fd8ff','#a0ffb0','#ff9adf','#fff'][i];for(let j=0;j<8;j++){g.beginPath();g.arc(hx+40+j*60,(i<4?170:1010),4,0,7);g.fill()}}}
  if(G.flags.snowman){drawSnowman(g,2480,1290,true)}
- g.fillStyle='#5a4632';drawRR(g,660,690,120,70,8,'#4a5a72');g.fillStyle='#e8eef5';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('FROHNAU',720,720);g.fillText('Haltepunkt \u2022 S1',720,740);g.textAlign='left'};
+ g.fillStyle='#5a4632';drawRR(g,300,690,120,70,8,'#4a5a72');g.fillStyle='#e8eef5';g.font='bold 13px sans-serif';g.textAlign='center';g.fillText('FROHNAU',360,720);g.fillText('Haltepunkt \u2022 S1',360,740);g.textAlign='left'};
 
 function drawSnowman(g,x,y,dress){g.fillStyle='#f2f7fc';g.beginPath();g.arc(x,y,14,0,7);g.arc(x,y-20,10,0,7);g.fill();
  if(dress){g.fillStyle='#333';g.beginPath();g.arc(x-3,y-22,1.3,0,7);g.arc(x+3,y-22,1.3,0,7);g.fill();g.fillStyle='#e8763d';g.beginPath();g.moveTo(x,y-20);g.lineTo(x+9,y-18);g.lineTo(x,y-17);g.fill();g.fillStyle='#6a4c30';g.beginPath();g.moveTo(x,y-34);g.lineTo(x-14,y-30);g.lineTo(x+14,y-30);g.closePath();g.fill();g.fillStyle='#c92f2f';g.fillRect(x-8,y-14,16,3)}}
@@ -463,7 +470,7 @@ MAPS.bahnhof.paint=function(g){g.fillStyle='#cfd8e0';g.fillRect(60,60,820,440);g
  g.fillStyle='#8b5a2b';g.fillRect(100,200,180,40);g.fillStyle='#6a4c30';g.fillRect(100,240,180,10);g.fillStyle='#3a5a7a';g.fillRect(100,170,180,12);
  g.fillStyle='#8b5a2b';g.fillRect(100,400,180,40);g.fillStyle='#6a4c30';g.fillRect(100,440,180,10);
  g.fillStyle='#94a1af';g.fillRect(300,90,260,120);g.fillStyle='#1d2b4a';g.fillRect(310,100,240,84);g.fillStyle='#94a1af';g.fillRect(300,196,260,10);g.fillStyle='#94a1af';g.fillRect(300,90,10,120);g.fillRect(550,90,10,120);g.fillRect(300,90,260,8);
- g.fillStyle='#e8eef5';g.font='bold 13px monospace';g.fillText('S1 \u2192 Wannsee \u00b7 S1 \u2192 Oranienburg',322,135);g.fillText('Abfahrt: 10:12, 12:24, 15:03, 17:40',322,160);
+ g.fillStyle='#e8eef5';g.font='bold 12px monospace';g.fillText('S1 \u2192 Wannsee \u00b7 S1 \u2192 Oranienburg',318,128);g.font='11px monospace';g.fillText('Abfahrt \u2013 Gleis 1/2:',318,150);g.fillText('10:12 \u00b7 12:24 \u00b7 15:03 \u00b7 17:40',318,172);
  g.fillStyle='#3a3f4a';g.fillRect(700,100,50,70);g.fillStyle='#6a7f8a';g.fillRect(710,110,30,50);g.fillStyle='#ffd34d';g.fillRect(714,120,6,6);g.fillRect(724,120,6,6);g.fillRect(714,134,6,6);g.fillRect(724,134,6,6);
  g.fillStyle='#8b5a2b';g.fillRect(600,396,120,30);g.fillStyle='#6a4c30';g.fillRect(600,426,120,8);
  g.fillStyle='#3a6a4a';drawRR(g,830,300,60,90,6,'#2e6b45');g.fillStyle='#e8eef5';g.fillRect(845,310,30,24);g.fillStyle='#94a1af';g.fillRect(840,296,40,8);
@@ -472,7 +479,12 @@ MAPS.bahnhof.paint=function(g){g.fillStyle='#cfd8e0';g.fillRect(60,60,820,440);g
  g.fillStyle='#f2ede2';g.beginPath();g.arc(690,70,16,0,7);g.fill();g.strokeStyle='#3a3f4a';g.lineWidth=3;g.beginPath();g.arc(690,70,16,0,7);g.stroke();g.beginPath();g.moveTo(690,70);g.lineTo(690,59);g.moveTo(690,70);g.lineTo(698,74);g.stroke();
  g.fillStyle='#8b5a2b';g.fillRect(340,260,26,84);g.fillStyle='#e8eef5';g.fillRect(328,238,50,24);g.strokeStyle='#6a4c30';g.lineWidth=2;g.strokeRect(328,238,50,24);
  g.fillStyle='#b8622a';g.fillRect(770,110,26,20);g.fillStyle='#2e6b45';g.fillRect(772,80,8,30);g.fillRect(784,80,8,30);g.fillRect(778,70,6,36);
- g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83d\ude89 Bahnhof Frohnau',70,54)};
+ g.fillStyle='rgba(30,50,80,.22)';g.beginPath();g.ellipse(450,500,96,10,0,0,7);g.fill();
+ g.fillStyle='#c43a2a';drawRR(g,360,432,180,66,8,'#c43a2a');g.fillStyle='#ffd34d';g.fillRect(360,458,180,8);
+ g.fillStyle='#ffd98a';g.fillRect(372,440,30,14);g.fillRect(498,440,30,14);
+ g.fillStyle='#27313f';g.fillRect(432,438,36,54);g.fillStyle='#8fd08f';g.beginPath();g.arc(446,430,3.5,0,7);g.fill();
+ g.fillStyle='#22314d';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText('Einstieg \u2192 Zug',450,424);g.textAlign='left';
+g.fillStyle='#94a1af';g.font='bold 13px sans-serif';g.fillText('\ud83d\ude89 Bahnhof Frohnau',70,54)};
 MAPS.laden.paint=function(g){g.fillStyle='#d8c8b0';g.fillRect(50,50,600,380);g.fillStyle='#c2b098';for(let y=60;y<430;y+=30)g.fillRect(50,y,600,3);
  for(let s=0;s<3;s++){g.fillStyle='#8b5a2b';g.fillRect(220,90+s*80,60,14);g.fillStyle='#94a1af';g.fillRect(220,104+s*80,60,6);g.fillStyle='#94a1af';g.fillRect(480,90+s*80,60,14)}
  g.fillStyle='#8b5a2b';g.fillRect(200,330,200,26);g.fillStyle='#94a1af';g.fillRect(200,356,200,8);g.fillStyle='#c92f2f';g.fillRect(120,84,44,90);g.fillStyle='#3f8a52';g.fillRect(172,84,44,90);g.fillStyle='#f2ede2';g.fillRect(124,88,36,6);g.fillRect(176,88,36,6);
@@ -547,11 +559,11 @@ function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,
  P('dorf',1050,436,60,26,'haus_eg',210,400);
  P('dorf',470,436,60,26,'kirche',460,470);P('dorf',1620,436,60,26,'laden',350,380);P('dorf',600,926,60,30,'bahnhof',470,440);
  P('kirche',420,505,80,20,'dorf',500,470);P('laden',300,398,80,18,'dorf',1650,470);P('bahnhof',420,470,80,20,'dorf',630,900);
- P('dorf',2200,436,60,26,'haus_mueller',350,380);P('dorf',1110,436,60,26,'haus_krueger',350,380);P('dorf',1850,436,60,26,'haus_schulz',350,380);P('dorf',2400,436,60,26,'haus_lehmann',350,380);P('dorf',3360,436,60,26,'scheune',380,414);
- P('haus_mueller',300,402,80,18,'dorf',2230,470);P('haus_krueger',300,402,80,18,'dorf',1140,470);P('haus_schulz',300,402,80,18,'dorf',1880,470);P('haus_lehmann',300,402,80,18,'dorf',2430,470);P('scheune',340,440,80,18,'dorf',3390,470);
+ P('dorf',2200,436,60,26,'haus_mueller',350,380);P('dorf',1100,964,60,26,'haus_krueger',350,380);P('dorf',1860,964,60,26,'haus_schulz',350,380);P('dorf',2430,964,60,26,'haus_lehmann',350,380);P('dorf',3360,436,60,26,'scheune',380,414);
+ P('haus_mueller',300,402,80,18,'dorf',2230,470);P('haus_krueger',300,402,80,18,'dorf',1130,992);P('haus_schulz',300,402,80,18,'dorf',1890,992);P('haus_lehmann',300,402,80,18,'dorf',2460,992);P('scheune',340,440,80,18,'dorf',3390,470);
  P('haus_eg',180,468,70,18,'dorf',1080,480);P('haus_eg',320,62,80,18,'haus_og',366,95);P('haus_eg',96,468,50,18,'keller',250,340);
  P('haus_og',370,468,80,18,'haus_eg',360,90);P('keller',280,368,60,16,'haus_eg',110,460);
- P('dorf',3086,1368,44,64,'zug',320,300);P('zug',280,332,80,20,'dorf',3060,1380);
+ P('dorf',500,1336,80,36,'zug',320,300);P('zug',280,332,80,20,'bahnhof',450,430);P('bahnhof',420,448,60,30,'zug',320,300);
  const I=(m,x,y,label,fn)=>MAPS[m].inter.push({x,y,label,fn});
  I('dorf',500,620,'Verschneiter Kirchweg',()=>{if(!inv.schaufel){toast('\u274c Du brauchst eine Schneeschaufel.');return}startMG('shovel')});
  I('dorf',2480,1290,'Schneemann bauen',()=>{if(Q.schneemann.st!=='active'||Q.schneemann.step<1){toast('Hier k\u00f6nnte ein sch\u00f6ner Schneemann entstehen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.ast||!inv.kohle){toast('\u274c Du brauchst Tannenast + Kohle.');return}startMG('snowman')});
@@ -561,22 +573,23 @@ function buildRuntime(){const P=(m,x,y,w,h,to,px,py)=>MAPS[m].portals.push({x,y,
  I('haus_eg',390,190,'Weihnachtsbaum',()=>{if(Q.baum.st!=='active'||Q.baum.step<1){toast('Der Tannenbaum ist noch ungeschm\u00fcckt.');return}if(!inv.kugel||!inv.glocke){toast('\u274c N\u00f6tig: Christbaumkugel + Glocke.');return}startMG('tree')});
  I('haus_eg',130,430,'Schreibtisch',()=>{if(Q.brief.st!=='active'||Q.brief.step<1){toast('Der Schreibtisch vom Hausmeister.');return}if(!inv.brief||!inv.stempel){toast('\u274c N\u00f6tig: Brief + Siegelstempel.');return}startMG('letter')});
  I('dorf',1500,1700,'Eissee',()=>toast('\u26f8 Der Eissee tr\u00e4gt \u2013 aber Berndt rutscht sch\u00f6n d\u00fcnn dar\u00fcber!'));
- I('dorf',450,1760,'Rodelh\u00fcgel',()=>toast('\ud83d\udeec Berndt zieht den Schlitten den H\u00fcgel hinauf \u2013 Pforten frei!'));
+
  I('haus_mueller',350,240,'K\u00fcchentisch',()=>toast('\ud83c\udf6a Es riecht nach frischen Vanillekipferl!'));
  I('haus_krueger',200,150,'B\u00fccherregal',()=>toast('\ud83d\udcda Adventsklassiker: Heidi und Pippi Langstrumpf.'));
  I('haus_schulz',480,220,'Klavier',()=>toast('\ud83c\udfb9 Leise klingt Stille Nacht im Zimmer.'));
  I('haus_lehmann',350,250,'Familienfoto',()=>toast('\ud83d\udcbc Die ganze Familie Lehmann am ersten Advent.'));
  I('scheune',380,200,'Heulager',()=>toast('\ud83c\udf3e Heu, das nach Sommer riecht \u2013 mitten im Winter.'));
  I('dorf',1290,1620,'Streunerkatze',()=>{tameAttempt()});
- I('dorf',1140,486,'Paketabgabe',()=>{if(Q.einkaeufe.st!=='active'){toast('\ud83d\udce6 Hier k\u00f6nnten die Eink\u00e4ufe aus dem Zug hinpassen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.einkaeufe){toast('\ud83c\udf81 Die Weihnachtseink\u00e4ufe liegen im stehenden Zug am Gleis 2.');return}inv.einkaeufe--;G.flags.einkaeufe=true;toast('\ud83c\udf81 Die Eink\u00e4ufe liegen vor dem markierten Haus \u2013 Frau Kr\u00fcger wird sich riesig freuen!');finQ('einkaeufe')});
+ I('dorf',1130,1000,'Paketabgabe',()=>{if(Q.einkaeufe.st!=='active'){toast('\ud83d\udce6 Hier k\u00f6nnten die Eink\u00e4ufe aus dem Zug hinpassen\u2026 (Nebenquest annehmen: Q)');return}if(!inv.einkaeufe){toast('\ud83c\udf81 Die Weihnachtseink\u00e4ufe liegen im stehenden Zug am Abstellgleis beim Bahnhof.');return}inv.einkaeufe--;G.flags.einkaeufe=true;toast('\ud83c\udf81 Die Eink\u00e4ufe liegen vor dem markierten Haus \u2013 Frau Kr\u00fcger wird sich riesig freuen!');finQ('einkaeufe')});
  I('kirche',180,150,'Orgel reparieren',()=>{if(Q.orgel.st!=='active'||Q.orgel.step<1){toast('Die Orgel verstummt \u2013 nimm zuerst den Orgel-Auftrag an (Q).') ;return}if(!inv.werkzeug){toast('\u274c Du brauchst die Werkzeugkiste.');return}startMG('organ')})}
 function questStep(id,extra){const q=Q[id],def=QUESTS.find(x=>x.id===id);if(q.st!=='active')return;updateTicker();q.step++;
  if(q.step>=def.steps.length){q.st='done';toast('\ud83c\udf85 '+def.title+' \u2013 ABGESCHLOSSEN!'+(def.main?'':''));beep(880,0.3,'triangle');setTimeout(()=>beep(1170,0.4,'triangle'),180);checkWin()}else{toast('\ud83d\udcdd N\u00e4chster Schritt: '+def.steps[q.step].slice(0,60)+'\u2026');if(extra)extra()}}
 function finQ(id){const def=QUESTS.find(q=>q.id===id);if(Q[id].st==='active'){Q[id].step=def.steps.length-1;questStep(id)}}
-function checkWin(){const main=QUESTS.filter(q=>q.main);if(main.every(q=>Q[q.id].st==='done')){G.screen='win';beep(660,.2);setTimeout(()=>beep(880,.2),200);setTimeout(()=>beep(1320,.5),400)}}
+function checkWin(){if(G.flags.winDone)return;const main=QUESTS.filter(q=>q.main);if(main.every(q=>Q[q.id].st==='done')){G.flags.winDone=true;G.screen='win';beep(660,.2);setTimeout(()=>beep(880,.2),200);setTimeout(()=>beep(1320,.5),400)}}
+const INTQ={'Verschneiter Kirchweg':['schaufeln'],'Schneemann bauen':['schneemann'],'Stromkasten':['beleuchtung'],'Postkasten':['zettel','brief'],'Adventskranz':['kranz'],'Weihnachtsbaum':['baum'],'Schreibtisch':['brief'],'Paketabgabe':['einkaeufe'],'Orgel reparieren':['orgel']};
 function handInPostkasten(){let did=false;
  if(Q.zettel.st==='active'&&Q.zettel.step>=1&&inv.wunschzettel>=5){inv.wunschzettel-=5;questStep('zettel');did=true}
- if(Q.brief.st==='active'&&Q.brief.step>=2&&inv.brief>=1){inv.brief--;questStep('brief');did=true}
+ if(Q.brief.st==='active'&&Q.brief.step>=2&&G.flags.letter){questStep('brief');did=true}
  if(!did)toast('\ud83d\udceb Hier kannst du deine Wunschzettel (5 St\u00fcck) oder den Weihnachtsbrief einwerfen.')}
 function updateNPCs(dt){const ts=Math.min(15,Math.max(1,G.speed|0));for(const n of NPCs){if(n.map!==G.map)continue;if(n.name==='Streunerkatze Mimi'&&G.flags.katzeZahm)continue;n.alert=Math.max(0,n.alert-dt*2);if(n.name==='Streunerkatze Mimi'&&Math.hypot(n.x-G.px,n.y-G.py)<95&&(inv.fisch>0||inv.fleisch>0))tameAttempt();
  const feast=day()>=24&&!isNight()&&n.map==='haus_eg'&&n.kind==='human';
@@ -629,7 +642,7 @@ function update(dt){if(G.screen!=='play')return;for(let i=feet.length-1;i>=0;i--
  G.time+=dt*ts;G.portalCd=Math.max(0,G.portalCd-dt);
  const sp=230,ix=(keys['arrowright']||keys['d']?1:0)-(keys['arrowleft']||keys['a']?1:0),iy=(keys['arrowdown']||keys['s']?1:0)-(keys['arrowup']||keys['w']?1:0);
  if(ix||iy){const l=Math.hypot(ix,iy);moveCircle(G,ix/l*sp*dt,iy/l*sp*dt,G.map);G.walk=(G.walk||0)+dt*10;
-  ftAge+=dt;if(ftAge>0.28){ftAge=0;ftSide=-ftSide;feet.push({x:G.px+ftSide*4,y:G.py+4,a:0});if(feet.length>70)feet.shift()}}
+  ftAge+=dt;if(ftAge>0.28){ftAge=0;ftSide=-ftSide;if(!onFacade(G.px+ftSide*4,G.py+4))feet.push({x:G.px+ftSide*4,y:G.py+4,a:0});if(feet.length>70)feet.shift()}}
  const m=MAPS[G.map];
  for(const p of m.portals){if(G.portalCd<=0&&G.px>p.x&&G.px<p.x+p.w&&G.py>p.y&&G.py<p.y+p.h){G.portalCd=0.5;switchMap(p.to,p.px,p.py);break}}
  updateItems(dt);updateNPCs(dt);updateEvent(dt);updateTrain(dt);updateFollow(dt);
@@ -637,9 +650,9 @@ function update(dt){if(G.screen!=='play')return;for(let i=feet.length-1;i>=0;i--
  if(day()>=24&&!isNight()&&!G.flags.feast){G.flags.feast=true;NPCs.forEach(n=>{if(n.map==='haus_eg'&&(FEAST[n.name])){n.pts=null}});toast('\ud83c\udf5d Tag 24! Alle Bewohner haben sich zum Festessen mit G\u00e4nsebraten versammelt.')}
  if(day()===5&&isNight()&&!G.flags.nik&&!event)startXmasEvent('nikolaus');
  if(day()===24&&isNight()&&!G.flags.santa&&!event)startXmasEvent('santa');
- if(day()>=25&&G.screen==='play'){const main=QUESTS.filter(q=>q.main);if(!main.every(q=>Q[q.id].st==='done')){G.screen='lose';G.loseWhy='Die Adventszeit ist vorbei \u2013 nicht alle Hauptquests erledigt!'}else checkWin()}
+ if(day()>=25&&G.screen==='play'){const main=QUESTS.filter(q=>q.main);if(!main.every(q=>Q[q.id].st==='done')){G.screen='lose';G.loseWhy='Die Adventszeit ist vorbei \u2013 nicht alle Hauptquests erledigt!'}}
  if(G.susp>=100&&G.screen==='play'){G.screen='lose';G.loseWhy='Du wurdest erwischt! Verdacht 100%.'}}
-const ICON={lichtkette:'\ud83d\udca1',schaufel:'\u26cf\ufe0f',werkzeug:'\ud83e\uddf0',lupe:'\ud83d\udd0d',kugel:'\ud83d\udd34',glocke:'\ud83d\udd14',kerze:'\ud83d\udd6b\ufe0f',ast:'\ud83c\udf3f',kohle:'\u26ab\ufe0f',brief:'\u2709\ufe0f',stempel:'\ud83d\uddd1\ufe0f',zimt:'\ud83e\udd6e',maus:'\ud83d\udc2d',mandarine:'\ud83c\udf4a',wunschzettel:'\ud83d\udcdd',kristall:'\u2744\ufe0f','mütze':'\ud83e\udde2',fisch:'\ud83d\udc1f',fleisch:'\ud83d\udc69',einkaeufe:'\ud83c\udf81'};
+const ICON={lichtkette:'\ud83d\udca1',schaufel:'\u26cf\ufe0f',werkzeug:'\ud83e\uddf0',lupe:'\ud83d\udd0d',kugel:'\ud83d\udd34',glocke:'\ud83d\udd14',kerze:'\ud83d\udd6f\ufe0f',ast:'\ud83c\udf3f',kohle:'\u26ab\ufe0f',brief:'\u2709\ufe0f',stempel:'\u2712\ufe0f',zimt:'\ud83e\udd6e',maus:'\ud83d\udc2d',mandarine:'\ud83c\udf4a',wunschzettel:'\ud83d\udcdd',kristall:'\u2744\ufe0f','mütze':'\ud83e\udde2',fisch:'\ud83d\udc1f',fleisch:'\ud83e\udd69',einkaeufe:'\ud83c\udf81'};
 function drawItemSprite(g,it){const b=Math.sin(performance.now()/300+it.x)*3;g.fillStyle='rgba(255,220,120,.35)';g.beginPath();g.arc(it.x,it.y-8+b,14,0,7);g.fill();
  g.font='18px sans-serif';g.textAlign='center';g.fillText(ICON[it.id]||'\u2728',it.x,it.y-2+b);g.font='bold 10px sans-serif';g.fillStyle='#132341';g.fillStyle='#132441';g.fillText(ITEMS[it.id].name,it.x,it.y+16+b);g.textAlign='left'}
 function tryInteract(){if(G.screen!=='play')return;const m=MAPS[G.map];let best=null,bd=60;
@@ -651,12 +664,13 @@ function talkTo(n){if(n.name==='Streunerkatze Mimi'){tameAttempt();return}if(n.n
  G.susp=Math.min(96,G.susp+3);n.alert=1;
  const says={'Mama':'\u201eBerndt, h\u00f6rst du mich? Bist du im Haus?\u201c','Papa':'\u201eIch h\u00f6re da unten ein Getappel\u2026\u201c','Oma':'\u201eMeine Pl\u00e4tzchenbackstube braucht dringend Zimt\u2026\u201c','Luise':'\u201ePSST \u2013 ich glaube, ich habe einen Wichtel gesehen!\u201c','Finn':'\u201eKatze! Wo bist du, Kater Murr?\u201c','Frau Berg':'\u201eWas hat denn der kleine Kerl hier zu suchen?\u201c','Herr Klein':'\u201eEin Wichtel? Im Advent? Faszinierend.\u201c','Pfarrer Winter':'\u201eDie Orgel verstummt seit Tagen \u2013 ein Wunder w\u00e4re sch\u00f6n.\u201c','Bahnhofsw\u00e4rter Krause':'\u201eDer Stromkasten ist aus Versehen verriegelt.\u201c','Verk\u00e4uferin Stern':'\u201eAlles sch\u00f6n ordentlich hier, keine Spur eines Wichtels.\u201c','Herr M\u00fcller':'\u201eFrisch gebackene Vanillekipferl \u2013 aber der Zimt ist alle!\u201c','Frau Kr\u00fcger':'\u201eIch muss noch die Weihnachtspost schreiben\u2026\u201c','Herr Schulz':'\u201eLiest du auch jedes Jahr dieselben B\u00fccher im Advent?\u201c','Frau Lehmann':'\u201eWir Lehmanns feiern dieses Jahr ganz gro\u00df.\u201c','Scheunenhund Bo':'\u201eWuff! Wuff!\u201c'};
  toast('<b>'+n.name+':</b> '+(says[n.name]||'\u201eHuch! Wer war das denn?\u201c'))}
-function toggleItem(i){const owned=Object.keys(ITEMS).filter(k=>inv[k]>0);const id=owned[i];if(!id)return;
- if(id==='lupe'){if(G.map!=='dorf'){toast('\ud83d\udd0d Die Lupe ist nur drau\u00dfen im Garten von Haus Berndt hilfreich.');return}
-  if(Math.hypot(G.px-1150,G.py-500)>320){toast('\ud83d\udd0d Zu weit weg \u2013 geh in den Garten von Haus Berndt.');return}
+function toggleItem(i){const owned=Object.keys(ITEMS).filter(k=>inv[k]>0);const id=owned[i];if(!id)return;useItem(id)}
+function useItem(id){
+ if(id==='lupe'){if(G.map!=='dorf'){toast('\ud83d\udd0d Die Lupe ist nur drau\u00dfen im Garten von Haus Keiler hilfreich.');return}
+  if(Math.hypot(G.px-1150,G.py-500)>320){toast('\ud83d\udd0d Zu weit weg \u2013 geh in den Garten von Haus Keiler.');return}
   if(G.flags.glitterVisible){toast('Die Kristalle sind schon sichtbar!');return}
   G.flags.glitterVisible=true;G.flags.glitterT=45;[[930,540,'KR1'],[1010,605,'KR2'],[1240,560,'KR3']].forEach(c=>{if(!G.flags.collected.includes(c[2]))MAPS.dorf.items.push({map:'dorf',x:c[0],y:c[1],id:'kristall',rid:c[2]})});toast('\ud83d\udd0d Durch die Lupe glitzern 3 Eiskristalle im Schnee! (45 Sekunden)')}
- else if(id==='maus'){const kat=NPCs.find(n=>n.name==='Kater Murr');if(kat&&kat.map!==G.map){toast('\ud83d\udc2d Der Kater ist im 1. Stock im Flur.');return}
+ else if(id==='maus'){const kat=NPCs.find(n=>n.name==='Kater Murr');if(kat&&kat.map!==G.map){toast('\ud83d\udc2d Der Kater ist im 1. Stock von Haus Keiler.');return}
   if(!kat||Math.hypot(kat.x-G.px,kat.y-G.py)>90){toast('\ud83d\udc2d Sei n\u00e4her beim Kater!');return}
   inv.maus--;G.katzeSleep=60;kat.sleeping=true;toast('\ud83d\udc31 Der Kater schnurrt und schl\u00e4ft 60 Sekunden tief und fest!');if(Q.katze.st==='active'&&Q.katze.step>=1)questStep('katze')}
  else if(id==='fisch'||id==='fleisch'){toast('\ud83d\udc1f Fisch/Fleisch sind f\u00fcr Mimi am Eissee (S\u00fcden des Dorfes, Karte M). Geh nah genug heran \u2013 die F\u00fctterung passiert dann automatisch!');return}
@@ -668,9 +682,10 @@ function questPanelHTML(){const main=QUESTS.filter(q=>q.main),nb=QUESTS.filter(q
   return '<div class="qcard'+(q.main?' main':'')+'"><h3>\u2610 '+q.title+'<span class="tag'+(q.main?'':' nb')+'">'+(q.main?'HAUPT':'NEBEN')+'</span></h3><ul>'+q.steps.map((st,i)=>'<li class="'+(s.st==='active'&&i<s.step?'done':'')+'">'+st+'</li>').join('')+'</ul>'+btn+'</div>'};
  return '<button class="qclose" onclick="toggleQuests()">\u2715 Schlie\u00dfen</button><h2>\ud83d\udcdc Berndts Aufgaben-Liste</h2><p style="text-align:center;font-size:12px;color:#8ea0c0">Alle HAUPT-Quests m\u00fcssen bis Tag 24 fertig sein!</p>'+main.map(card).join('')+'<h2 style="margin-top:14px">\u2728 Nebenquests</h2>'+nb.map(card).join('')}
 function toggleQuests(){const p=document.getElementById('questPanel');if(p.style.display==='block'){p.style.display='none';return}p.style.display='block';p.innerHTML=questPanelHTML()}
-function syncQ(id){const q=Q[id];if(q.st!=='active')return;let ok=false;switch(id){case 'beleuchtung':ok=inv.lichtkette>=5;break;case 'schaufeln':ok=!!inv.schaufel;break;case 'orgel':ok=!!inv.werkzeug;break;case 'glitzer':ok=!!inv.lupe;break;case 'zimt':ok=!!inv.zimt;break;case 'katze':ok=!!inv.maus;break;case 'kranz':ok=inv.kerze>=4;break;case 'schneemann':ok=!!inv.ast&&!!inv.kohle;break;case 'baum':ok=!!inv.kugel&&!!inv.glocke;break;case 'brief':ok=!!inv.brief&&!!inv.stempel;break;case 'zettel':ok=inv.wunschzettel>=5;break;case 'einkaeufe':ok=!!inv.einkaeufe;break}if(ok){questStep(id);toast('\u2728 Bereits gefundene Gegenst\u00e4nde z\u00e4hlen automatisch \u2013 n\u00e4chster Schritt freigeschaltet!')}}
+function syncQ(id){const q=Q[id];if(q.st!=='active')return;let ok=false;switch(id){case 'beleuchtung':ok=inv.lichtkette>=5;break;case 'schaufeln':ok=!!inv.schaufel;break;case 'orgel':ok=!!inv.werkzeug;break;case 'glitzer':ok=!!inv.lupe;break;case 'zimt':ok=!!inv.zimt;break;case 'katze':ok=!!inv.maus;break;case 'kranz':ok=inv.kerze>=4;break;case 'schneemann':ok=!!inv.ast&&!!inv.kohle;break;case 'baum':ok=!!inv.kugel&&!!inv.glocke;break;case 'brief':if(G.flags.letter){finQ('brief');ok=false}else ok=!!inv.brief&&!!inv.stempel;break;case 'zettel':ok=inv.wunschzettel>=5;break;case 'einkaeufe':ok=!!inv.einkaeufe;break;case 'nikolaus':if(G.flags.nik){q.step=1;if(inv.mandarine>=4&&!MAPS.haus_og.items.some(i=>i.id==='mandarine'))finQ('nikolaus')}break}if(ok){questStep(id);toast('\u2728 Bereits gefundene Gegenst\u00e4nde z\u00e4hlen automatisch \u2013 n\u00e4chster Schritt freigeschaltet!')}}
 let _tickLast='';
-function updateTicker(){const el=document.getElementById('qaTick');if(!el)return;const act=QUESTS.find(q=>Q[q.id].st==='active');const t=act?((act.main?'HAUPT':'Neben')+': '+act.title+' \u2013 Schritt '+(Q[act.id].step+1)+'/'+act.steps.length):'Kein Auftrag aktiv \u2013 Q \u00f6ffnet die Quest-Kiste';if(t!==_tickLast){_tickLast=t;el.textContent=t}}
+function updateTicker(){const el=document.getElementById('qaTick');if(!el)return;const act=QUESTS.filter(q=>Q[q.id].st==='active');
+ const t=!act.length?'Kein Auftrag aktiv \u2013 Q \u00f6ffnet die Quest-Kiste':act.length===1?((act[0].main?'HAUPT':'Neben')+': '+act[0].title+' \u2013 Schritt '+(Q[act[0].id].step+1)+'/'+act[0].steps.length):((act[0].main?'HAUPT':'Neben')+': '+act[0].title+' \u2013 +'+(act.length-1)+' weitere (Q)');if(t!==_tickLast){_tickLast=t;el.textContent=t}}
 window.acceptQuest=function(id){Q[id].st='active';const def=QUESTS.find(q=>q.id===id);toast('\ud83d\udcab Auftrag angenommen: '+def.title);const p=document.getElementById('questPanel');p.innerHTML=questPanelHTML();syncQ(id);updateTicker();beep(520,0.15,'triangle')};
 window.startMG=function(kind){const mg=document.getElementById('minigame');mg.style.display='block';MGS[kind](mg)};
 window.closeMG=function(){document.getElementById('minigame').style.display='none'};
@@ -719,13 +734,13 @@ MGS.snowman=mg=>{mg.innerHTML='<h3>\u26c4 Schneemann bauen \u2013 3 richtige Ent
   const o=opts[st];el.innerHTML='<p style="font-size:15px;color:#ffe3a6">'+o[0]+'</p>'+o[1].map((c,i)=>'<button class="wishopt" data-i="'+i+'">'+c+'</button>').join('');
   [...el.querySelectorAll('button')].forEach(b=>b.onclick=()=>{if(+b.dataset.i===o[2]){st++;beep(700,.1);show()}else{beep(200,.2,'square');toast('\u274c Das passt dem Schneemann nicht\u2026')}})};
  show()};
-MGS.letter=mg=>{const wishes=['Ein Schlitten f\u00fcr Finn','Ein Puppenhaus f\u00fcr Luise','Friede im ganzen Dorf','Neue Orgelpfeifen f\u00fcr die Kirche','W\u00e4rme\u00fctzen f\u00fcr Oma','Ein USB-Stick'];
+MGS.letter=mg=>{const wishes=['Ein Schlitten f\u00fcr Finn','Ein Puppenhaus f\u00fcr Luise','Frieden im ganzen Dorf','Neue Orgelpfeifen f\u00fcr die Kirche','W\u00e4rmem\u00fctzen f\u00fcr Oma','Ein USB-Stick'];
  let sel=-1;
  mg.innerHTML='<h3>\u2709\ufe0f Weihnachtsbrief: W\u00e4hle deinen Wunsch</h3><div id="wishes">'+wishes.map((w,i)=>'<button class="wishopt" data-i="'+i+'">'+w+'</button>').join('')+'</div><div class="mgbtns"><button class="act" id="seal" disabled>Siegeln \ud83d\udd10</button><button class="close" onclick="closeMG()">Sp\u00e4ter</button></div>';
  [...mg.querySelectorAll('.wishopt')].forEach(b=>b.onclick=()=>{[...mg.querySelectorAll('.wishopt')].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.i;mg.querySelector('#seal').disabled=false;beep(600,.08)});
  mg.querySelector('#seal').onclick=()=>{if(sel<0)return;inv.brief--;G.flags.letter=wishes[sel];toast('\ud83e\uddf5 Wunsch versiegelt: '+wishes[sel]+' \u2013 jetzt ab zum Postkasten am Bahnhof!');if(Q.brief.st==='active')questStep('brief');closeMG()}};
 let mapOn=false,mmBase=null;const MSC=0.22,MMW=840,MMH=486;
-const MMLBL=[[250,180,560,260,'St. Martins-Kirche'],[860,180,440,260,'Haus Berndt'],[1420,180,460,260,'Weihnachts-Laden'],[2000,180,460,260,'Haus M\u00fcller'],[3200,180,380,260,'Alte Scheune'],[250,1020,560,300,'Bahnhof Frohnau'],[860,1020,560,300,'Haus Kr\u00fcger'],[1600,1020,560,300,'Haus Schulz'],[2260,1020,340,300,'Haus Lehmann'],[2700,1020,400,300,'Haus Sandmeier'],[3380,1020,400,300,'Haus Wattebach']];
+const MMLBL=[[250,180,560,260,'St. Martins-Kirche'],[860,180,440,260,'Haus Keiler'],[1420,180,460,260,'Weihnachts-Laden'],[2000,180,460,260,'Haus M\u00fcller'],[3200,180,380,260,'Alte Scheune'],[250,1020,560,300,'Bahnhof Frohnau'],[860,1020,560,300,'Haus Kr\u00fcger'],[1600,1020,560,300,'Haus Schulz'],[2260,1020,340,300,'Haus Lehmann'],[2700,1020,400,300,'Haus Sandmeier'],[3380,1020,400,300,'Haus Wattebach']];
 function buildMiniMap(){mmBase=document.createElement('canvas');mmBase.width=MMW;mmBase.height=MMH;const g=mmBase.getContext('2d');
  g.fillStyle='#dce7f2';g.fillRect(0,0,MMW,MMH);
  g.fillStyle='#8d9aa8';g.fillRect(0,520*MSC,3800*MSC,390*MSC);g.fillRect(3120*MSC,890*MSC,240*MSC,1110*MSC);
@@ -735,12 +750,12 @@ function buildMiniMap(){mmBase=document.createElement('canvas');mmBase.width=MMW
  g.fillStyle='#a9cbe4';g.beginPath();g.ellipse(1500*MSC,1700*MSC,400*MSC,220*MSC,0,0,7);g.fill();
  g.fillStyle='#eef5fb';g.beginPath();g.moveTo(280*MSC,1880*MSC);g.lineTo(450*MSC,1690*MSC);g.lineTo(640*MSC,1880*MSC);g.closePath();g.fill();
  MMLBL.forEach(b=>{g.fillStyle='#b9c3ce';g.fillRect(b[0]*MSC,b[1]*MSC,b[2]*MSC,b[3]*MSC);g.strokeStyle='#5a6470';g.lineWidth=1;g.strokeRect(b[0]*MSC,b[1]*MSC,b[2]*MSC,b[3]*MSC);g.fillStyle='#22314d';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText(b[4],(b[0]+b[2]/2)*MSC,(b[1]-4)*MSC)});
- g.textAlign='left';g.fillStyle='#ffd34d';MAPS.dorf.portals.forEach(p=>g.fillRect(p.x*MSC,p.y*MSC,Math.max(p.w,40)*MSC,Math.max(p.h,20)*MSC));
- g.fillStyle='#3f7d4a';gardenSpots.forEach(sp=>{g.beginPath();g.arc(sp.gx*MSC,sp.gy*MSC,5,0,7);g.fill()})}
+ g.textAlign='left';g.fillStyle='#ffd34d';MAPS.dorf.portals.forEach(p=>g.fillRect(p.x*MSC,p.y*MSC,Math.max(p.w,40)*MSC,Math.max(p.h,20)*MSC));}
 function toggleMap(){mapOn=!mapOn;if(mapOn&&!mmBase)buildMiniMap();const mp=document.getElementById('mapPanel');if(mp)mp.style.display=mapOn?'block':'none'}
 function drawMapLive(){if(!mmBase)return;const mc=document.getElementById('mapcv');if(!mc)return;const g=mc.getContext('2d');g.drawImage(mmBase,0,0);
  if(MAPS[G.map].indoor){g.fillStyle='#ffd98a';g.font='bold 14px sans-serif';g.fillText('Innenansicht \u2013 deine Position erscheint auf der Karte nur dra\u00dfen.',30,460);return}
  g.fillStyle='#c92f2f';g.beginPath();g.arc(G.px*MSC,G.py*MSC,6,0,7);g.fill();
+ g.fillStyle='#3f7d4a';gardenSpots.forEach((sp,i)=>{if(!G.flags.collected.includes('wz'+i)){g.beginPath();g.arc(sp.gx*MSC,sp.gy*MSC,5,0,7);g.fill()}});
  g.fillStyle='#ff7ab0';for(const n of NPCs){if(n.map!==G.map)continue;g.beginPath();g.arc(n.x*MSC,n.y*MSC,4,0,7);g.fill()}}
 document.addEventListener('mousedown',e=>{const p=document.getElementById('questPanel');if(p&&p.style.display==='block'&&!p.contains(e.target))toggleQuests()});
 let feet=[],ftSide=1,ftAge=0;
@@ -770,7 +785,7 @@ function drawHUD(){const m=MAPS[G.map];
   ctx.fillText(ICON[id]||'?',x+20,hy+6);
   if(c>1){ctx.fillStyle='#ffd98a';ctx.font='bold 10px sans-serif';ctx.textAlign='right';ctx.fillText('×'+c,x+37,hy+2)}
   ctx.globalAlpha=1;const ownIdx=Object.keys(ITEMS).filter(k=>inv[k]>0).indexOf(id);if(ownIdx>-1&&ownIdx<10&&c>0){ctx.fillStyle='#ffd98a';ctx.font='bold 9px sans-serif';ctx.textAlign='right';ctx.fillText(ownIdx===9?'0':String(ownIdx+1),x+37,hy-11);ctx.font='10px sans-serif';ctx.fillStyle='#ffd98a';ctx.fillText(ownIdx===9?'0':String(ownIdx+1),x+37,hy-11);ctx.textAlign='center'}slot++}
- ctx.fillStyle='#8ea0c0';ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText('Hotbar: gefundene Gegenst\u00e4nde (Zahlentaste 1-8: einsetzen)',hx,hy+44);
+ ctx.fillStyle='#8ea0c0';ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText('Hotbar: gefundene Gegenst\u00e4nde (Slot anklicken oder Zahlentaste: einsetzen)',hx,hy+44);
  if(!MAPS[G.map].indoor&&G.time%DAY_LEN>=PHASE_LEN){}else{}
  if(isNight()){const t=G.time%DAY_LEN,ph=t<240&&t>=PHASE_LEN?((t-PHASE_LEN)>=180?0.55:0.55):0.55;
   const a=Math.min(0.6,0.35+0.25*((t-60)/60));
@@ -827,7 +842,7 @@ function drawTitle(){ctx.fillStyle='#0e1a33';ctx.fillRect(0,0,W,H);const r=mulbe
  ctx.textAlign='center';ctx.fillStyle='#c92f2f';ctx.font='bold 44px sans-serif';ctx.fillText('\ud83c\udf84 24 Days till Christmas \ud83c\udf84',W/2,150);
  ctx.fillStyle='#ffe9b0';ctx.font='17px sans-serif';ctx.fillText('Berndt \u2013 Der Weihnachts-Wichtel \u2022 Schleich dich durch Frohnau',W/2,200);
  ctx.fillStyle='#cfe0ff';ctx.font='15px sans-serif';
- ['WASD / Pfeiltasten \u2013 bewegen','E \u2013 benutzen / items aufheben / reden','Q \u2013 Quests annehmen & ansehen  |  M \u2013 Karte  |  Hotbar 1-8: Items einsetzen','Bewege dich: 4 Hauptquests (Beleuchtung, Kirchweg, Orgel, Wunschzettel) bis Tag 24!','Verdacht: 45 Sekunden in einem Verdachtsradius = erwischt. Die Leiste sinkt NIE.','','Dr\u00fccke ENTER zum Start \u2013 Autosave ist aktiv, du kannst als Datei speichern (Knopf oben rechts)'].forEach((l,i)=>ctx.fillText(l,W/2,250+i*28));
+ ['WASD / Pfeiltasten \u2013 bewegen','E \u2013 benutzen / items aufheben / reden','Q \u2013 Quests annehmen & ansehen (mehrere gleichzeitig!)  |  M \u2013 Karte  |  Hotbar anklicken: Items einsetzen','Bewege dich: 6 Hauptquests bis Tag 24! (Beleuchtung, Kirchweg, Orgel, Wunschzettel, Eink\u00e4ufe, Brief)','Verdacht: 45 Sekunden in einem Verdachtsradius = erwischt. Die Leiste sinkt NIE.','','Dr\u00fccke ENTER zum Start \u2013 Autosave ist aktiv, du kannst als Datei speichern (Knopf oben rechts)'].forEach((l,i)=>ctx.fillText(l,W/2,250+i*28));
  ctx.textAlign='left'}
 function render(){if(G.screen==='title'){drawTitle();return}if(G.screen==='intro'){drawIntro(ctx);return}
  const m=MAPS[G.map];ctx.fillStyle='#0b1220';ctx.fillRect(0,0,W,H);
@@ -838,9 +853,9 @@ function render(){if(G.screen==='title'){drawTitle();return}if(G.screen==='intro
  if(G.map==='dorf'){ctx.fillStyle='rgba(120,140,170,.5)';for(const f of feet){ctx.globalAlpha=Math.max(0,1-f.a/26);ctx.beginPath();ctx.ellipse(f.x,f.y,3.2,4.8,0,0,7);ctx.fill()}ctx.globalAlpha=1}
  for(const p of m.portals){ctx.fillStyle='rgba(255,220,120,'+(0.15+0.1*Math.sin(performance.now()/300))+')';ctx.fillRect(p.x,p.y,p.w,p.h)}
  if(G.flags.katzeZahm)drawFollowCat(ctx);
- for(const i of m.inter){ctx.fillStyle='rgba(120,200,255,.28)';ctx.beginPath();ctx.arc(i.x,i.y,26,0,7);ctx.fill();ctx.fillStyle='#7fd8ff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText(i.label,i.x,i.y-30);ctx.textAlign='left'}
+ for(const i of m.inter){const qs=INTQ[i.label];if(qs&&qs.every(qid=>Q[qid].st==='done'))continue;ctx.fillStyle='rgba(120,200,255,.28)';ctx.beginPath();ctx.arc(i.x,i.y,26,0,7);ctx.fill();ctx.fillStyle='#7fd8ff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText(i.label,i.x,i.y-30);ctx.textAlign='left'}
  for(const it of m.items)drawItemSprite(ctx,it);
- if(G.map==='dorf'&&Q.einkaeufe.st==='active'){const mx=1140,my=478-Math.abs(Math.sin(performance.now()/300))*9;ctx.fillStyle='#ffd34d';ctx.beginPath();ctx.moveTo(mx-11,my-8);ctx.lineTo(mx+11,my-8);ctx.lineTo(mx,my+8);ctx.closePath();ctx.fill();ctx.strokeStyle='#8a6a10';ctx.lineWidth=2;ctx.stroke();ctx.strokeStyle='rgba(255,211,77,.4)';ctx.lineWidth=6;ctx.beginPath();ctx.arc(mx,my,17,0,7);ctx.stroke()}
+ if(G.map==='dorf'&&Q.einkaeufe.st==='active'){const mx=1130,my=1000-Math.abs(Math.sin(performance.now()/300))*9;ctx.fillStyle='#ffd34d';ctx.beginPath();ctx.moveTo(mx-11,my-8);ctx.lineTo(mx+11,my-8);ctx.lineTo(mx,my+8);ctx.closePath();ctx.fill();ctx.strokeStyle='#8a6a10';ctx.lineWidth=2;ctx.stroke();ctx.strokeStyle='rgba(255,211,77,.4)';ctx.lineWidth=6;ctx.beginPath();ctx.arc(mx,my,17,0,7);ctx.stroke()}
  for(const n of NPCs){if(n.map!==m.id)continue;if(n.name==='Streunerkatze Mimi'&&G.flags.katzeZahm)continue;const d=Math.hypot(n.x-G.px,n.y-G.py),rr=n.sleeping?n.rad*0.6:n.rad;
   ctx.strokeStyle=d<rr?'rgba(255,80,60,'+(0.35+0.4*Math.sin(performance.now()/150))+')':'rgba(255,120,80,.16)';ctx.setLineDash([6,5]);ctx.lineWidth=2;ctx.beginPath();ctx.arc(n.x,n.y,rr,0,7);ctx.stroke();ctx.setLineDash([]);
   ctx.save();ctx.translate(n.x,n.y);if(n.kind==='human')drawHuman(ctx,0,0,n.c1,n.c2,n.skin,n.walk,n.sleeping);
@@ -858,7 +873,7 @@ function render(){if(G.screen==='title'){drawTitle();return}if(G.screen==='intro
  if(G.screen==='win'||G.screen==='lose'){ctx.fillStyle='rgba(6,10,22,.85)';ctx.fillRect(0,0,W,H);ctx.textAlign='center';
   if(G.screen==='win'){ctx.fillStyle='#ffd98a';ctx.font='bold 40px sans-serif';ctx.fillText('\ud83c\udf85 Frohe Weihnachten, Berndt!',W/2,250);ctx.fillStyle='#cfe0ff';ctx.font='16px sans-serif';ctx.fillText('Alle Hauptquests geschafft \u2013 das Dorf erstrahlt, die Orgel klingt, die W\u00fcnsche sind auf dem Weg.',W/2,300)}
   else{ctx.fillStyle='#ff8a7a';ctx.font='bold 40px sans-serif';ctx.fillText('\ud83d\ude31 Erwischt \u2013 oder die Zeit ist um!',W/2,250);ctx.fillStyle='#cfe0ff';ctx.font='16px sans-serif';ctx.fillText(G.loseWhy||'',W/2,300)}
-  ctx.fillStyle='#ffd98a';ctx.font='15px sans-serif';ctx.fillText('ENTER \u2013 Neues Spiel \u21bb | Lade deinen Spielstand mit \ud83d\udcc2 wieder (falls gespeichert)',W/2,360);ctx.textAlign='left'}}
+  ctx.fillStyle='#ffd98a';ctx.font='15px sans-serif';ctx.fillText(G.screen==='win'?'ENTER \u2013 Neues Spiel \u21bb \u00b7 LEERTASTE \u2013 Weiterspielen (Nebenquests fertig machen) \u00b7 \ud83d\udcc2 Laden':'ENTER \u2013 Neues Spiel \u21bb | Lade deinen Spielstand mit \ud83d\udcc2 wieder (falls gespeichert)',W/2,360);ctx.textAlign='left'}}
 let cam={x:0,y:0};
 function startNew(){for(const k in inv)inv[k]=0;for(const q in Q){Q[q].st='offer';Q[q].step=0}
  G={screen:'intro',introT:0,time:0,speed:1,susp:0,map:'dorf',px:1080,py:472,walk:0,flags:{collected:[]},katzeSleep:0,portalCd:0};
@@ -870,14 +885,18 @@ function applySave(d){startNew();G.time=d.time;G.speed=d.speed;if(!SPEEDS.includ
  for(const mm in MAPS)MAPS[mm].items=MAPS[mm].items.filter(i=>!col.has(i.rid));
  clearCaches();G.screen='play';if(window)toast('\ud83d\udcbe Spielstand geladen!')}
 function clearCaches(){for(const m in MAPS){MAPS[m].cacheDrawn=false}}
-function drawQuestHint(){const act=QUESTS.find(q=>Q[q.id].st==='active');if(!act)return;const s=Q[act.id].step;
- const txt=(act.main?'[HAUPT] ':'[Neben] ')+act.title+' \u2013 Schritt '+(s+1)+': '+act.steps[Math.min(s,act.steps.length-1)];
- ctx.font='bold 13px sans-serif';const maxW=620,words=txt.split(' ');let lines=[''],li=0;
- for(const wd of words){const test=lines[li]+(lines[li]?' ':'')+wd;if(ctx.measureText(test).width>maxW-28&&lines[li]){li++;lines[li]=wd}else lines[li]=test}
- if(lines.length>3){lines=lines.slice(0,3);lines[2]+='\u2026'}
- let bw=10;lines.forEach(l=>bw=Math.max(bw,ctx.measureText(l).width));bw=Math.min(bw+30,maxW);
- drawRR(ctx,10,118,bw,lines.length*15+14,8,'rgba(10,18,34,.72)','#8a6a2a');ctx.fillStyle='#ffe9b0';
- lines.forEach((l,i)=>ctx.fillText(l,24,133+i*15))}
+function drawQuestHint(){const act=QUESTS.filter(q=>Q[q.id].st==='active');if(!act.length)return;
+ let y=118;const show=act.slice(0,3);
+ for(const q of show){const s=Q[q.id].step;
+  const txt=(q.main?'[HAUPT] ':'[Neben] ')+q.title+' \u2013 Schritt '+(s+1)+': '+q.steps[Math.min(s,q.steps.length-1)];
+  ctx.font='bold 13px sans-serif';const maxW=620,words=txt.split(' ');let lines=[''],li=0;
+  for(const wd of words){const test=lines[li]+(lines[li]?' ':'')+wd;if(ctx.measureText(test).width>maxW-28&&lines[li]){li++;lines[li]=wd}else lines[li]=test}
+  if(lines.length>3){lines=lines.slice(0,3);lines[2]+='\u2026'}
+  let bw=10;lines.forEach(l=>bw=Math.max(bw,ctx.measureText(l).width));bw=Math.min(bw+30,maxW);
+  drawRR(ctx,10,y,bw,lines.length*15+14,8,'rgba(10,18,34,.72)','#8a6a2a');ctx.fillStyle='#ffe9b0';
+  lines.forEach((l,i)=>ctx.fillText(l,24,y+15+i*15));
+  y+=lines.length*15+22}
+ if(act.length>3){ctx.font='bold 13px sans-serif';const t='\u2026 +'+(act.length-3)+' weitere Auftr\u00e4ge (Taste Q)';drawRR(ctx,10,y,ctx.measureText(t).width+30,22,8,'rgba(10,18,34,.72)','#8a6a2a');ctx.fillStyle='#cfe0ff';ctx.fillText(t,24,y+15)}}
 document.getElementById('btnSpeed').onclick=()=>{const i=(SPEEDS.indexOf(G.speed)+1)%3;G.speed=SPEEDS[i];document.getElementById('btnSpeed').textContent='\u23e9 Zeit \u00d7'+G.speed;toast('Zeitfaktor: \u00d7'+G.speed+(G.speed>1?' \u2013 NPCs laufen auch schneller!':''))};
 document.getElementById('btnSave').onclick=()=>{const blob=new Blob([JSON.stringify(saveObj(),null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='berndt_spielstand.json';a.click();toast('\ud83d\udcbe Spielstand als Datei gespeichert (Downloads-Ordner)')};
 document.getElementById('btnLoad').onclick=()=>document.getElementById('loadfile').click();
@@ -885,6 +904,7 @@ document.getElementById('loadfile').onchange=e=>{const f=e.target.files[0];if(!f
 setInterval(()=>{if(G.screen==='play')try{localStorage.setItem('berndt_autosave',JSON.stringify(saveObj()))}catch(e){}},10000);
 addEventListener('beforeunload',()=>{if(G.screen==='play')try{localStorage.setItem('berndt_auto','1');localStorage.setItem('berndt_autosave',JSON.stringify(saveObj()))}catch(e){}});
 addEventListener('keydown',e=>{if(e.key==='Enter'){if(G.screen==='title'||G.screen==='win'||G.screen==='lose')startNew()}
+ if(e.key===' '&&G.screen==='win'){G.screen='play';toast('\ud83c\udf84 Weiterspielen \u2013 die Nebenquests warten!')}
  if(e.key.toLowerCase()==='l'&&G.screen==='title'){try{const d=localStorage.getItem('berndt_autosave');if(d){applySave(JSON.parse(d))}else toast('Kein Auto-Save gefunden \u2013 dr\u00fccke ENTER f\u00fcr ein neues Spiel.')}catch(err){}}});
 let loopLast=performance.now();
 let loopGuard='';
